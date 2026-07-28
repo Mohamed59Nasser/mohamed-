@@ -1,951 +1,530 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Marée — Fine Accessories</title>
-<meta name="description" content="Marée — a quiet, considered edit of fine accessories." />
-
-<!--
-  ============================================================================
-  MARÉE — SETUP NOTES
-  ============================================================================
-  This file runs with zero build step: React, Firebase, and Tailwind are all
-  loaded from CDNs, and JSX is compiled in-browser by Babel. Deploy it as-is
-  to GitHub Pages, Netlify, or any static host — just upload this one file
-  as index.html.
-
-  CONNECTING YOUR OWN FIREBASE PROJECT
-  1. Go to console.firebase.google.com and create a project.
-  2. Build > Firestore Database > Create database (start in test mode, then
-     tighten rules — see suggested rules below).
-  3. Build > Authentication > Sign-in method > enable "Email/Password".
-     Add yourself as a user under the Users tab — that's your admin login.
-  4. Project settings > General > Your apps > Web app > copy the config
-     object and paste it over FIREBASE_CONFIG below.
-  5. That's it — the site will detect a real config and switch off demo mode
-     automatically. Products you add in the Admin panel sync live to every
-     visitor via onSnapshot.
-
-  SUGGESTED FIRESTORE RULES (tighten before going live):
-    rules_version = '2';
-    service cloud.firestore {
-      match /databases/{database}/documents {
-        match /products/{productId} {
-          allow read: if true;
-          allow write: if request.auth != null;
-        }
-      }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Avenue 9 is a curated house of beauty, adornment, and everyday luxuries.">
+  <title>Avenue 9 | Beauty, Adornment, Everyday Luxury</title>
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --cream: #f4eee7;
+      --paper: #fcfaf7;
+      --blush: #e8c7c2;
+      --rose: #c88780;
+      --ink: #2f2927;
+      --muted: #7b706b;
+      --gold: #b69a6a;
+      --line: rgba(72, 57, 50, 0.15);
     }
 
-  DEMO MODE
-  Until you paste real config values, the site runs on a local mock backend
-  (browser localStorage standing in for Firestore, a fixed passphrase
-  standing in for Firebase Auth). Everything — live product sync, the admin
-  dashboard, CRUD — works exactly the same way, so you can preview the full
-  experience before connecting a project. Demo admin passphrase: demo1234
-  ============================================================================
--->
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--paper);
+      font-family: "Manrope", sans-serif;
+      overflow-x: hidden;
+    }
+    ::selection { background: var(--blush); color: var(--ink); }
+    .serif { font-family: "Playfair Display", Georgia, serif; }
+    .mono { font-family: "DM Mono", monospace; }
+    .text-ink { color: var(--ink); }
+    .text-muted { color: var(--muted); }
+    .bg-cream { background: var(--cream); }
+    .bg-paper { background: var(--paper); }
+    .gold { color: var(--gold); }
+    .border-line { border-color: var(--line); }
 
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8C%8A%3C/text%3E%3C/svg%3E" />
+    .site-header {
+      transition: background 300ms ease, box-shadow 300ms ease, padding 300ms ease;
+    }
+    .site-header.scrolled {
+      background: rgba(252, 250, 247, 0.9);
+      color: var(--ink);
+      box-shadow: 0 12px 35px rgba(72, 57, 50, 0.08);
+      backdrop-filter: blur(18px);
+    }
+    .site-header.scrolled .border-white\/20 { border-color: var(--line); }
+    .site-header.scrolled .text-white\/70 { color: var(--muted); }
+    .wordmark { letter-spacing: 0.24em; }
+    .nav-link { position: relative; }
+    .nav-link::after {
+      content: "";
+      position: absolute;
+      bottom: -7px;
+      left: 0;
+      width: 100%;
+      height: 1px;
+      background: var(--gold);
+      transform: scaleX(0);
+      transform-origin: right;
+      transition: transform 250ms ease;
+    }
+    .nav-link:hover::after { transform: scaleX(1); transform-origin: left; }
 
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    .hero-image {
+      animation: heroFloat 14s ease-in-out infinite alternate;
+      transform-origin: center;
+    }
+    .hero-shimmer {
+      background: linear-gradient(100deg, transparent 25%, rgba(255,255,255,0.27) 48%, transparent 68%);
+      background-size: 220% 100%;
+      animation: shimmer 8s ease-in-out infinite;
+    }
+    .rise { animation: rise 900ms cubic-bezier(.22, 1, .36, 1) both; }
+    .delay-1 { animation-delay: 120ms; }
+    .delay-2 { animation-delay: 220ms; }
+    .delay-3 { animation-delay: 320ms; }
+    @keyframes heroFloat {
+      from { transform: scale(1.03) translate3d(0, 0, 0); }
+      to { transform: scale(1.08) translate3d(-1.4%, 1.1%, 0); }
+    }
+    @keyframes shimmer {
+      0%, 45% { background-position: 140% 0; }
+      75%, 100% { background-position: -40% 0; }
+    }
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes pulseDot {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(182, 154, 106, .3); }
+      50% { box-shadow: 0 0 0 7px rgba(182, 154, 106, 0); }
+    }
 
-<script src="https://cdn.tailwindcss.com"></script>
-<script>
-  tailwind.config = {
-    theme: {
-      extend: {
-        colors: {
-          cream: '#F6EFE4',
-          'cream-deep': '#EFE4D2',
-          blush: '#EFDAD2',
-          'blush-deep': '#E4C2B8',
-          mist: '#EAE7E1',
-          porcelain: '#FFFDF9',
-          gold: '#B8935A',
-          'gold-light': '#D9BD8C',
-          'gold-deep': '#8F6E3F',
-          ink: '#3A342E',
-          'ink-soft': '#79706673',
-          'ink-muted': '#6B6259',
-        },
-        fontFamily: {
-          display: ['"Fraunces"', 'serif'],
-          body: ['"Manrope"', 'sans-serif'],
-        },
-        keyframes: {
-          blob1: {
-            '0%, 100%': { transform: 'translate(0,0) scale(1)' },
-            '33%': { transform: 'translate(4%,-6%) scale(1.08)' },
-            '66%': { transform: 'translate(-3%,4%) scale(0.95)' },
-          },
-          blob2: {
-            '0%, 100%': { transform: 'translate(0,0) scale(1)' },
-            '50%': { transform: 'translate(-5%,5%) scale(1.1)' },
-          },
-          drift: {
-            '0%': { transform: 'translateX(-6%)' },
-            '50%': { transform: 'translateX(6%)' },
-            '100%': { transform: 'translateX(-6%)' },
-          },
-          shimmer: {
-            '0%': { backgroundPosition: '-150% 0' },
-            '100%': { backgroundPosition: '250% 0' },
-          },
-          floaty: {
-            '0%, 100%': { transform: 'translateY(0)' },
-            '50%': { transform: 'translateY(-6px)' },
-          },
-          fadeUp: {
-            '0%': { opacity: 0, transform: 'translateY(14px)' },
-            '100%': { opacity: 1, transform: 'translateY(0)' },
-          },
-        },
-        animation: {
-          blob1: 'blob1 16s ease-in-out infinite',
-          blob2: 'blob2 20s ease-in-out infinite',
-          drift: 'drift 24s ease-in-out infinite',
-          shimmer: 'shimmer 2.6s ease-in-out infinite',
-          floaty: 'floaty 5s ease-in-out infinite',
-          fadeUp: 'fadeUp 0.7s cubic-bezier(0.22,1,0.36,1) both',
-        },
-      },
-    },
-  };
-</script>
+    .hero-overlay { background: linear-gradient(90deg, rgba(31, 25, 22, .72) 0%, rgba(31, 25, 22, .4) 42%, rgba(31, 25, 22, .08) 76%, rgba(31, 25, 22, .2) 100%); }
+    .gold-rule { background: linear-gradient(90deg, var(--gold), rgba(182,154,106,0)); }
+    .round-arrow { transition: transform 250ms ease, background 250ms ease; }
+    .group:hover .round-arrow { transform: translateX(4px); background: var(--gold); color: white; }
 
-<script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    .category-image { transition: transform 700ms cubic-bezier(.22,1,.36,1), filter 500ms ease; }
+    .category-item:hover .category-image { transform: scale(1.06); filter: saturate(1.06); }
+    .category-item .category-copy { transition: transform 350ms ease; }
+    .category-item:hover .category-copy { transform: translateY(-4px); }
+    .product-image { transition: transform 600ms cubic-bezier(.22,1,.36,1); }
+    .product-card:hover .product-image { transform: scale(1.055); }
+    .product-card .heart { transition: color 200ms ease, transform 200ms ease; }
+    .product-card .heart:hover { color: var(--rose); transform: scale(1.14); }
+    .product-card.is-added .add-label { color: var(--rose); }
 
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+    .filter-button { transition: color 200ms ease; }
+    .filter-button.active { color: var(--ink); }
+    .filter-button.active::after {
+      content: "";
+      display: block;
+      height: 1px;
+      margin-top: 6px;
+      background: var(--gold);
+    }
+    .hidden-product { display: none; }
 
-<style>
-  html { scroll-behavior: smooth; }
-  body { background: #F6EFE4; }
-  ::selection { background: #D9BD8C; color: #3A342E; }
-  @media (prefers-reduced-motion: reduce) {
-    * { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; scroll-behavior: auto !important; }
-  }
-  .glass {
-    background: rgba(255, 253, 249, 0.55);
-    backdrop-filter: blur(18px) saturate(140%);
-    -webkit-backdrop-filter: blur(18px) saturate(140%);
-    border: 1px solid rgba(255,255,255,0.6);
-  }
-  .glass-sheen {
-    position: relative;
-    overflow: hidden;
-  }
-  .glass-sheen::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(420px circle at var(--mx,50%) var(--my,20%), rgba(255,255,255,0.55), transparent 60%);
-    opacity: 0;
-    transition: opacity 0.4s ease;
-    pointer-events: none;
-  }
-  .glass-sheen:hover::after { opacity: 1; }
-  .liquid-btn {
-    position: relative;
-    overflow: hidden;
-    isolation: isolate;
-  }
-  .liquid-btn::before {
-    content: '';
-    position: absolute;
-    inset: -40%;
-    background: radial-gradient(circle, rgba(255,255,255,0.85), transparent 60%);
-    transform: scale(0);
-    transition: transform 0.6s cubic-bezier(0.22,1,0.36,1);
-    z-index: -1;
-  }
-  .liquid-btn:hover::before { transform: scale(1); }
-  .wave-rule {
-    display: block;
-    width: 100%;
-    height: auto;
-  }
-  .wave-rule path { animation: waveMove 9s ease-in-out infinite; }
-  @keyframes waveMove {
-    0%, 100% { d: path('M0,10 C 150,0 350,20 500,10 C 650,0 850,20 1000,10 L1000,20 L0,20 Z'); }
-    50% { d: path('M0,10 C 150,20 350,0 500,10 C 650,20 850,0 1000,10 L1000,20 L0,20 Z'); }
-  }
-  .focus-ring:focus-visible { outline: 2px solid #B8935A; outline-offset: 3px; }
-  .scrollbar-none::-webkit-scrollbar { display: none; }
-  input:focus, textarea:focus, select:focus { outline: none; box-shadow: 0 0 0 2px #D9BD8C; }
-</style>
+    .drawer { transition: opacity 300ms ease, visibility 300ms ease; }
+    .drawer-panel { transition: transform 400ms cubic-bezier(.22,1,.36,1); }
+    .drawer.is-open { opacity: 1; visibility: visible; }
+    .drawer.is-open .drawer-panel { transform: translateX(0); }
+    .drawer:not(.is-open) { opacity: 0; visibility: hidden; pointer-events: none; }
+    .drawer:not(.is-open) .drawer-panel { transform: translateX(100%); }
+    .mobile-menu { transition: opacity 250ms ease, transform 250ms ease; }
+    .mobile-menu:not(.is-open) { opacity: 0; pointer-events: none; transform: translateY(-10px); }
+    .mobile-menu.is-open { opacity: 1; transform: translateY(0); }
+    .toast { transition: opacity 250ms ease, transform 250ms ease; }
+    .toast:not(.show) { opacity: 0; pointer-events: none; transform: translateY(10px); }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; transition-duration: .01ms !important; }
+    }
+  </style>
 </head>
-<body class="font-body text-ink antialiased">
-<div id="root"></div>
-
-<script type="text/babel" data-presets="react,env">
-const { useState, useEffect, useMemo, useRef, useCallback } = React;
-
-/* ============================================================================
-   FIREBASE CONFIG — replace with your project's config (see notes above)
-============================================================================ */
-const FIREBASE_CONFIG = {
-  apiKey: "YOUR_FIREBASE_API_KEY",
-  authDomain: "YOUR_PROJECT.firebaseapp.com",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_PROJECT.appspot.com",
-  messagingSenderId: "YOUR_SENDER_ID",
-  appId: "YOUR_APP_ID",
-};
-
-const USE_MOCK = FIREBASE_CONFIG.apiKey === "YOUR_FIREBASE_API_KEY";
-let fbApp, db, auth;
-if (!USE_MOCK) {
-  fbApp = firebase.initializeApp(FIREBASE_CONFIG);
-  db = firebase.firestore();
-  auth = firebase.auth();
-}
-
-/* ============================================================================
-   BACKEND ABSTRACTION — same API whether talking to Firestore or the
-   localStorage mock, so the rest of the app never needs to know which.
-============================================================================ */
-const MOCK_KEY = "maree_products_v1";
-const MOCK_AUTH_KEY = "maree_admin_authed_v1";
-const MOCK_PASSPHRASE = "demo1234";
-
-const SEED_PRODUCTS = [
-  { id: "seed-1", name: "Tidal Drop Earrings", category: "Jewelry", price: 240, discountPrice: null, description: "Brushed gold drops that catch the light like sunlit water.", from: "#EFDAD2", to: "#D9BD8C", createdAt: 9 },
-  { id: "seed-2", name: "Still Water Clutch", category: "Handbags", price: 480, discountPrice: 390, description: "A pooled-satin clutch with a hand-poured gold clasp.", from: "#EAE7E1", to: "#B8935A", createdAt: 8 },
-  { id: "seed-3", name: "Lumen Watch", category: "Watches", price: 620, discountPrice: null, description: "A quiet dial, brushed gold case, calfskin strap.", from: "#F6EFE4", to: "#8F6E3F", createdAt: 7 },
-  { id: "seed-4", name: "Monarch Sunglasses", category: "Sunglasses", price: 310, discountPrice: null, description: "Rounded acetate with a warm gradient lens.", from: "#EFDAD2", to: "#E4C2B8", createdAt: 6 },
-  { id: "seed-5", name: "Opaline Silk Scarf", category: "Scarves", price: 190, discountPrice: 150, description: "Hand-rolled silk, dyed in slow gradients of blush and cream.", from: "#F6EFE4", to: "#EFDAD2", createdAt: 5 },
-  { id: "seed-6", name: "Meridian Belt", category: "Belts", price: 220, discountPrice: null, description: "Full-grain leather, a brushed gold buckle cast like a wave crest.", from: "#EAE7E1", to: "#79706673", createdAt: 4 },
-  { id: "seed-7", name: "Gilded Wave Cuff", category: "Jewelry", price: 280, discountPrice: null, description: "A single fluid curve of brushed gold, worn alone.", from: "#D9BD8C", to: "#B8935A", createdAt: 3 },
-  { id: "seed-8", name: "Ebb Tote", category: "Handbags", price: 540, discountPrice: null, description: "Soft structure, a strap that drapes like it's mid-motion.", from: "#EFDAD2", to: "#EAE7E1", createdAt: 2 },
-];
-
-function readMock() {
-  try {
-    const raw = localStorage.getItem(MOCK_KEY);
-    if (!raw) {
-      localStorage.setItem(MOCK_KEY, JSON.stringify(SEED_PRODUCTS));
-      return SEED_PRODUCTS;
-    }
-    return JSON.parse(raw);
-  } catch (e) { return SEED_PRODUCTS; }
-}
-function writeMock(products) {
-  localStorage.setItem(MOCK_KEY, JSON.stringify(products));
-  window.dispatchEvent(new CustomEvent("maree-mock-update"));
-}
-
-function subscribeProducts(cb) {
-  if (USE_MOCK) {
-    const handler = () => cb([...readMock()].sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0)));
-    handler();
-    window.addEventListener("maree-mock-update", handler);
-    window.addEventListener("storage", handler);
-    return () => {
-      window.removeEventListener("maree-mock-update", handler);
-      window.removeEventListener("storage", handler);
-    };
-  }
-  return db.collection("products").orderBy("createdAt", "desc").onSnapshot(
-    (snap) => cb(snap.docs.map((d) => ({ id: d.id, ...d.data() }))),
-    (err) => console.error("Firestore subscribe error:", err)
-  );
-}
-
-async function saveProduct(product) {
-  if (USE_MOCK) {
-    const products = readMock();
-    if (product.id) {
-      const idx = products.findIndex((p) => p.id === product.id);
-      if (idx > -1) products[idx] = { ...products[idx], ...product };
-    } else {
-      products.unshift({ ...product, id: "p-" + Date.now(), createdAt: Date.now() });
-    }
-    writeMock(products);
-    return;
-  }
-  const { id, ...data } = product;
-  if (id) return db.collection("products").doc(id).set(data, { merge: true });
-  return db.collection("products").add({ ...data, createdAt: Date.now() });
-}
-
-async function deleteProduct(id) {
-  if (USE_MOCK) {
-    writeMock(readMock().filter((p) => p.id !== id));
-    return;
-  }
-  return db.collection("products").doc(id).delete();
-}
-
-function adminSignIn(email, pass) {
-  if (USE_MOCK) {
-    return new Promise((resolve, reject) => {
-      if (pass === MOCK_PASSPHRASE) {
-        localStorage.setItem(MOCK_AUTH_KEY, "1");
-        window.dispatchEvent(new CustomEvent("maree-auth-change"));
-        resolve();
-      } else reject(new Error("That passphrase doesn't match. Try demo1234."));
-    });
-  }
-  return auth.signInWithEmailAndPassword(email, pass);
-}
-function adminSignOut() {
-  if (USE_MOCK) {
-    localStorage.removeItem(MOCK_AUTH_KEY);
-    window.dispatchEvent(new CustomEvent("maree-auth-change"));
-    return;
-  }
-  return auth.signOut();
-}
-function onAdminAuthChange(cb) {
-  if (USE_MOCK) {
-    const handler = () => cb(localStorage.getItem(MOCK_AUTH_KEY) === "1");
-    handler();
-    window.addEventListener("maree-auth-change", handler);
-    return () => window.removeEventListener("maree-auth-change", handler);
-  }
-  return auth.onAuthStateChanged((user) => cb(!!user));
-}
-
-/* ============================================================================
-   ICONS — small hand-set of line icons for accessory categories
-============================================================================ */
-function Icon({ name, className = "w-6 h-6" }) {
-  const common = { className, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: 1.4, strokeLinecap: "round", strokeLinejoin: "round" };
-  switch (name) {
-    case "watch":
-      return <svg {...common}><circle cx="12" cy="12" r="6" /><path d="M12 8v4l2.5 1.5" /><path d="M9 3.5h6M9 20.5h6" /></svg>;
-    case "handbag":
-      return <svg {...common}><path d="M5 9h14l1 11H4L5 9Z" /><path d="M8.5 9V7a3.5 3.5 0 0 1 7 0v2" /></svg>;
-    case "jewelry":
-      return <svg {...common}><circle cx="12" cy="7" r="2.4" /><path d="M12 9.4V13M8.5 13h7L18 20H6l2.5-7Z" /></svg>;
-    case "sunglasses":
-      return <svg {...common}><circle cx="6.5" cy="13" r="3.3" /><circle cx="17.5" cy="13" r="3.3" /><path d="M9.8 12h4.4M3.2 12l1.3-4h2M20.8 12l-1.3-4h-2" /></svg>;
-    case "scarf":
-      return <svg {...common}><path d="M4 6c3 2 6-2 9 0s3 4 6 3" /><path d="M4 11c3 2 6-2 9 0s3 4 6 3" /><path d="M4 16c3 2 6-2 9 0s3 4 6 3" /></svg>;
-    case "belt":
-      return <svg {...common}><rect x="3" y="10" width="18" height="4" rx="1.4" /><circle cx="12" cy="12" r="1.6" /></svg>;
-    case "gear":
-      return <svg {...common}><circle cx="12" cy="12" r="3" /><path d="M19.4 13.5a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.9 2.9l-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.6V20a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.6 1.7 1.7 0 0 0-1.9.3l-.1.1a2 2 0 1 1-2.9-2.9l.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.6-1H4a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.6-1 1.7 1.7 0 0 0-.3-1.9l-.1-.1a2 2 0 1 1 2.9-2.9l.1.1a1.7 1.7 0 0 0 1.9.3H10a1.7 1.7 0 0 0 1-1.6V4a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.6 1.7 1.7 0 0 0 1.9-.3l.1-.1a2 2 0 1 1 2.9 2.9l-.1.1a1.7 1.7 0 0 0-.3 1.9V10a1.7 1.7 0 0 0 1.6 1H20a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1.5Z" /></svg>;
-    case "close":
-      return <svg {...common}><path d="M6 6l12 12M18 6L6 18" /></svg>;
-    case "menu":
-      return <svg {...common}><path d="M4 7h16M4 12h16M4 17h16" /></svg>;
-    case "cart":
-      return <svg {...common}><path d="M4 6h2l1.6 10.2a2 2 0 0 0 2 1.8h7.6a2 2 0 0 0 2-1.7L20 9H7" /><circle cx="10" cy="20" r="1.2" /><circle cx="17" cy="20" r="1.2" /></svg>;
-    case "trash":
-      return <svg {...common}><path d="M4 7h16M9 7V5.5A1.5 1.5 0 0 1 10.5 4h3A1.5 1.5 0 0 1 15 5.5V7M6 7l1 12.5A1.5 1.5 0 0 0 8.5 21h7a1.5 1.5 0 0 0 1.5-1.5L18 7" /></svg>;
-    case "edit":
-      return <svg {...common}><path d="M4 20h4L18.5 9.5a2 2 0 0 0 0-2.8L17.3 5.5a2 2 0 0 0-2.8 0L4 16v4Z" /></svg>;
-    case "plus":
-      return <svg {...common}><path d="M12 5v14M5 12h14" /></svg>;
-    default:
-      return null;
-  }
-}
-
-const CATEGORIES = [
-  { key: "Watches", icon: "watch", tint: "from-[#F6EFE4] to-[#EAE7E1]" },
-  { key: "Handbags", icon: "handbag", tint: "from-[#EFDAD2] to-[#F6EFE4]" },
-  { key: "Jewelry", icon: "jewelry", tint: "from-[#D9BD8C] to-[#EFDAD2]" },
-  { key: "Sunglasses", icon: "sunglasses", tint: "from-[#EAE7E1] to-[#EFDAD2]" },
-  { key: "Scarves", icon: "scarf", tint: "from-[#F6EFE4] to-[#D9BD8C]" },
-  { key: "Belts", icon: "belt", tint: "from-[#EAE7E1] to-[#B8935A]" },
-];
-
-/* ============================================================================
-   SMALL UI HELPERS
-============================================================================ */
-function useMousePosition(ref) {
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const onMove = (e) => {
-      const r = el.getBoundingClientRect();
-      el.style.setProperty("--mx", ((e.clientX - r.left) / r.width) * 100 + "%");
-      el.style.setProperty("--my", ((e.clientY - r.top) / r.height) * 100 + "%");
-    };
-    el.addEventListener("mousemove", onMove);
-    return () => el.removeEventListener("mousemove", onMove);
-  }, [ref]);
-}
-
-function WaveDivider({ flip = false, className = "" }) {
-  return (
-    <svg className={"wave-rule " + className} viewBox="0 0 1000 20" preserveAspectRatio="none" style={flip ? { transform: "scaleY(-1)" } : {}} aria-hidden="true">
-      <path d="M0,10 C 150,0 350,20 500,10 C 650,0 850,20 1000,10 L1000,20 L0,20 Z" fill="currentColor" />
-    </svg>
-  );
-}
-
-function LiquidBlobField({ className = "" }) {
-  return (
-    <div className={"absolute inset-0 overflow-hidden pointer-events-none " + className} aria-hidden="true">
-      <div className="absolute -top-24 -left-16 w-[36rem] h-[36rem] rounded-full bg-blush/60 blur-3xl animate-blob1" />
-      <div className="absolute top-10 right-0 w-[30rem] h-[30rem] rounded-full bg-gold-light/40 blur-3xl animate-blob2" />
-      <div className="absolute bottom-0 left-1/3 w-[26rem] h-[26rem] rounded-full bg-mist/70 blur-3xl animate-drift" />
-    </div>
-  );
-}
-
-/* ============================================================================
-   HEADER
-============================================================================ */
-function Header({ onOpenAdmin }) {
-  const [scrolled, setScrolled] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24);
-    window.addEventListener("scroll", onScroll);
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
-  const links = ["Collection", "Categories", "The House", "Contact"];
-
-  return (
-    <header className={"fixed top-0 inset-x-0 z-40 transition-all duration-500 " + (scrolled ? "glass shadow-[0_8px_30px_-15px_rgba(58,52,46,0.25)]" : "bg-transparent border-b border-transparent")}>
-      <div className="max-w-7xl mx-auto px-6 md:px-10 h-20 flex items-center justify-between">
-        <a href="#top" className="flex items-center gap-2 group">
-          <span className="font-display italic text-2xl tracking-wide text-ink">Marée</span>
-          <span className="hidden sm:inline-block w-6 h-px bg-gold-deep/60 group-hover:w-10 transition-all duration-500" />
-        </a>
-        <nav className="hidden md:flex items-center gap-10">
-          {links.map((l) => (
-            <a key={l} href={"#" + l.toLowerCase().replace(/\s/g, "-")} className="text-sm tracking-wide text-ink-muted hover:text-ink transition-colors focus-ring rounded">{l}</a>
-          ))}
+<body>
+  <header id="site-header" class="site-header fixed inset-x-0 top-0 z-40 text-white">
+    <div class="mx-auto max-w-[1440px] px-5 sm:px-8 lg:px-12">
+      <div class="flex h-[76px] items-center justify-between border-b border-white/20">
+        <button id="mobile-toggle" class="flex h-10 w-10 items-center justify-center lg:hidden" aria-label="Open menu" aria-expanded="false">
+          <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </button>
+        <nav class="hidden items-center gap-8 text-[10px] uppercase tracking-[0.22em] lg:flex" aria-label="Primary navigation">
+          <a class="nav-link" href="#shop">Shop</a>
+          <a class="nav-link" href="#story">Our story</a>
+          <a class="nav-link" href="#journal">Journal</a>
         </nav>
-        <div className="flex items-center gap-4">
-          <button onClick={onOpenAdmin} aria-label="Store owner sign in" className="text-ink-muted hover:text-gold-deep transition-colors focus-ring rounded p-1">
-            <Icon name="gear" className="w-5 h-5" />
+        <a href="#top" class="absolute left-1/2 -translate-x-1/2 text-center">
+          <span class="wordmark block text-[19px] font-semibold leading-none">AVENUE 9</span>
+          <span class="mt-1 block text-[7px] uppercase tracking-[0.38em] text-white/70">Beauty & adornment</span>
+        </a>
+        <div class="flex items-center gap-3 sm:gap-5">
+          <button id="search-toggle" class="hidden h-10 w-10 items-center justify-center sm:flex" aria-label="Search">
+            <svg class="h-[18px] w-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="10.8" cy="10.8" r="6.8"/><path d="m16 16 5 5"/></svg>
           </button>
-          <button aria-label="View cart" className="text-ink-muted hover:text-gold-deep transition-colors focus-ring rounded p-1">
-            <Icon name="cart" className="w-5 h-5" />
-          </button>
-          <button className="md:hidden text-ink focus-ring rounded p-1" aria-label="Open menu" onClick={() => setMenuOpen((v) => !v)}>
-            <Icon name={menuOpen ? "close" : "menu"} className="w-5 h-5" />
-          </button>
-        </div>
-      </div>
-      {menuOpen && (
-        <div className="md:hidden glass border-t border-white/40 px-6 py-4 flex flex-col gap-4">
-          {links.map((l) => (
-            <a key={l} href={"#" + l.toLowerCase().replace(/\s/g, "-")} onClick={() => setMenuOpen(false)} className="text-sm text-ink-muted hover:text-ink">{l}</a>
-          ))}
-        </div>
-      )}
-    </header>
-  );
-}
-
-/* ============================================================================
-   HERO
-============================================================================ */
-function Hero() {
-  return (
-    <section id="top" className="relative min-h-[92vh] flex items-center overflow-hidden bg-gradient-to-b from-cream via-cream to-blush/40">
-      <LiquidBlobField />
-      <video
-        className="absolute inset-0 w-full h-full object-cover opacity-25 mix-blend-multiply"
-        autoPlay muted loop playsInline
-        poster=""
-        onError={(e) => { e.currentTarget.style.display = "none"; }}
-      >
-        {/* Replace with your own hosted slow-motion liquid footage (mp4/webm). */}
-        <source src="" type="video/mp4" />
-      </video>
-      <div className="absolute inset-0 bg-gradient-to-t from-cream via-transparent to-transparent" />
-
-      <div className="relative max-w-7xl mx-auto px-6 md:px-10 w-full grid md:grid-cols-2 gap-12 items-center pt-20">
-        <div className="animate-fadeUp">
-          <p className="uppercase tracking-[0.3em] text-xs text-gold-deep mb-6">Fine accessories, quietly made</p>
-          <h1 className="font-display text-5xl sm:text-6xl lg:text-7xl leading-[1.05] text-ink">
-            Where elegance <span className="italic text-gold-deep">flows</span>
-          </h1>
-          <p className="mt-6 text-ink-muted text-lg max-w-md leading-relaxed">
-            A considered edit of jewelry, leather, and eyewear — shaped like water finds its form, held by hand.
-          </p>
-          <div className="mt-10 flex items-center gap-5">
-            <a href="#collection" className="liquid-btn focus-ring inline-flex items-center gap-2 bg-gradient-to-br from-gold-light to-gold-deep text-porcelain px-8 py-4 rounded-full text-sm tracking-wide shadow-[0_10px_30px_-10px_rgba(143,110,63,0.6)] hover:shadow-[0_14px_40px_-10px_rgba(143,110,63,0.75)] transition-shadow">
-              <span className="relative z-10">Explore the collection</span>
-            </a>
-            <a href="#categories" className="text-sm text-ink-muted hover:text-ink border-b border-ink-muted/30 hover:border-gold-deep pb-0.5 transition-colors focus-ring">
-              Shop by category
-            </a>
-          </div>
-        </div>
-        <div className="relative hidden md:block h-[28rem] animate-floaty">
-          <div className="absolute inset-0 rounded-[3rem] glass shadow-[0_30px_80px_-30px_rgba(58,52,46,0.35)] glass-sheen" />
-          <div className="absolute inset-8 rounded-[2.4rem] bg-gradient-to-br from-blush via-cream to-gold-light/60" />
-          <div className="absolute inset-8 rounded-[2.4rem] flex items-center justify-center">
-            <Icon name="jewelry" className="w-24 h-24 text-porcelain/90" />
-          </div>
-        </div>
-      </div>
-
-      <div className="absolute bottom-0 left-0 right-0 text-cream">
-        <WaveDivider />
-      </div>
-    </section>
-  );
-}
-
-/* ============================================================================
-   CATEGORIES
-============================================================================ */
-function Categories() {
-  return (
-    <section id="categories" className="bg-cream py-24 md:py-32">
-      <div className="max-w-7xl mx-auto px-6 md:px-10">
-        <div className="flex items-end justify-between mb-14 flex-wrap gap-4">
-          <div>
-            <p className="uppercase tracking-[0.3em] text-xs text-gold-deep mb-3">Shop by category</p>
-            <h2 className="font-display text-4xl md:text-5xl text-ink">Six edits, one tide</h2>
-          </div>
-          <p className="text-ink-muted max-w-sm text-sm leading-relaxed">Every category is kept small on purpose — a considered handful of pieces rather than an endless scroll.</p>
-        </div>
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-5 md:gap-6">
-          {CATEGORIES.map((c, i) => (
-            <CategoryCard key={c.key} cat={c} index={i} />
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function CategoryCard({ cat, index }) {
-  const ref = useRef(null);
-  useMousePosition(ref);
-  return (
-    <a
-      ref={ref}
-      href="#collection"
-      className={
-        "glass-sheen glass group relative rounded-3xl p-6 md:p-8 flex flex-col justify-between h-48 md:h-56 overflow-hidden focus-ring bg-gradient-to-br " +
-        cat.tint +
-        " hover:-translate-y-1.5 transition-transform duration-500 ease-out"
-      }
-      style={{ animationDelay: index * 60 + "ms" }}
-    >
-      <div className="w-11 h-11 rounded-full bg-porcelain/70 flex items-center justify-center text-gold-deep shadow-sm">
-        <Icon name={cat.icon} className="w-5 h-5" />
-      </div>
-      <div>
-        <h3 className="font-display text-xl md:text-2xl text-ink">{cat.key}</h3>
-        <p className="text-xs text-ink-muted mt-1 tracking-wide">Discover the edit →</p>
-      </div>
-    </a>
-  );
-}
-
-/* ============================================================================
-   PRODUCTS
-============================================================================ */
-function money(n) {
-  return "$" + Number(n).toLocaleString(undefined, { minimumFractionDigits: 0 });
-}
-
-function ProductCard({ p }) {
-  const ref = useRef(null);
-  useMousePosition(ref);
-  const hasDiscount = p.discountPrice != null && p.discountPrice !== "" && Number(p.discountPrice) < Number(p.price);
-  return (
-    <div ref={ref} className="glass-sheen glass group rounded-3xl overflow-hidden hover:-translate-y-2 transition-transform duration-500 ease-out">
-      <div
-        className="relative h-56 md:h-64 flex items-center justify-center overflow-hidden"
-        style={ p.imageUrl ? {} : { background: "linear-gradient(135deg," + (p.from || "#EFDAD2") + "," + (p.to || "#B8935A") + ")" } }
-      >
-        {p.imageUrl ? (
-          <img src={p.imageUrl} alt={p.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out" />
-        ) : (
-          <Icon name={(CATEGORIES.find((c) => c.key === p.category) || {}).icon || "jewelry"} className="w-16 h-16 text-porcelain/85 group-hover:scale-110 transition-transform duration-700" />
-        )}
-        {hasDiscount && (
-          <span className="absolute top-4 left-4 bg-porcelain/90 text-gold-deep text-[11px] tracking-wide px-3 py-1 rounded-full shadow-sm">Special edit</span>
-        )}
-      </div>
-      <div className="p-5 md:p-6">
-        <p className="text-[11px] uppercase tracking-[0.2em] text-ink-muted/80 mb-1">{p.category}</p>
-        <h3 className="font-display text-lg text-ink mb-1">{p.name}</h3>
-        <p className="text-sm text-ink-muted leading-relaxed mb-4 line-clamp-2">{p.description}</p>
-        <div className="flex items-center justify-between">
-          <div className="flex items-baseline gap-2">
-            {hasDiscount ? (
-              <>
-                <span className="text-ink font-medium">{money(p.discountPrice)}</span>
-                <span className="text-ink-muted/60 text-sm line-through">{money(p.price)}</span>
-              </>
-            ) : (
-              <span className="text-ink font-medium">{money(p.price)}</span>
-            )}
-          </div>
-          <button className="relative text-xs tracking-wide text-gold-deep group/btn focus-ring rounded">
-            <span>Add to bag</span>
-            <span className="absolute left-0 -bottom-1 w-0 group-hover/btn:w-full h-px bg-gold-deep transition-all duration-300" />
+          <button id="bag-toggle" class="relative flex h-10 items-center gap-2" aria-label="Open shopping bag">
+            <svg class="h-[18px] w-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M5 8.5h14l-1 12H6l-1-12Z"/><path d="M8.5 9V6.8a3.5 3.5 0 0 1 7 0V9"/></svg>
+            <span class="hidden text-[10px] uppercase tracking-[0.2em] sm:inline">Bag</span>
+            <span id="bag-count" class="absolute -right-2 -top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-[#b69a6a] px-1 text-[9px] text-white">0</span>
           </button>
         </div>
       </div>
     </div>
-  );
-}
-
-function ProductGrid({ products, loading }) {
-  const [activeCat, setActiveCat] = useState("All");
-  const cats = ["All", ...CATEGORIES.map((c) => c.key)];
-  const filtered = activeCat === "All" ? products : products.filter((p) => p.category === activeCat);
-
-  return (
-    <section id="collection" className="relative bg-blush/30 py-24 md:py-32">
-      <div className="max-w-7xl mx-auto px-6 md:px-10">
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12">
-          <div>
-            <p className="uppercase tracking-[0.3em] text-xs text-gold-deep mb-3">The collection</p>
-            <h2 className="font-display text-4xl md:text-5xl text-ink">Pieces, presently</h2>
-          </div>
-          <div className="flex gap-2 flex-wrap">
-            {cats.map((c) => (
-              <button
-                key={c}
-                onClick={() => setActiveCat(c)}
-                className={
-                  "px-4 py-2 rounded-full text-xs tracking-wide transition-colors focus-ring " +
-                  (activeCat === c ? "bg-ink text-porcelain" : "glass text-ink-muted hover:text-ink")
-                }
-              >
-                {c}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {loading ? (
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[...Array(6)].map((_, i) => (
-              <div key={i} className="rounded-3xl h-96 bg-mist/60 animate-pulse" />
-            ))}
-          </div>
-        ) : filtered.length === 0 ? (
-          <div className="text-center py-20 text-ink-muted">
-            <p className="font-display text-2xl mb-2">Nothing in this edit yet.</p>
-            <p className="text-sm">Add a product from the admin dashboard to see it appear here, live.</p>
-          </div>
-        ) : (
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filtered.map((p) => (
-              <ProductCard key={p.id} p={p} />
-            ))}
-          </div>
-        )}
-      </div>
-      <div className="absolute -bottom-1 left-0 right-0 text-cream rotate-180">
-        <WaveDivider />
-      </div>
-    </section>
-  );
-}
-
-/* ============================================================================
-   THE HOUSE (brand section) + FOOTER
-============================================================================ */
-function TheHouse() {
-  return (
-    <section id="the-house" className="bg-cream py-24 md:py-32">
-      <div className="max-w-5xl mx-auto px-6 md:px-10 text-center">
-        <p className="uppercase tracking-[0.3em] text-xs text-gold-deep mb-4">The house</p>
-        <h2 className="font-display text-3xl md:text-5xl text-ink leading-snug mb-6">
-          Named for the tide, because the best pieces feel <span className="italic text-gold-deep">inevitable</span> — not designed, but arrived at.
-        </h2>
-        <p className="text-ink-muted max-w-xl mx-auto leading-relaxed">
-          Marée works with a small number of ateliers who cast, cut, and finish by hand. We hold a short list of pieces at a time, so every edit stays deliberate.
-        </p>
-      </div>
-    </section>
-  );
-}
-
-function Footer() {
-  return (
-    <footer id="contact" className="relative bg-ink text-cream/80 pt-24 pb-10">
-      <div className="absolute -top-1 left-0 right-0 text-ink">
-        <WaveDivider />
-      </div>
-      <div className="max-w-7xl mx-auto px-6 md:px-10 grid md:grid-cols-3 gap-12">
-        <div>
-          <span className="font-display italic text-2xl text-cream">Marée</span>
-          <p className="mt-4 text-sm leading-relaxed max-w-xs text-cream/60">A quiet, considered edit of fine accessories. Shaped like water finds its form.</p>
-        </div>
-        <div>
-          <p className="text-xs uppercase tracking-[0.3em] text-gold-light mb-4">Stay informed</p>
-          <p className="text-sm text-cream/60 mb-4 max-w-xs">New pieces, once in a while — never a flood.</p>
-          <form onSubmit={(e) => e.preventDefault()} className="flex gap-2">
-            <input
-              type="email"
-              required
-              placeholder="you@email.com"
-              className="flex-1 bg-porcelain/10 border border-cream/20 rounded-full px-4 py-2.5 text-sm placeholder:text-cream/40 focus-ring"
-            />
-            <button className="liquid-btn bg-gradient-to-br from-gold-light to-gold-deep text-ink px-5 py-2.5 rounded-full text-sm focus-ring">
-              <span className="relative z-10">Join</span>
-            </button>
-          </form>
-        </div>
-        <div>
-          <p className="text-xs uppercase tracking-[0.3em] text-gold-light mb-4">Visit</p>
-          <ul className="space-y-2 text-sm text-cream/60">
-            <li>Shipping and returns</li>
-            <li>Care guide</li>
-            <li>Private appointments</li>
-          </ul>
-        </div>
-      </div>
-      <div className="max-w-7xl mx-auto px-6 md:px-10 mt-16 pt-8 border-t border-cream/10 flex flex-col sm:flex-row justify-between gap-3 text-xs text-cream/40">
-        <span>© {new Date().getFullYear()} Marée. All rights reserved.</span>
-        <span>{USE_MOCK ? "Running in demo mode — connect Firebase to go live." : "Connected to Firebase."}</span>
-      </div>
-    </footer>
-  );
-}
-
-/* ============================================================================
-   ADMIN DASHBOARD
-============================================================================ */
-function AdminModal({ onClose }) {
-  const [authed, setAuthed] = useState(false);
-  useEffect(() => onAdminAuthChange(setAuthed), []);
-
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-8">
-      <div className="absolute inset-0 bg-ink/50 backdrop-blur-sm" onClick={onClose} />
-      <div className="relative w-full max-w-3xl max-h-[88vh] overflow-y-auto scrollbar-none rounded-3xl glass shadow-[0_40px_100px_-30px_rgba(58,52,46,0.5)] bg-porcelain/90">
-        <div className="sticky top-0 flex items-center justify-between px-6 md:px-8 py-5 border-b border-ink/5 bg-porcelain/90 backdrop-blur">
-          <div className="flex items-center gap-3">
-            <Icon name="gear" className="w-5 h-5 text-gold-deep" />
-            <h2 className="font-display text-xl text-ink">Store dashboard</h2>
-          </div>
-          <button onClick={onClose} className="p-1.5 rounded-full hover:bg-ink/5 text-ink-muted focus-ring" aria-label="Close dashboard">
-            <Icon name="close" className="w-5 h-5" />
-          </button>
-        </div>
-        <div className="p-6 md:p-8">
-          {authed ? <AdminPanel /> : <AdminLogin />}
-        </div>
+    <div id="search-bar" class="hidden border-b border-white/20 bg-[#3d302b]/90 backdrop-blur-xl">
+      <div class="mx-auto max-w-[1440px] px-5 py-4 sm:px-8 lg:px-12">
+        <label class="flex items-center gap-3 text-white/70" for="search-input">
+          <svg class="h-5 w-5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="10.8" cy="10.8" r="6.8"/><path d="m16 16 5 5"/></svg>
+          <input id="search-input" class="w-full bg-transparent text-sm text-white outline-none placeholder:text-white/50" placeholder="Search beauty, jewelry, and objects..." type="search">
+          <button id="search-close" class="text-[10px] uppercase tracking-[0.2em] text-white/70">Close</button>
+        </label>
       </div>
     </div>
-  );
-}
+    <div id="mobile-menu" class="mobile-menu absolute left-0 right-0 top-[76px] border-b border-[#4a3c36]/15 bg-[#fcfaf7] text-ink shadow-xl lg:hidden">
+      <nav class="flex flex-col px-6 py-5 text-[11px] uppercase tracking-[0.2em]" aria-label="Mobile navigation">
+        <a class="border-b border-line py-4" href="#shop">Shop</a>
+        <a class="border-b border-line py-4" href="#story">Our story</a>
+        <a class="border-b border-line py-4" href="#journal">Journal</a>
+        <a class="py-4" href="#newsletter">Join the circle</a>
+      </nav>
+    </div>
+  </header>
 
-function AdminLogin() {
-  const [email, setEmail] = useState("");
-  const [pass, setPass] = useState("");
-  const [error, setError] = useState("");
-  const [busy, setBusy] = useState(false);
-
-  const submit = async (e) => {
-    e.preventDefault();
-    setBusy(true);
-    setError("");
-    try {
-      await adminSignIn(email, pass);
-    } catch (err) {
-      setError(err.message || "Couldn't sign in. Check your credentials.");
-    } finally {
-      setBusy(false);
-    }
-  };
-
-  return (
-    <form onSubmit={submit} className="max-w-sm mx-auto py-6">
-      <p className="text-center text-ink-muted text-sm mb-8 leading-relaxed">
-        Sign in to add products, update prices, and manage discounts.
-        {USE_MOCK && (
-          <span className="block mt-2 text-xs text-gold-deep">Demo mode — passphrase is <code className="bg-blush/40 px-1.5 py-0.5 rounded">demo1234</code></span>
-        )}
-      </p>
-      {!USE_MOCK && (
-        <div className="mb-4">
-          <label className="block text-xs uppercase tracking-wide text-ink-muted mb-1.5">Email</label>
-          <input type="email" required value={email} onChange={(e) => setEmail(e.target.value)} placeholder="owner@maree.com" className="w-full rounded-xl border border-ink/10 px-4 py-3 text-sm focus-ring" />
+  <main id="top">
+    <section class="relative isolate flex min-h-[720px] items-end overflow-hidden bg-[#473b35] sm:min-h-[820px] lg:min-h-[min(900px,100vh)]" aria-labelledby="hero-title">
+      <img class="hero-image absolute inset-0 h-full w-full object-cover object-center" src="https://images.pexels.com/photos/7256160/pexels-photo-7256160.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=2400&h=1600" alt="Makeup brushes and cosmetics arranged on a warm beige surface">
+      <div class="hero-overlay absolute inset-0"></div>
+      <div class="hero-shimmer pointer-events-none absolute inset-0 opacity-50"></div>
+      <div class="relative z-10 mx-auto w-full max-w-[1440px] px-5 pb-20 pt-48 sm:px-8 sm:pb-24 lg:px-12 lg:pb-28">
+        <div class="max-w-[680px] text-white">
+          <p class="rise mono mb-7 text-[10px] uppercase tracking-[0.3em] text-[#e8c7c2]">The new ritual / 2024 collection</p>
+          <h1 id="hero-title" class="rise delay-1 serif text-[clamp(3.6rem,8vw,8rem)] leading-[.88] tracking-[-0.05em]">Objects of<br><em>devotion.</em></h1>
+          <p class="rise delay-2 mt-8 max-w-[380px] text-[13px] leading-6 text-white/80 sm:text-sm">A considered edit of sensorial beauty and lasting adornment, made for the everyday extraordinary.</p>
+          <div class="rise delay-3 mt-9 flex flex-wrap items-center gap-6">
+            <a href="#shop" class="group inline-flex items-center gap-4 border border-white/70 px-5 py-3 text-[10px] uppercase tracking-[0.24em] transition-colors hover:border-white hover:bg-white hover:text-ink">Explore the edit <span class="round-arrow flex h-6 w-6 items-center justify-center rounded-full border border-white/60">&rarr;</span></a>
+            <a href="#story" class="text-[10px] uppercase tracking-[0.24em] text-white/75 transition-colors hover:text-white">Meet Avenue 9</a>
+          </div>
         </div>
-      )}
-      <div className="mb-6">
-        <label className="block text-xs uppercase tracking-wide text-ink-muted mb-1.5">{USE_MOCK ? "Passphrase" : "Password"}</label>
-        <input type="password" required value={pass} onChange={(e) => setPass(e.target.value)} placeholder="••••••••" className="w-full rounded-xl border border-ink/10 px-4 py-3 text-sm focus-ring" />
+        <div class="mt-20 flex items-end justify-between border-t border-white/25 pt-5 text-[10px] uppercase tracking-[0.2em] text-white/65 sm:mt-28">
+          <span>Curated in New York</span>
+          <span class="hidden sm:inline">Scroll to discover <span class="ml-2 text-[#e8c7c2]">&darr;</span></span>
+        </div>
       </div>
-      {error && <p className="text-xs text-red-600 mb-4">{error}</p>}
-      <button disabled={busy} type="submit" className="liquid-btn w-full bg-gradient-to-br from-gold-light to-gold-deep text-porcelain py-3 rounded-full text-sm tracking-wide disabled:opacity-60 focus-ring">
-        <span className="relative z-10">{busy ? "Signing in…" : "Sign in"}</span>
-      </button>
-    </form>
-  );
-}
+    </section>
 
-const EMPTY_FORM = { name: "", category: CATEGORIES[0].key, price: "", discountPrice: "", description: "", imageUrl: "", from: "#EFDAD2", to: "#B8935A" };
-
-function AdminPanel() {
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [form, setForm] = useState(EMPTY_FORM);
-  const [editingId, setEditingId] = useState(null);
-  const [saving, setSaving] = useState(false);
-
-  useEffect(() => {
-    const unsub = subscribeProducts((list) => { setProducts(list); setLoading(false); });
-    return unsub;
-  }, []);
-
-  const startEdit = (p) => {
-    setEditingId(p.id);
-    setForm({
-      name: p.name || "", category: p.category || CATEGORIES[0].key,
-      price: p.price ?? "", discountPrice: p.discountPrice ?? "",
-      description: p.description || "", imageUrl: p.imageUrl || "",
-      from: p.from || "#EFDAD2", to: p.to || "#B8935A",
-    });
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
-
-  const resetForm = () => { setForm(EMPTY_FORM); setEditingId(null); };
-
-  const submit = async (e) => {
-    e.preventDefault();
-    setSaving(true);
-    try {
-      await saveProduct({
-        id: editingId,
-        name: form.name.trim(),
-        category: form.category,
-        price: Number(form.price) || 0,
-        discountPrice: form.discountPrice === "" ? null : Number(form.discountPrice),
-        description: form.description.trim(),
-        imageUrl: form.imageUrl.trim(),
-        from: form.from,
-        to: form.to,
-      });
-      resetForm();
-    } finally {
-      setSaving(false);
-    }
-  };
-
-  const remove = async (id) => {
-    if (confirm("Remove this product from the live store?")) await deleteProduct(id);
-  };
-
-  return (
-    <div>
-      <div className="flex items-center justify-between mb-6">
-        <p className="text-sm text-ink-muted">{products.length} product{products.length === 1 ? "" : "s"} live · syncs in real time to every visitor</p>
-        <button onClick={() => adminSignOut()} className="text-xs text-ink-muted hover:text-ink underline underline-offset-2 focus-ring rounded">Sign out</button>
-      </div>
-
-      <form onSubmit={submit} className="glass rounded-2xl p-5 md:p-6 mb-10 grid sm:grid-cols-2 gap-4">
-        <div className="sm:col-span-2 flex items-center gap-2 mb-1">
-          <Icon name={editingId ? "edit" : "plus"} className="w-4 h-4 text-gold-deep" />
-          <h3 className="font-display text-lg text-ink">{editingId ? "Edit product" : "Add a new product"}</h3>
+    <section id="shop" class="bg-paper px-5 py-24 sm:px-8 sm:py-32 lg:px-12" aria-labelledby="categories-title">
+      <div class="mx-auto max-w-[1440px]">
+        <div class="mb-12 flex flex-col justify-between gap-5 md:flex-row md:items-end">
+          <div>
+            <p class="mono mb-4 text-[10px] uppercase tracking-[0.28em] gold">01 / The edit</p>
+            <h2 id="categories-title" class="serif text-4xl leading-none sm:text-5xl">Find your <em>essential.</em></h2>
+          </div>
+          <p class="max-w-[285px] text-xs leading-5 text-muted">Pieces with a point of view. Rituals to return to. Start anywhere.</p>
         </div>
-        <div>
-          <label className="block text-xs uppercase tracking-wide text-ink-muted mb-1.5">Name</label>
-          <input required value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} placeholder="Tidal Drop Earrings" className="w-full rounded-xl border border-ink/10 px-3.5 py-2.5 text-sm focus-ring bg-porcelain" />
-        </div>
-        <div>
-          <label className="block text-xs uppercase tracking-wide text-ink-muted mb-1.5">Category</label>
-          <select value={form.category} onChange={(e) => setForm({ ...form, category: e.target.value })} className="w-full rounded-xl border border-ink/10 px-3.5 py-2.5 text-sm focus-ring bg-porcelain">
-            {CATEGORIES.map((c) => <option key={c.key} value={c.key}>{c.key}</option>)}
-          </select>
-        </div>
-        <div>
-          <label className="block text-xs uppercase tracking-wide text-ink-muted mb-1.5">Price (USD)</label>
-          <input required type="number" min="0" step="1" value={form.price} onChange={(e) => setForm({ ...form, price: e.target.value })} placeholder="240" className="w-full rounded-xl border border-ink/10 px-3.5 py-2.5 text-sm focus-ring bg-porcelain" />
-        </div>
-        <div>
-          <label className="block text-xs uppercase tracking-wide text-ink-muted mb-1.5">Discount price (optional)</label>
-          <input type="number" min="0" step="1" value={form.discountPrice} onChange={(e) => setForm({ ...form, discountPrice: e.target.value })} placeholder="Leave blank for none" className="w-full rounded-xl border border-ink/10 px-3.5 py-2.5 text-sm focus-ring bg-porcelain" />
-        </div>
-        <div className="sm:col-span-2">
-          <label className="block text-xs uppercase tracking-wide text-ink-muted mb-1.5">Description</label>
-          <textarea rows="2" value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} placeholder="A short, considered line about the piece." className="w-full rounded-xl border border-ink/10 px-3.5 py-2.5 text-sm focus-ring bg-porcelain resize-none" />
-        </div>
-        <div className="sm:col-span-2">
-          <label className="block text-xs uppercase tracking-wide text-ink-muted mb-1.5">Image URL (optional)</label>
-          <input value={form.imageUrl} onChange={(e) => setForm({ ...form, imageUrl: e.target.value })} placeholder="https:// — leave blank to use a liquid-gradient placeholder" className="w-full rounded-xl border border-ink/10 px-3.5 py-2.5 text-sm focus-ring bg-porcelain" />
-          <p className="text-[11px] text-ink-muted/70 mt-1">For real uploads, connect Firebase Storage and drop the resulting download URL here.</p>
-        </div>
-        <div className="sm:col-span-2 flex items-center gap-3 pt-2">
-          <button disabled={saving} type="submit" className="liquid-btn bg-gradient-to-br from-gold-light to-gold-deep text-porcelain px-6 py-2.5 rounded-full text-sm focus-ring disabled:opacity-60">
-            <span className="relative z-10">{saving ? "Saving…" : editingId ? "Save changes" : "Add product"}</span>
-          </button>
-          {editingId && (
-            <button type="button" onClick={resetForm} className="text-sm text-ink-muted hover:text-ink focus-ring rounded">Cancel</button>
-          )}
-        </div>
-      </form>
-
-      <div className="space-y-2">
-        {loading ? (
-          <p className="text-sm text-ink-muted">Loading products…</p>
-        ) : products.length === 0 ? (
-          <p className="text-sm text-ink-muted">No products yet — add your first one above.</p>
-        ) : (
-          products.map((p) => (
-            <div key={p.id} className="flex items-center gap-4 rounded-xl border border-ink/5 hover:border-gold-deep/30 px-4 py-3 transition-colors">
-              <div
-                className="w-11 h-11 rounded-lg flex-shrink-0"
-                style={ p.imageUrl ? { backgroundImage: "url(" + p.imageUrl + ")", backgroundSize: "cover", backgroundPosition: "center" } : { background: "linear-gradient(135deg," + (p.from || "#EFDAD2") + "," + (p.to || "#B8935A") + ")" } }
-              />
-              <div className="flex-1 min-w-0">
-                <p className="text-sm text-ink truncate">{p.name}</p>
-                <p className="text-xs text-ink-muted">{p.category} · {money(p.discountPrice != null && p.discountPrice !== "" ? p.discountPrice : p.price)}{p.discountPrice != null && p.discountPrice !== "" && <span className="line-through ml-1 opacity-60">{money(p.price)}</span>}</p>
-              </div>
-              <button onClick={() => startEdit(p)} className="p-2 rounded-full hover:bg-blush/40 text-ink-muted hover:text-gold-deep focus-ring" aria-label={"Edit " + p.name}>
-                <Icon name="edit" className="w-4 h-4" />
-              </button>
-              <button onClick={() => remove(p.id)} className="p-2 rounded-full hover:bg-red-50 text-ink-muted hover:text-red-500 focus-ring" aria-label={"Remove " + p.name}>
-                <Icon name="trash" className="w-4 h-4" />
-              </button>
+        <div class="grid grid-cols-2 gap-x-3 gap-y-10 sm:gap-x-5 lg:grid-cols-4">
+          <a class="category-item group block" href="#featured" data-filter-link="beauty">
+            <div class="relative aspect-[.78] overflow-hidden bg-[#eadad2]">
+              <img class="category-image h-full w-full object-cover" src="https://images.pexels.com/photos/4832435/pexels-photo-4832435.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=1100" alt="Pink cosmetic bottle on a marble surface" loading="lazy">
             </div>
-          ))
-        )}
+            <div class="category-copy mt-5 flex items-center justify-between border-b border-line pb-3">
+              <div><h3 class="serif text-2xl">Beauty</h3><p class="mt-1 text-[10px] uppercase tracking-[0.2em] text-muted">16 essentials</p></div>
+              <span class="round-arrow flex h-8 w-8 items-center justify-center rounded-full border border-line text-lg">&rarr;</span>
+            </div>
+          </a>
+          <a class="category-item group block" href="#featured" data-filter-link="jewelry">
+            <div class="relative aspect-[.78] overflow-hidden bg-[#e8e1d8]">
+              <img class="category-image h-full w-full object-cover" src="https://images.pexels.com/photos/32797482/pexels-photo-32797482.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=1100" alt="Gold jewelry set on a creamy background" loading="lazy">
+            </div>
+            <div class="category-copy mt-5 flex items-center justify-between border-b border-line pb-3">
+              <div><h3 class="serif text-2xl">Jewelry</h3><p class="mt-1 text-[10px] uppercase tracking-[0.2em] text-muted">24 essentials</p></div>
+              <span class="round-arrow flex h-8 w-8 items-center justify-center rounded-full border border-line text-lg">&rarr;</span>
+            </div>
+          </a>
+          <a class="category-item group block" href="#featured" data-filter-link="fragrance">
+            <div class="relative aspect-[.78] overflow-hidden bg-[#dfb9b6]">
+              <img class="category-image h-full w-full object-cover" src="https://images.pexels.com/photos/30999189/pexels-photo-30999189.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=1100" alt="Perfume bottles on a blush pink background" loading="lazy">
+            </div>
+            <div class="category-copy mt-5 flex items-center justify-between border-b border-line pb-3">
+              <div><h3 class="serif text-2xl">Fragrance</h3><p class="mt-1 text-[10px] uppercase tracking-[0.2em] text-muted">09 essentials</p></div>
+              <span class="round-arrow flex h-8 w-8 items-center justify-center rounded-full border border-line text-lg">&rarr;</span>
+            </div>
+          </a>
+          <a class="category-item group block" href="#featured" data-filter-link="objects">
+            <div class="relative aspect-[.78] overflow-hidden bg-[#d7c7b3]">
+              <img class="category-image h-full w-full object-cover" src="https://images.pexels.com/photos/32874210/pexels-photo-32874210.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=1100" alt="Delicate gold chain on a creamy backdrop" loading="lazy">
+            </div>
+            <div class="category-copy mt-5 flex items-center justify-between border-b border-line pb-3">
+              <div><h3 class="serif text-2xl">Objects</h3><p class="mt-1 text-[10px] uppercase tracking-[0.2em] text-muted">12 essentials</p></div>
+              <span class="round-arrow flex h-8 w-8 items-center justify-center rounded-full border border-line text-lg">&rarr;</span>
+            </div>
+          </a>
+        </div>
       </div>
+    </section>
+
+    <section id="featured" class="bg-cream px-5 py-24 sm:px-8 sm:py-32 lg:px-12" aria-labelledby="featured-title">
+      <div class="mx-auto max-w-[1440px]">
+        <div class="flex flex-col justify-between gap-8 border-b border-line pb-8 md:flex-row md:items-end">
+          <div>
+            <p class="mono mb-4 text-[10px] uppercase tracking-[0.28em] gold">02 / On the shelf</p>
+            <h2 id="featured-title" class="serif text-4xl leading-none sm:text-5xl">The <em>featured</em> few</h2>
+          </div>
+          <div class="flex items-center gap-5 text-[10px] uppercase tracking-[0.2em] text-muted" role="tablist" aria-label="Filter featured products">
+            <button class="filter-button active" data-filter="all" role="tab" aria-selected="true">All</button>
+            <button class="filter-button" data-filter="beauty" role="tab" aria-selected="false">Beauty</button>
+            <button class="filter-button" data-filter="jewelry" role="tab" aria-selected="false">Jewelry</button>
+            <button class="filter-button" data-filter="fragrance" role="tab" aria-selected="false">Fragrance</button>
+          </div>
+        </div>
+        <div id="product-grid" class="mt-10 grid grid-cols-2 gap-x-3 gap-y-12 sm:grid-cols-2 sm:gap-x-5 lg:grid-cols-4">
+          <article class="product-card group" data-category="beauty">
+            <div class="relative aspect-[.82] overflow-hidden bg-[#e6d0c9]">
+              <img class="product-image h-full w-full object-cover" src="https://images.pexels.com/photos/31251024/pexels-photo-31251024.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=1100" alt="Colorful skincare dropper bottles" loading="lazy">
+              <button class="heart absolute right-4 top-4 text-white" aria-label="Add Dew Serum to wishlist"><svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M20.8 8.8c0 5.1-8.8 10.2-8.8 10.2S3.2 13.9 3.2 8.8A4.7 4.7 0 0 1 12 6.2a4.7 4.7 0 0 1 8.8 2.6Z"/></svg></button>
+            </div>
+            <div class="pt-4"><div class="flex items-start justify-between gap-3"><div><h3 class="serif text-xl">Dew Serum</h3><p class="mt-1 text-[10px] uppercase tracking-[0.16em] text-muted">Skin / 30 ml</p></div><p class="text-xs">$68</p></div><button class="add-to-bag add-label mt-5 text-[10px] uppercase tracking-[0.2em] text-muted hover:text-ink" data-product="Dew Serum" data-price="68">+ Add to bag</button></div>
+          </article>
+          <article class="product-card group" data-category="jewelry">
+            <div class="relative aspect-[.82] overflow-hidden bg-[#e7ddd0]">
+              <img class="product-image h-full w-full object-cover" src="https://images.pexels.com/photos/32797483/pexels-photo-32797483.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=1100" alt="Gold and diamond rings on a cream braided rope" loading="lazy">
+              <button class="heart absolute right-4 top-4 text-[#b59b7a]" aria-label="Add Arc Ring to wishlist"><svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M20.8 8.8c0 5.1-8.8 10.2-8.8 10.2S3.2 13.9 3.2 8.8A4.7 4.7 0 0 1 12 6.2a4.7 4.7 0 0 1 8.8 2.6Z"/></svg></button>
+            </div>
+            <div class="pt-4"><div class="flex items-start justify-between gap-3"><div><h3 class="serif text-xl">Arc Ring</h3><p class="mt-1 text-[10px] uppercase tracking-[0.16em] text-muted">14k gold vermeil</p></div><p class="text-xs">$124</p></div><button class="add-to-bag add-label mt-5 text-[10px] uppercase tracking-[0.2em] text-muted hover:text-ink" data-product="Arc Ring" data-price="124">+ Add to bag</button></div>
+          </article>
+          <article class="product-card group" data-category="fragrance">
+            <div class="relative aspect-[.82] overflow-hidden bg-[#e8c1bd]">
+              <img class="product-image h-full w-full object-cover" src="https://images.pexels.com/photos/30999189/pexels-photo-30999189.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=1100" alt="Elegant perfume bottles on a pink background" loading="lazy">
+              <button class="heart absolute right-4 top-4 text-white" aria-label="Add No. 09 Eau de Parfum to wishlist"><svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M20.8 8.8c0 5.1-8.8 10.2-8.8 10.2S3.2 13.9 3.2 8.8A4.7 4.7 0 0 1 12 6.2a4.7 4.7 0 0 1 8.8 2.6Z"/></svg></button>
+            </div>
+            <div class="pt-4"><div class="flex items-start justify-between gap-3"><div><h3 class="serif text-xl">No. 09</h3><p class="mt-1 text-[10px] uppercase tracking-[0.16em] text-muted">Eau de parfum / 50 ml</p></div><p class="text-xs">$96</p></div><button class="add-to-bag add-label mt-5 text-[10px] uppercase tracking-[0.2em] text-muted hover:text-ink" data-product="No. 09 Eau de Parfum" data-price="96">+ Add to bag</button></div>
+          </article>
+          <article class="product-card group" data-category="jewelry">
+            <div class="relative aspect-[.82] overflow-hidden bg-[#dfd4c3]">
+              <img class="product-image h-full w-full object-cover" src="https://images.pexels.com/photos/32874210/pexels-photo-32874210.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=1100" alt="Delicate gold chain with beads" loading="lazy">
+              <button class="heart absolute right-4 top-4 text-[#b59b7a]" aria-label="Add Linea Chain to wishlist"><svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M20.8 8.8c0 5.1-8.8 10.2-8.8 10.2S3.2 13.9 3.2 8.8A4.7 4.7 0 0 1 12 6.2a4.7 4.7 0 0 1 8.8 2.6Z"/></svg></button>
+            </div>
+            <div class="pt-4"><div class="flex items-start justify-between gap-3"><div><h3 class="serif text-xl">Linea Chain</h3><p class="mt-1 text-[10px] uppercase tracking-[0.16em] text-muted">Gold plated brass</p></div><p class="text-xs">$88</p></div><button class="add-to-bag add-label mt-5 text-[10px] uppercase tracking-[0.2em] text-muted hover:text-ink" data-product="Linea Chain" data-price="88">+ Add to bag</button></div>
+          </article>
+        </div>
+        <div id="no-results" class="hidden py-20 text-center"><p class="serif text-2xl">A quiet shelf.</p><p class="mt-2 text-xs text-muted">More pieces are being considered.</p></div>
+        <div class="mt-14 text-center"><a href="#newsletter" class="inline-block border-b border-[#b69a6a] pb-2 text-[10px] uppercase tracking-[0.24em] transition-colors hover:text-[#b69a6a]">View all pieces</a></div>
+      </div>
+    </section>
+
+    <section id="story" class="overflow-hidden bg-[#3d302b] text-white" aria-labelledby="story-title">
+      <div class="mx-auto grid max-w-[1440px] lg:grid-cols-[.9fr_1.1fr]">
+        <div class="flex flex-col justify-center px-5 py-24 sm:px-8 sm:py-32 lg:px-12 lg:py-36">
+          <p class="mono mb-5 text-[10px] uppercase tracking-[0.28em] text-[#e8c7c2]">03 / A point of view</p>
+          <h2 id="story-title" class="serif max-w-[470px] text-4xl leading-[1.02] sm:text-6xl">Less, but <em>lovelier.</em></h2>
+          <div class="gold-rule my-8 h-px w-24"></div>
+          <p class="max-w-[390px] text-sm leading-7 text-white/65">Avenue 9 is a study in the objects we keep close. We look for considered ingredients, enduring forms, and the little luxuries that make a day feel more like yours.</p>
+          <a href="#newsletter" class="mt-9 w-fit border-b border-white/45 pb-2 text-[10px] uppercase tracking-[0.24em] text-white/85 transition-colors hover:border-[#e8c7c2] hover:text-[#e8c7c2]">Read our story</a>
+        </div>
+        <div class="relative min-h-[490px] overflow-hidden lg:min-h-[650px]">
+          <img class="h-full w-full object-cover object-center opacity-90" src="https://images.pexels.com/photos/7256092/pexels-photo-7256092.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=1600&h=1200" alt="Beauty products arranged in a refined editorial composition" loading="lazy">
+          <div class="absolute inset-0 bg-gradient-to-r from-[#3d302b] via-transparent to-transparent opacity-60"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="journal" class="bg-paper px-5 py-24 sm:px-8 sm:py-32 lg:px-12" aria-labelledby="journal-title">
+      <div class="mx-auto max-w-[1440px]">
+        <div class="mb-12 flex items-end justify-between border-b border-line pb-7">
+          <div><p class="mono mb-4 text-[10px] uppercase tracking-[0.28em] gold">04 / The journal</p><h2 id="journal-title" class="serif text-4xl sm:text-5xl">Notes on <em>ritual.</em></h2></div>
+          <a href="#newsletter" class="hidden text-[10px] uppercase tracking-[0.2em] text-muted transition-colors hover:text-ink sm:block">Read all notes &rarr;</a>
+        </div>
+        <div class="grid gap-10 md:grid-cols-3 md:gap-6">
+          <article class="group">
+            <div class="aspect-[1.15] overflow-hidden bg-[#edd9d3]"><img class="category-image h-full w-full object-cover" src="https://images.pexels.com/photos/7256133/pexels-photo-7256133.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=1100&h=900" alt="Crushed cosmetic powder in a container on a pink backdrop" loading="lazy"></div>
+            <p class="mono mt-5 text-[9px] uppercase tracking-[0.2em] gold">Beauty notes / 04 min</p><h3 class="serif mt-3 text-2xl leading-tight">The art of a slower morning</h3><a href="#newsletter" class="mt-4 inline-block text-[10px] uppercase tracking-[0.2em] text-muted transition-colors hover:text-ink">Read note &rarr;</a>
+          </article>
+          <article class="group">
+            <div class="aspect-[1.15] overflow-hidden bg-[#e7ddd0]"><img class="category-image h-full w-full object-cover" src="https://images.pexels.com/photos/28716779/pexels-photo-28716779.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=1100&h=900" alt="A geometric gold earring worn by a model" loading="lazy"></div>
+            <p class="mono mt-5 text-[9px] uppercase tracking-[0.2em] gold">Adorn / 03 min</p><h3 class="serif mt-3 text-2xl leading-tight">A case for your everyday gold</h3><a href="#newsletter" class="mt-4 inline-block text-[10px] uppercase tracking-[0.2em] text-muted transition-colors hover:text-ink">Read note &rarr;</a>
+          </article>
+          <article class="group">
+            <div class="aspect-[1.15] overflow-hidden bg-[#d7c7b3]"><img class="category-image h-full w-full object-cover" src="https://images.pexels.com/photos/32874210/pexels-photo-32874210.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=1100&h=900" alt="Gold chain on a neutral background" loading="lazy"></div>
+            <p class="mono mt-5 text-[9px] uppercase tracking-[0.2em] gold">Objects / 05 min</p><h3 class="serif mt-3 text-2xl leading-tight">Collected things, beautifully kept</h3><a href="#newsletter" class="mt-4 inline-block text-[10px] uppercase tracking-[0.2em] text-muted transition-colors hover:text-ink">Read note &rarr;</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="newsletter" class="bg-[#e8c7c2] px-5 py-20 sm:px-8 sm:py-24 lg:px-12" aria-labelledby="newsletter-title">
+      <div class="mx-auto grid max-w-[1440px] items-end gap-10 lg:grid-cols-[.8fr_1.2fr]">
+        <div><p class="mono mb-5 text-[10px] uppercase tracking-[0.28em] text-[#8d5f59]">05 / Keep close</p><h2 id="newsletter-title" class="serif max-w-[460px] text-4xl leading-[1.02] sm:text-5xl">A little more <em>beautiful.</em></h2></div>
+        <div><p class="max-w-[430px] text-sm leading-6 text-[#674c48]">Join the Avenue 9 circle for new arrivals, slow rituals, and first access to limited pieces.</p><form id="newsletter-form" class="mt-8 flex max-w-[560px] border-b border-[#8d5f59]" novalidate><label class="sr-only" for="email">Email address</label><input id="email" required type="email" class="min-w-0 flex-1 bg-transparent py-3 text-sm text-ink outline-none placeholder:text-[#8d5f59]" placeholder="Your email address"><button class="shrink-0 py-3 pl-5 text-[10px] uppercase tracking-[0.22em] text-[#674c48] transition-colors hover:text-ink" type="submit">Subscribe &rarr;</button></form><p id="form-message" class="mt-3 hidden text-xs text-[#674c48]"></p></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="bg-[#2f2927] px-5 pb-8 pt-16 text-white sm:px-8 lg:px-12">
+    <div class="mx-auto max-w-[1440px]">
+      <div class="grid gap-12 border-b border-white/15 pb-14 sm:grid-cols-2 lg:grid-cols-[1.2fr_.7fr_.7fr_.9fr]">
+        <div><a href="#top" class="wordmark text-2xl font-semibold">AVENUE 9</a><p class="mt-4 max-w-[230px] text-xs leading-6 text-white/50">Beauty, adornment, and objects for a life well considered.</p></div>
+        <div><h3 class="mono text-[9px] uppercase tracking-[0.24em] text-[#e8c7c2]">Explore</h3><div class="mt-5 flex flex-col gap-3 text-xs text-white/60"><a href="#shop" class="transition-colors hover:text-white">Shop all</a><a href="#featured" class="transition-colors hover:text-white">New arrivals</a><a href="#journal" class="transition-colors hover:text-white">The journal</a></div></div>
+        <div><h3 class="mono text-[9px] uppercase tracking-[0.24em] text-[#e8c7c2]">Service</h3><div class="mt-5 flex flex-col gap-3 text-xs text-white/60"><a href="#newsletter" class="transition-colors hover:text-white">Contact</a><a href="#newsletter" class="transition-colors hover:text-white">Shipping & returns</a><a href="#newsletter" class="transition-colors hover:text-white">Care guide</a></div></div>
+        <div><h3 class="mono text-[9px] uppercase tracking-[0.24em] text-[#e8c7c2]">Find us</h3><p class="mt-5 text-xs leading-6 text-white/60">12 Mercer Street<br>New York, NY 10013</p><div class="mt-4 flex gap-4 text-xs text-white/60"><a href="#top" class="hover:text-white">Instagram</a><a href="#top" class="hover:text-white">Pinterest</a></div></div>
+      </div>
+      <div class="flex flex-col justify-between gap-3 pt-6 text-[9px] uppercase tracking-[0.18em] text-white/35 sm:flex-row"><span>&copy; 2024 Avenue 9 Studio</span><span>Made with intention</span></div>
     </div>
-  );
-}
+  </footer>
 
-/* ============================================================================
-   APP
-============================================================================ */
-function App() {
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [adminOpen, setAdminOpen] = useState(false);
+  <div id="bag-drawer" class="drawer fixed inset-0 z-50" aria-hidden="true">
+    <div id="drawer-backdrop" class="absolute inset-0 bg-[#2f2927]/45 backdrop-blur-[2px]"></div>
+    <aside class="drawer-panel absolute right-0 top-0 flex h-full w-full max-w-[430px] flex-col bg-paper p-6 text-ink sm:p-8" aria-label="Shopping bag">
+      <div class="flex items-center justify-between border-b border-line pb-5"><div><p class="mono text-[9px] uppercase tracking-[0.22em] gold">Your edit</p><h2 class="serif mt-2 text-3xl">Shopping bag</h2></div><button id="drawer-close" class="flex h-9 w-9 items-center justify-center rounded-full border border-line" aria-label="Close shopping bag"><svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="m6 6 12 12M18 6 6 18"/></svg></button></div>
+      <div id="bag-items" class="flex-1 overflow-auto py-7"><div id="empty-bag" class="flex h-full min-h-[260px] flex-col items-center justify-center text-center"><div class="mb-5 flex h-14 w-14 items-center justify-center rounded-full border border-line text-[#b69a6a]"><svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M5 8.5h14l-1 12H6l-1-12Z"/><path d="M8.5 9V6.8a3.5 3.5 0 0 1 7 0V9"/></svg></div><p class="serif text-2xl">Your bag is quiet.</p><p class="mt-2 max-w-[230px] text-xs leading-5 text-muted">Add an object or two and your edit will appear here.</p><button id="continue-shopping" class="mt-7 border-b border-[#b69a6a] pb-2 text-[10px] uppercase tracking-[0.2em]">Continue shopping</button></div></div>
+      <div id="bag-summary" class="hidden border-t border-line pt-6"><div class="flex items-center justify-between text-sm"><span class="text-muted">Subtotal</span><span id="bag-total">$0</span></div><p class="mt-2 text-[10px] leading-5 text-muted">Shipping and taxes calculated at checkout.</p><button id="checkout-button" class="mt-6 w-full bg-[#3d302b] py-4 text-[10px] uppercase tracking-[0.24em] text-white transition-colors hover:bg-[#b69a6a]">Checkout</button></div>
+    </aside>
+  </div>
 
-  useEffect(() => {
-    const unsub = subscribeProducts((list) => { setProducts(list); setLoading(false); });
-    return unsub;
-  }, []);
+  <div id="toast" class="toast fixed bottom-6 left-1/2 z-[60] -translate-x-1/2 bg-[#3d302b] px-5 py-3 text-[10px] uppercase tracking-[0.16em] text-white shadow-xl"></div>
 
-  return (
-    <>
-      <Header onOpenAdmin={() => setAdminOpen(true)} />
-      <main>
-        <Hero />
-        <Categories />
-        <ProductGrid products={products} loading={loading} />
-        <TheHouse />
-      </main>
-      <Footer />
-      {adminOpen && <AdminModal onClose={() => setAdminOpen(false)} />}
-    </>
-  );
-}
+  <script>
+    const header = document.getElementById('site-header');
+    const searchToggle = document.getElementById('search-toggle');
+    const searchBar = document.getElementById('search-bar');
+    const searchInput = document.getElementById('search-input');
+    const searchClose = document.getElementById('search-close');
+    const mobileToggle = document.getElementById('mobile-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const drawer = document.getElementById('bag-drawer');
+    const bagItems = document.getElementById('bag-items');
+    const emptyBag = document.getElementById('empty-bag');
+    const bagSummary = document.getElementById('bag-summary');
+    const bagCount = document.getElementById('bag-count');
+    const bagTotal = document.getElementById('bag-total');
+    const toast = document.getElementById('toast');
+    let bag = [];
+    let toastTimer;
 
-ReactDOM.createRoot(document.getElementById("root")).render(<App />);
-</script>
+    function showToast(message) {
+      toast.textContent = message;
+      toast.classList.add('show');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => toast.classList.remove('show'), 2600);
+    }
+
+    function setDrawer(open) {
+      drawer.classList.toggle('is-open', open);
+      drawer.setAttribute('aria-hidden', String(!open));
+      document.body.classList.toggle('overflow-hidden', open);
+    }
+
+    function renderBag() {
+      bagCount.textContent = bag.length;
+      const subtotal = bag.reduce((sum, item) => sum + item.price, 0);
+      bagTotal.textContent = '$' + subtotal;
+      emptyBag.classList.toggle('hidden', bag.length > 0);
+      bagSummary.classList.toggle('hidden', bag.length === 0);
+      bagItems.querySelectorAll('.bag-line').forEach((line) => line.remove());
+      bag.forEach((item, index) => {
+        const line = document.createElement('div');
+        line.className = 'bag-line mb-5 flex items-center justify-between gap-4 border-b border-line pb-5';
+        line.innerHTML = `<div><p class="serif text-xl">${item.name}</p><p class="mt-1 text-[10px] uppercase tracking-[0.16em] text-muted">Avenue 9 / one piece</p></div><div class="flex items-center gap-4"><span class="text-xs">$${item.price}</span><button class="remove-item text-[10px] uppercase tracking-[0.16em] text-muted hover:text-ink" data-index="${index}">Remove</button></div>`;
+        bagItems.prepend(line);
+      });
+      document.querySelectorAll('.remove-item').forEach((button) => {
+        button.addEventListener('click', () => {
+          bag.splice(Number(button.dataset.index), 1);
+          renderBag();
+        });
+      });
+    }
+
+    function setSearch(open) {
+      searchBar.classList.toggle('hidden', !open);
+      if (open) searchInput.focus();
+    }
+
+    window.addEventListener('scroll', () => header.classList.toggle('scrolled', window.scrollY > 28));
+    searchToggle.addEventListener('click', () => setSearch(searchBar.classList.contains('hidden')));
+    searchClose.addEventListener('click', () => setSearch(false));
+    mobileToggle.addEventListener('click', () => {
+      const open = !mobileMenu.classList.contains('is-open');
+      mobileMenu.classList.toggle('is-open', open);
+      mobileToggle.setAttribute('aria-expanded', String(open));
+    });
+    mobileMenu.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => {
+      mobileMenu.classList.remove('is-open');
+      mobileToggle.setAttribute('aria-expanded', 'false');
+    }));
+    document.getElementById('bag-toggle').addEventListener('click', () => setDrawer(true));
+    document.getElementById('drawer-close').addEventListener('click', () => setDrawer(false));
+    document.getElementById('drawer-backdrop').addEventListener('click', () => setDrawer(false));
+    document.getElementById('continue-shopping').addEventListener('click', () => setDrawer(false));
+    document.getElementById('checkout-button').addEventListener('click', () => showToast('Checkout is ready for your edit.'));
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') {
+        setDrawer(false);
+        setSearch(false);
+      }
+    });
+
+    document.querySelectorAll('.add-to-bag').forEach((button) => {
+      button.addEventListener('click', () => {
+        const item = { name: button.dataset.product, price: Number(button.dataset.price) };
+        bag.push(item);
+        button.closest('.product-card').classList.add('is-added');
+        button.textContent = 'Added to bag';
+        renderBag();
+        showToast(item.name + ' added to your bag');
+      });
+    });
+
+    document.querySelectorAll('.heart').forEach((button) => {
+      button.addEventListener('click', () => {
+        const active = button.classList.toggle('text-[#c88780]');
+        const icon = button.querySelector('svg');
+        icon.setAttribute('fill', active ? 'currentColor' : 'none');
+        showToast(active ? 'Saved to your wishlist' : 'Removed from your wishlist');
+      });
+    });
+
+    function filterProducts(category) {
+      const products = document.querySelectorAll('#product-grid .product-card');
+      let visible = 0;
+      products.forEach((product) => {
+        const show = category === 'all' || product.dataset.category === category;
+        product.classList.toggle('hidden-product', !show);
+        if (show) visible += 1;
+      });
+      document.getElementById('no-results').classList.toggle('hidden', visible !== 0);
+    }
+
+    document.querySelectorAll('.filter-button').forEach((button) => {
+      button.addEventListener('click', () => {
+        document.querySelectorAll('.filter-button').forEach((item) => {
+          item.classList.remove('active');
+          item.setAttribute('aria-selected', 'false');
+        });
+        button.classList.add('active');
+        button.setAttribute('aria-selected', 'true');
+        filterProducts(button.dataset.filter);
+      });
+    });
+    document.querySelectorAll('[data-filter-link]').forEach((link) => {
+      link.addEventListener('click', () => {
+        const category = link.dataset.filterLink;
+        const matchingFilter = document.querySelector(`.filter-button[data-filter="${category === 'objects' ? 'all' : category}"]`);
+        if (matchingFilter) matchingFilter.click();
+      });
+    });
+
+    document.getElementById('newsletter-form').addEventListener('submit', (event) => {
+      event.preventDefault();
+      const email = document.getElementById('email');
+      const message = document.getElementById('form-message');
+      if (!email.validity.valid) {
+        message.textContent = 'Please enter a valid email address.';
+        message.classList.remove('hidden');
+        email.focus();
+        return;
+      }
+      message.textContent = 'You are on the list. Welcome to the circle.';
+      message.classList.remove('hidden');
+      email.value = '';
+    });
+
+    renderBag();
+  </script>
 </body>
 </html>
