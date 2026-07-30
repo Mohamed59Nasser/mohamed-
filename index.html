@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AURÉLIA - لوحة الإدارة والتشغيل</title>
+    <title>AURÉLIA - لوحة الإدارة والتشغيل المركزية</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome -->
@@ -34,12 +34,12 @@
 </head>
 <body class="bg-luxury-cream text-luxury-dark font-sans antialiased min-h-screen">
 
-    <!-- Login Modal / Screen -->
-    <div id="loginScreen" class="fixed inset-0 z-50 flex items-center justify-center bg-luxury-dark/80 backdrop-blur-sm">
+    <!-- Login Screen -->
+    <div id="loginScreen" class="fixed inset-0 z-50 flex items-center justify-center bg-luxury-dark/90 backdrop-blur-md">
         <div class="bg-white p-8 rounded-2xl shadow-2xl w-full max-w-md border border-luxury-gold/30">
             <div class="text-center mb-8">
                 <h1 class="font-serif text-3xl font-bold tracking-wider text-luxury-dark">AURÉLIA</h1>
-                <p class="text-sm text-gray-500 mt-2">نظام الإدارة والتشغيل المركزي</p>
+                <p class="text-sm text-gray-500 mt-2">نظام الإدارة والتشغيل المركزي للمتجر</p>
             </div>
             <form id="loginForm" onsubmit="handleLogin(event)" class="space-y-6">
                 <div>
@@ -56,7 +56,7 @@
         </div>
     </div>
 
-    <!-- Main Dashboard Container -->
+    <!-- Main Dashboard Application -->
     <div id="dashboardApp" class="hidden flex h-screen overflow-hidden">
         
         <!-- Sidebar -->
@@ -64,9 +64,9 @@
             <div>
                 <div class="p-6 border-b border-gray-800 text-center">
                     <h2 class="font-serif text-2xl font-bold tracking-widest text-luxury-gold">AURÉLIA</h2>
-                    <span class="text-xs text-gray-400">لوحة التحكم الإدارية</span>
+                    <span class="text-xs text-gray-400">لوحة التحكم والتشغيل</span>
                 </div>
-                <nav class="p-4 space-y-2">
+                <nav class="p-4 space-y-1.5 overflow-y-auto max-h-[calc(100vh-140px)]">
                     <button onclick="switchTab('overview')" class="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium hover:bg-luxury-gold/20 text-luxury-gold transition tab-btn active" data-tab="overview"><i class="fa-solid fa-chart-pie w-5"></i> نظرة عامة</button>
                     <button onclick="switchTab('categories')" class="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium hover:bg-luxury-gold/20 text-gray-300 hover:text-white transition tab-btn" data-tab="categories"><i class="fa-solid fa-folder-tree w-5"></i> المجلدات والأقسام</button>
                     <button onclick="switchTab('products')" class="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium hover:bg-luxury-gold/20 text-gray-300 hover:text-white transition tab-btn" data-tab="products"><i class="fa-solid fa-gem w-5"></i> المنتجات والمخزون</button>
@@ -84,61 +84,45 @@
 
         <!-- Main Content Area -->
         <main class="flex-1 flex flex-col overflow-y-auto">
-            <!-- Top Header -->
             <header class="bg-white border-b border-gray-200 px-8 py-4 flex justify-between items-center shadow-sm">
-                <div class="flex items-center gap-4">
-                    <h3 id="currentTabTitle" class="font-serif text-xl font-bold text-luxury-dark">نظرة عامة</h3>
-                </div>
+                <h3 id="currentTabTitle" class="font-serif text-xl font-bold text-luxury-dark">نظرة عامة</h3>
                 <div class="flex items-center gap-4">
                     <span id="adminNameDisplay" class="text-sm font-semibold text-gray-600">Mohamed Nasser</span>
                     <div class="w-10 h-10 rounded-full bg-luxury-gold text-white flex items-center justify-center font-bold">MN</div>
                 </div>
             </header>
 
-            <!-- Dynamic Tab Contents -->
             <div class="p-8 space-y-6">
                 
-                <!-- OVERVIEW TAB -->
+                <!-- 1. OVERVIEW TAB -->
                 <div id="tab-overview" class="tab-content space-y-6">
                     <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
                         <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-center justify-between">
-                            <div>
-                                <p class="text-sm text-gray-500">إجمالي المنتجات</p>
-                                <h4 id="statProducts" class="text-2xl font-bold mt-1">0</h4>
-                            </div>
+                            <div><p class="text-sm text-gray-500">إجمالي المنتجات</p><h4 id="statProducts" class="text-2xl font-bold mt-1">0</h4></div>
                             <div class="w-12 h-12 rounded-lg bg-luxury-gold/10 text-luxury-gold flex items-center justify-center text-xl"><i class="fa-solid fa-gem"></i></div>
                         </div>
                         <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-center justify-between">
-                            <div>
-                                <p class="text-sm text-gray-500">إجمالي الطلبات</p>
-                                <h4 id="statOrders" class="text-2xl font-bold mt-1">0</h4>
-                            </div>
+                            <div><p class="text-sm text-gray-500">إجمالي الطلبات</p><h4 id="statOrders" class="text-2xl font-bold mt-1">0</h4></div>
                             <div class="w-12 h-12 rounded-lg bg-blue-500/10 text-blue-500 flex items-center justify-center text-xl"><i class="fa-solid fa-box-open"></i></div>
                         </div>
                         <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-center justify-between">
-                            <div>
-                                <p class="text-sm text-gray-500">العملاء المسجلون</p>
-                                <h4 id="statCustomers" class="text-2xl font-bold mt-1">0</h4>
-                            </div>
+                            <div><p class="text-sm text-gray-500">العملاء المسجلون</p><h4 id="statCustomers" class="text-2xl font-bold mt-1">0</h4></div>
                             <div class="w-12 h-12 rounded-lg bg-green-500/10 text-green-500 flex items-center justify-center text-xl"><i class="fa-solid fa-users"></i></div>
                         </div>
                         <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-center justify-between">
-                            <div>
-                                <p class="text-sm text-gray-500">أكواد الخصم النشطة</p>
-                                <h4 id="statPromos" class="text-2xl font-bold mt-1">0</h4>
-                            </div>
+                            <div><p class="text-sm text-gray-500">أكواد الخصم النشطة</p><h4 id="statPromos" class="text-2xl font-bold mt-1">0</h4></div>
                             <div class="w-12 h-12 rounded-lg bg-purple-500/10 text-purple-500 flex items-center justify-center text-xl"><i class="fa-solid fa-ticket"></i></div>
                         </div>
                     </div>
                 </div>
 
-                <!-- CATEGORIES TAB -->
+                <!-- 2. CATEGORIES TAB -->
                 <div id="tab-categories" class="tab-content hidden space-y-6">
                     <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-                        <h4 class="font-serif text-lg font-bold mb-4">إضافة مجلد أو قسم جديد</h4>
+                        <h4 class="font-serif text-lg font-bold mb-4">إضافة مجلد أو قسم رئيسي وتفريعاته</h4>
                         <form onsubmit="addCategory(event)" class="grid grid-cols-1 md:grid-cols-3 gap-4">
                             <input type="text" id="catName" placeholder="اسم القسم (مثال: مجوهرات، مكياج)" required class="px-4 py-2.5 rounded-lg border border-gray-300 focus:outline-none focus:border-luxury-gold">
-                            <input type="text" id="subCatName" placeholder="التفريعات (مفصولة بفاصلة مثل: سلاسل,خواتم)" class="px-4 py-2.5 rounded-lg border border-gray-300 focus:outline-none focus:border-luxury-gold">
+                            <input type="text" id="subCatName" placeholder="التفريعات الداخلية (مفصولة بفاصلة مثل: سلاسل,خواتم)" class="px-4 py-2.5 rounded-lg border border-gray-300 focus:outline-none focus:border-luxury-gold">
                             <button type="submit" class="bg-luxury-gold text-white font-semibold rounded-lg hover:bg-luxury-accent transition py-2.5">حفظ القسم</button>
                         </form>
                     </div>
@@ -148,7 +132,7 @@
                     </div>
                 </div>
 
-                <!-- PRODUCTS TAB -->
+                <!-- 3. PRODUCTS TAB -->
                 <div id="tab-products" class="tab-content hidden space-y-6">
                     <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
                         <h4 class="font-serif text-lg font-bold mb-4">إضافة منتج جديد</h4>
@@ -156,15 +140,15 @@
                             <input type="text" id="prodName" placeholder="اسم المنتج" required class="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:border-luxury-gold">
                             <input type="text" id="prodImg" placeholder="رابط صورة المنتج (URL)" required class="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:border-luxury-gold">
                             <select id="prodCategory" required class="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:border-luxury-gold">
-                                <option value="">اختر القسم الرئيسي والفرعي</option>
+                                <option value="">اختر القسم والفرع</option>
                             </select>
                             <input type="number" id="prodPrice" placeholder="السعر الأساسي" required class="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:border-luxury-gold">
                             <input type="number" id="prodDiscountPrice" placeholder="سعر العرض (اختياري)" class="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:border-luxury-gold">
                             <input type="number" id="prodDiscountDays" placeholder="مدة العرض بالأيام (افتراضي 7 أيام)" value="7" class="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:border-luxury-gold">
                             <input type="text" id="prodBarcode" placeholder="الباركود (خاص بالإدارة فقط)" required class="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:border-luxury-gold">
                             <input type="text" id="prodColor" placeholder="اللون" required class="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:border-luxury-gold">
-                            <input type="number" id="prodInternalStock" placeholder="الكمية الداخلية (الإدارة: 0 تعني Sold Out)" required class="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:border-luxury-gold">
-                            <input type="number" id="prodPublicStock" placeholder="الكمية للعملاء (اختياري للدعاية / تنبيه عند أقل من 5)" class="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:border-luxury-gold">
+                            <input type="number" id="prodInternalStock" placeholder="الكمية الداخلية (0 تعني Sold Out)" required class="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:border-luxury-gold">
+                            <input type="number" id="prodAlertThreshold" placeholder="حد التنبيه للعملاء (مثال: أقل من 5 يظهر متبقي)" required class="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:border-luxury-gold">
                             <button type="submit" class="md:col-span-3 bg-luxury-gold text-white font-semibold rounded-lg hover:bg-luxury-accent transition py-3">إضافة المنتج للنظام</button>
                         </form>
                     </div>
@@ -177,9 +161,10 @@
                                         <th class="py-3 px-4">الصورة</th>
                                         <th class="py-3 px-4">اسم المنتج</th>
                                         <th class="py-3 px-4">القسم</th>
-                                        <th class="py-3 px-4">السعر العادي/العرض</th>
+                                        <th class="py-3 px-4">السعر / العرض</th>
                                         <th class="py-3 px-4">الباركود (سري)</th>
                                         <th class="py-3 px-4">المخزون الداخلي</th>
+                                        <th class="py-3 px-4">حد التنبيه</th>
                                         <th class="py-3 px-4">الحالة</th>
                                         <th class="py-3 px-4">إجراء</th>
                                     </tr>
@@ -190,8 +175,21 @@
                     </div>
                 </div>
 
-                <!-- ORDERS TAB -->
+                <!-- 4. ORDERS TAB -->
                 <div id="tab-orders" class="tab-content hidden space-y-6">
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                        <h4 class="font-serif text-lg font-bold mb-4">إضافة طلب يدوي (للتجربة أو التسجيل)</h4>
+                        <form onsubmit="addOrder(event)" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <input type="text" id="orderCustName" placeholder="اسم العميل" required class="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:border-luxury-gold">
+                            <input type="text" id="orderPhone" placeholder="رقم هاتف العميل" required class="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:border-luxury-gold">
+                            <input type="text" id="orderAddress" placeholder="عنوان العميل" required class="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:border-luxury-gold">
+                            <input type="text" id="orderProdName" placeholder="اسم المنتج المطلوبة" required class="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:border-luxury-gold">
+                            <input type="text" id="orderBarcode" placeholder="الباركود الخاص بالمنتج" required class="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:border-luxury-gold">
+                            <input type="text" id="orderColor" placeholder="اللون" required class="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:border-luxury-gold">
+                            <input type="number" id="orderQty" placeholder="الكمية المطلوبة" required class="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:border-luxury-gold">
+                            <button type="submit" class="md:col-span-3 bg-luxury-gold text-white font-semibold rounded-lg hover:bg-luxury-accent transition py-2.5">تسجيل الطلب</button>
+                        </form>
+                    </div>
                     <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
                         <h4 class="font-serif text-lg font-bold mb-4">سجل الطلبات الواردة</h4>
                         <div class="overflow-x-auto">
@@ -204,6 +202,7 @@
                                         <th class="py-3 px-4">المنتج</th>
                                         <th class="py-3 px-4">الباركود واللون</th>
                                         <th class="py-3 px-4">الكمية</th>
+                                        <th class="py-3 px-4">إجراء</th>
                                     </tr>
                                 </thead>
                                 <tbody id="ordersTableBody"></tbody>
@@ -212,8 +211,18 @@
                     </div>
                 </div>
 
-                <!-- CUSTOMERS TAB -->
+                <!-- 5. CUSTOMERS TAB -->
                 <div id="tab-customers" class="tab-content hidden space-y-6">
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                        <h4 class="font-serif text-lg font-bold mb-4">إضافة أو تسجيل بيانات عميل</h4>
+                        <form onsubmit="addCustomer(event)" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <input type="text" id="custName" placeholder="اسم العميل الكامل" required class="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:border-luxury-gold">
+                            <input type="text" id="custPhones" placeholder="أرقام الهواتف (مفصولة بفاصلة)" required class="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:border-luxury-gold">
+                            <input type="email" id="custEmails" placeholder="البريد الإلكتروني" class="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:border-luxury-gold">
+                            <input type="text" id="custAddresses" placeholder="العناوين (مفصولة بفاصلة)" required class="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:border-luxury-gold">
+                            <button type="submit" class="md:col-span-2 bg-luxury-gold text-white font-semibold rounded-lg hover:bg-luxury-accent transition py-2.5">حفظ بيانات العميل</button>
+                        </form>
+                    </div>
                     <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
                         <h4 class="font-serif text-lg font-bold mb-4">قاعدة بيانات العملاء</h4>
                         <div class="overflow-x-auto">
@@ -224,6 +233,7 @@
                                         <th class="py-3 px-4">أرقام الهواتف</th>
                                         <th class="py-3 px-4">البريد الإلكتروني</th>
                                         <th class="py-3 px-4">العناوين</th>
+                                        <th class="py-3 px-4">إجراء</th>
                                     </tr>
                                 </thead>
                                 <tbody id="customersTableBody"></tbody>
@@ -232,46 +242,42 @@
                     </div>
                 </div>
 
-                <!-- PROMO CODES TAB -->
+                <!-- 6. PROMO CODES TAB -->
                 <div id="tab-promos" class="tab-content hidden space-y-6">
                     <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
                         <h4 class="font-serif text-lg font-bold mb-4">إضافة كود خصم جديد</h4>
                         <form onsubmit="addPromo(event)" class="grid grid-cols-1 md:grid-cols-3 gap-4">
                             <input type="text" id="promoCode" placeholder="كود الخصم (مثال: AUR50)" required class="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:border-luxury-gold">
-                            <input type="number" id="promoDiscount" placeholder="نسبة الخصم % أو القيمة" required class="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:border-luxury-gold">
+                            <input type="text" id="promoDiscount" placeholder="قيمة أو نسبة الخصم" required class="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:border-luxury-gold">
                             <input type="number" id="promoLimit" placeholder="عدد مرات الاستخدام المسموحة" required class="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:border-luxury-gold">
                             <button type="submit" class="md:col-span-3 bg-luxury-gold text-white font-semibold rounded-lg hover:bg-luxury-accent transition py-2.5">إضافة الكود</button>
                         </form>
                     </div>
                     <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-                        <h4 class="font-serif text-lg font-bold mb-4">أكواد الخصم النشطة وتتبع الاستخدام</h4>
+                        <h4 class="font-serif text-lg font-bold mb-4">أكواد الخصم النشطة والاستخدام المتبقي</h4>
                         <div id="promosList" class="space-y-3"></div>
                     </div>
                 </div>
 
-                <!-- LAYOUT CUSTOMIZER TAB -->
+                <!-- 7. LAYOUT CUSTOMIZER TAB -->
                 <div id="tab-layout" class="tab-content hidden space-y-6">
                     <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-                        <h4 class="font-serif text-lg font-bold mb-4">تخصيص وترتيب أقسام واجهة المتجر</h4>
-                        <p class="text-sm text-gray-500 mb-4">قم بسحب وإفلات العناصر أو تغيير ترتيبها البصري لتنعكس على الواجهة الأمامية للمتجر.</p>
+                        <h4 class="font-serif text-lg font-bold mb-4">تخطيط وتخصيص واجهة المتجر</h4>
+                        <p class="text-sm text-gray-500 mb-4">قم بالسحب والإفلات لتغيير وترتيب الأقسام بصرياً.</p>
                         <div id="layoutBoxes" class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div draggable="true" class="p-6 bg-luxury-cream border border-luxury-gold/30 rounded-xl cursor-move flex justify-between items-center shadow-sm">
-                                <div><h5 class="font-bold">قسم الماركات والفئات (Categories Section)</h5><p class="text-xs text-gray-500">العرض الأساسي للفئات الرئيسية</p></div>
+                                <div><h5 class="font-bold">قسم الماركات والأقسام المميزة</h5><p class="text-xs text-gray-500">العرض الرئيسي للفئات</p></div>
                                 <i class="fa-solid fa-grip-vertical text-gray-400"></i>
                             </div>
                             <div draggable="true" class="p-6 bg-luxury-cream border border-luxury-gold/30 rounded-xl cursor-move flex justify-between items-center shadow-sm">
-                                <div><h5 class="font-bold">قسم الأكثر مبيعاً (Bestsellers Section)</h5><p class="text-xs text-gray-500">عرض المنتجات المميزة والخصومات</p></div>
-                                <i class="fa-solid fa-grip-vertical text-gray-400"></i>
-                            </div>
-                            <div draggable="true" class="p-6 bg-luxury-cream border border-luxury-gold/30 rounded-xl cursor-move flex justify-between items-center shadow-sm">
-                                <div><h5 class="font-bold">قسم العروض المؤقتة (Timed Offers)</h5><p class="text-xs text-gray-500">العد التنازلي للخصومات</p></div>
+                                <div><h5 class="font-bold">قسم الأكثر مبيعاً والعروض</h5><p class="text-xs text-gray-500">المنتجات المؤقتة والمخفضة</p></div>
                                 <i class="fa-solid fa-grip-vertical text-gray-400"></i>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- ADMINS TAB -->
+                <!-- 8. ADMINS TAB -->
                 <div id="tab-admins" class="tab-content hidden space-y-6">
                     <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
                         <h4 class="font-serif text-lg font-bold mb-4">إضافة حساب إداري فرعي جديد</h4>
@@ -309,13 +315,12 @@
             const u = document.getElementById('username').value.trim();
             const p = document.getElementById('password').value.trim();
             
-            if ((u === "Mohamed Nasser" && p === "Mohamed59*")) {
+            if (u === "Mohamed Nasser" && p === "Mohamed59*") {
                 localStorage.setItem('aurelia_admin', u);
                 initDashboard(u);
                 return;
             }
 
-            // Check sub-admins in Firebase
             db.ref('admins').once('value').then(snapshot => {
                 const admins = snapshot.val() || {};
                 let found = false;
@@ -331,6 +336,8 @@
                 } else {
                     document.getElementById('loginError').classList.remove('hidden');
                 }
+            }).catch(err => {
+                alert("خطأ في الاتصال بقاعدة البيانات: " + err.message);
             });
         }
 
@@ -346,7 +353,6 @@
             location.reload();
         }
 
-        // Check active session on load
         window.onload = function() {
             const activeUser = localStorage.getItem('aurelia_admin');
             if (activeUser) {
@@ -380,7 +386,7 @@
             document.getElementById('currentTabTitle').innerText = titles[tabId];
         }
 
-        // Data Loading & Syncing
+        // Data Loading & Syncing from Firebase
         function loadAllData() {
             // Categories
             db.ref('categories').on('value', snapshot => {
@@ -388,7 +394,7 @@
                 const list = document.getElementById('categoriesList');
                 const select = document.getElementById('prodCategory');
                 list.innerHTML = '';
-                select.innerHTML = '<option value="">اختر القسم الرئيسي والفرعي</option>';
+                select.innerHTML = '<option value="">اختر القسم والفرع</option>';
 
                 for (let id in data) {
                     const cat = data[id];
@@ -418,16 +424,19 @@
                     count++;
                     const isSoldOut = p.internalStock <= 0;
                     
-                    // Check discount timer expiry
                     let priceDisplay = `${p.price} ج.م`;
                     if (p.discountPrice) {
                         const now = new Date().getTime();
                         if (now > p.discountExpiry) {
-                            // Expired, revert to base price
                             db.ref(`products/${id}`).update({ discountPrice: null, discountExpiry: null });
                         } else {
                             priceDisplay = `<span class="line-through text-gray-400 text-xs">${p.price}</span> <span class="text-green-600 font-bold">${p.discountPrice} ج.م</span>`;
                         }
+                    }
+
+                    let stockStatusText = isSoldOut ? 'Sold Out' : 'متوفر';
+                    if (!isSoldOut && p.internalStock <= (p.alertThreshold || 5)) {
+                        stockStatusText = `متبقي ${p.internalStock} (تنبيه ظهور)`;
                     }
 
                     tbody.innerHTML += `<tr class="border-b border-gray-100 text-sm">
@@ -437,7 +446,8 @@
                         <td class="py-3 px-4">${priceDisplay}</td>
                         <td class="py-3 px-4 font-mono text-xs bg-gray-100 px-2 py-1 rounded inline-block">${p.barcode}</td>
                         <td class="py-3 px-4">${p.internalStock}</td>
-                        <td class="py-3 px-4"><span class="px-2.5 py-1 rounded-full text-xs font-semibold ${isSoldOut ? 'bg-red-100 text-red-600' : 'bg-green-100 text-green-600'}">${isSoldOut ? 'Sold Out' : 'متوفر'}</span></td>
+                        <td class="py-3 px-4">${p.alertThreshold || 5}</td>
+                        <td class="py-3 px-4"><span class="px-2.5 py-1 rounded-full text-xs font-semibold ${isSoldOut ? 'bg-red-100 text-red-600' : 'bg-green-100 text-green-600'}">${stockStatusText}</span></td>
                         <td class="py-3 px-4"><button onclick="deleteProduct('${id}')" class="text-red-500 hover:text-red-700"><i class="fa-solid fa-trash"></i></button></td>
                     </tr>`;
                 }
@@ -460,6 +470,7 @@
                         <td class="py-3 px-4">${o.productName}</td>
                         <td class="py-3 px-4 font-mono text-xs">${o.barcode} (${o.color})</td>
                         <td class="py-3 px-4 font-bold">${o.quantity}</td>
+                        <td class="py-3 px-4"><button onclick="deleteOrder('${id}')" class="text-red-500 hover:text-red-700"><i class="fa-solid fa-trash"></i></button></td>
                     </tr>`;
                 }
                 document.getElementById('statOrders').innerText = count;
@@ -479,6 +490,7 @@
                         <td class="py-3 px-4">${c.phones || '-'}</td>
                         <td class="py-3 px-4">${c.emails || '-'}</td>
                         <td class="py-3 px-4">${c.addresses || '-'}</td>
+                        <td class="py-3 px-4"><button onclick="deleteCustomer('${id}')" class="text-red-500 hover:text-red-700"><i class="fa-solid fa-trash"></i></button></td>
                     </tr>`;
                 }
                 document.getElementById('statCustomers').innerText = count;
@@ -494,7 +506,7 @@
                     const pr = data[id];
                     count++;
                     list.innerHTML += `<div class="p-4 bg-luxury-cream rounded-lg border border-luxury-gold/20 flex justify-between items-center text-sm">
-                        <div><strong class="font-mono text-luxury-gold">${pr.code}</strong> - خصم: ${pr.discount} | متبقي من الاستخدام: <span class="font-bold text-red-600">${pr.limit}</span> مرة</div>
+                        <div><strong class="font-mono text-luxury-gold">${pr.code}</strong> - خصم: ${pr.discount} | متبقي الاستخدام: <span class="font-bold text-red-600">${pr.limit}</span> مرة</div>
                         <button onclick="deletePromo('${id}')" class="text-red-500 hover:text-red-700"><i class="fa-solid fa-trash"></i></button>
                     </div>`;
                 }
@@ -516,14 +528,13 @@
             });
         }
 
-        // Form Actions
+        // Actions & Forms Submission
         function addCategory(e) {
             e.preventDefault();
             db.ref('categories').push({
                 name: document.getElementById('catName').value,
                 sub: document.getElementById('subCatName').value
-            });
-            e.target.reset();
+            }).then(() => { e.target.reset(); alert("تم حفظ القسم بنجاح!"); }).catch(err => alert(err.message));
         }
         function deleteCategory(id) { db.ref(`categories/${id}`).remove(); }
 
@@ -546,11 +557,35 @@
                 barcode: document.getElementById('prodBarcode').value,
                 color: document.getElementById('prodColor').value,
                 internalStock: parseInt(document.getElementById('prodInternalStock').value),
-                publicStock: parseInt(document.getElementById('prodPublicStock').value) || 0
-            });
-            e.target.reset();
+                alertThreshold: parseInt(document.getElementById('prodAlertThreshold').value) || 5
+            }).then(() => { e.target.reset(); alert("تم إضافة المنتج بنجاح!"); }).catch(err => alert(err.message));
         }
         function deleteProduct(id) { db.ref(`products/${id}`).remove(); }
+
+        function addOrder(e) {
+            e.preventDefault();
+            db.ref('orders').push({
+                customerName: document.getElementById('orderCustName').value,
+                customerPhone: document.getElementById('orderPhone').value,
+                address: document.getElementById('orderAddress').value,
+                productName: document.getElementById('orderProdName').value,
+                barcode: document.getElementById('orderBarcode').value,
+                color: document.getElementById('orderColor').value,
+                quantity: parseInt(document.getElementById('orderQty').value)
+            }).then(() => { e.target.reset(); alert("تم تسجيل الطلب بنجاح!"); }).catch(err => alert(err.message));
+        }
+        function deleteOrder(id) { db.ref(`orders/${id}`).remove(); }
+
+        function addCustomer(e) {
+            e.preventDefault();
+            db.ref('customers').push({
+                name: document.getElementById('custName').value,
+                phones: document.getElementById('custPhones').value,
+                emails: document.getElementById('custEmails').value,
+                addresses: document.getElementById('custAddresses').value
+            }).then(() => { e.target.reset(); alert("تم حفظ بيانات العميل بنجاح!"); }).catch(err => alert(err.message));
+        }
+        function deleteCustomer(id) { db.ref(`customers/${id}`).remove(); }
 
         function addPromo(e) {
             e.preventDefault();
@@ -558,8 +593,7 @@
                 code: document.getElementById('promoCode').value,
                 discount: document.getElementById('promoDiscount').value,
                 limit: parseInt(document.getElementById('promoLimit').value)
-            });
-            e.target.reset();
+            }).then(() => { e.target.reset(); alert("تم إضافة كود الخصم بنجاح!"); }).catch(err => alert(err.message));
         }
         function deletePromo(id) { db.ref(`promos/${id}`).remove(); }
 
@@ -568,8 +602,7 @@
             db.ref('admins').push({
                 username: document.getElementById('newAdminUser').value,
                 password: document.getElementById('newAdminPass').value
-            });
-            e.target.reset();
+            }).then(() => { e.target.reset(); alert("تم إنشاء الحساب الإداري بنجاح!"); }).catch(err => alert(err.message));
         }
         function deleteAdmin(id) { db.ref(`admins/${id}`).remove(); }
     </script>
