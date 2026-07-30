@@ -1,530 +1,577 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Avenue 9 is a curated house of beauty, adornment, and everyday luxuries.">
-  <title>Avenue 9 | Beauty, Adornment, Everyday Luxury</title>
-  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --cream: #f4eee7;
-      --paper: #fcfaf7;
-      --blush: #e8c7c2;
-      --rose: #c88780;
-      --ink: #2f2927;
-      --muted: #7b706b;
-      --gold: #b69a6a;
-      --line: rgba(72, 57, 50, 0.15);
-    }
-
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body {
-      margin: 0;
-      color: var(--ink);
-      background: var(--paper);
-      font-family: "Manrope", sans-serif;
-      overflow-x: hidden;
-    }
-    ::selection { background: var(--blush); color: var(--ink); }
-    .serif { font-family: "Playfair Display", Georgia, serif; }
-    .mono { font-family: "DM Mono", monospace; }
-    .text-ink { color: var(--ink); }
-    .text-muted { color: var(--muted); }
-    .bg-cream { background: var(--cream); }
-    .bg-paper { background: var(--paper); }
-    .gold { color: var(--gold); }
-    .border-line { border-color: var(--line); }
-
-    .site-header {
-      transition: background 300ms ease, box-shadow 300ms ease, padding 300ms ease;
-    }
-    .site-header.scrolled {
-      background: rgba(252, 250, 247, 0.9);
-      color: var(--ink);
-      box-shadow: 0 12px 35px rgba(72, 57, 50, 0.08);
-      backdrop-filter: blur(18px);
-    }
-    .site-header.scrolled .border-white\/20 { border-color: var(--line); }
-    .site-header.scrolled .text-white\/70 { color: var(--muted); }
-    .wordmark { letter-spacing: 0.24em; }
-    .nav-link { position: relative; }
-    .nav-link::after {
-      content: "";
-      position: absolute;
-      bottom: -7px;
-      left: 0;
-      width: 100%;
-      height: 1px;
-      background: var(--gold);
-      transform: scaleX(0);
-      transform-origin: right;
-      transition: transform 250ms ease;
-    }
-    .nav-link:hover::after { transform: scaleX(1); transform-origin: left; }
-
-    .hero-image {
-      animation: heroFloat 14s ease-in-out infinite alternate;
-      transform-origin: center;
-    }
-    .hero-shimmer {
-      background: linear-gradient(100deg, transparent 25%, rgba(255,255,255,0.27) 48%, transparent 68%);
-      background-size: 220% 100%;
-      animation: shimmer 8s ease-in-out infinite;
-    }
-    .rise { animation: rise 900ms cubic-bezier(.22, 1, .36, 1) both; }
-    .delay-1 { animation-delay: 120ms; }
-    .delay-2 { animation-delay: 220ms; }
-    .delay-3 { animation-delay: 320ms; }
-    @keyframes heroFloat {
-      from { transform: scale(1.03) translate3d(0, 0, 0); }
-      to { transform: scale(1.08) translate3d(-1.4%, 1.1%, 0); }
-    }
-    @keyframes shimmer {
-      0%, 45% { background-position: 140% 0; }
-      75%, 100% { background-position: -40% 0; }
-    }
-    @keyframes rise {
-      from { opacity: 0; transform: translateY(24px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes pulseDot {
-      0%, 100% { box-shadow: 0 0 0 0 rgba(182, 154, 106, .3); }
-      50% { box-shadow: 0 0 0 7px rgba(182, 154, 106, 0); }
-    }
-
-    .hero-overlay { background: linear-gradient(90deg, rgba(31, 25, 22, .72) 0%, rgba(31, 25, 22, .4) 42%, rgba(31, 25, 22, .08) 76%, rgba(31, 25, 22, .2) 100%); }
-    .gold-rule { background: linear-gradient(90deg, var(--gold), rgba(182,154,106,0)); }
-    .round-arrow { transition: transform 250ms ease, background 250ms ease; }
-    .group:hover .round-arrow { transform: translateX(4px); background: var(--gold); color: white; }
-
-    .category-image { transition: transform 700ms cubic-bezier(.22,1,.36,1), filter 500ms ease; }
-    .category-item:hover .category-image { transform: scale(1.06); filter: saturate(1.06); }
-    .category-item .category-copy { transition: transform 350ms ease; }
-    .category-item:hover .category-copy { transform: translateY(-4px); }
-    .product-image { transition: transform 600ms cubic-bezier(.22,1,.36,1); }
-    .product-card:hover .product-image { transform: scale(1.055); }
-    .product-card .heart { transition: color 200ms ease, transform 200ms ease; }
-    .product-card .heart:hover { color: var(--rose); transform: scale(1.14); }
-    .product-card.is-added .add-label { color: var(--rose); }
-
-    .filter-button { transition: color 200ms ease; }
-    .filter-button.active { color: var(--ink); }
-    .filter-button.active::after {
-      content: "";
-      display: block;
-      height: 1px;
-      margin-top: 6px;
-      background: var(--gold);
-    }
-    .hidden-product { display: none; }
-
-    .drawer { transition: opacity 300ms ease, visibility 300ms ease; }
-    .drawer-panel { transition: transform 400ms cubic-bezier(.22,1,.36,1); }
-    .drawer.is-open { opacity: 1; visibility: visible; }
-    .drawer.is-open .drawer-panel { transform: translateX(0); }
-    .drawer:not(.is-open) { opacity: 0; visibility: hidden; pointer-events: none; }
-    .drawer:not(.is-open) .drawer-panel { transform: translateX(100%); }
-    .mobile-menu { transition: opacity 250ms ease, transform 250ms ease; }
-    .mobile-menu:not(.is-open) { opacity: 0; pointer-events: none; transform: translateY(-10px); }
-    .mobile-menu.is-open { opacity: 1; transform: translateY(0); }
-    .toast { transition: opacity 250ms ease, transform 250ms ease; }
-    .toast:not(.show) { opacity: 0; pointer-events: none; transform: translateY(10px); }
-
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; transition-duration: .01ms !important; }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AURÉLIA - لوحة الإدارة والتشغيل</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        luxury: {
+                            gold: '#c5a059',
+                            dark: '#1a1a1a',
+                            cream: '#f9f6f0',
+                            sand: '#e8e2d2',
+                            accent: '#8c6d36'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Cairo', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif']
+                    }
+                }
+            }
+        }
+    </script>
 </head>
-<body>
-  <header id="site-header" class="site-header fixed inset-x-0 top-0 z-40 text-white">
-    <div class="mx-auto max-w-[1440px] px-5 sm:px-8 lg:px-12">
-      <div class="flex h-[76px] items-center justify-between border-b border-white/20">
-        <button id="mobile-toggle" class="flex h-10 w-10 items-center justify-center lg:hidden" aria-label="Open menu" aria-expanded="false">
-          <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
-        </button>
-        <nav class="hidden items-center gap-8 text-[10px] uppercase tracking-[0.22em] lg:flex" aria-label="Primary navigation">
-          <a class="nav-link" href="#shop">Shop</a>
-          <a class="nav-link" href="#story">Our story</a>
-          <a class="nav-link" href="#journal">Journal</a>
-        </nav>
-        <a href="#top" class="absolute left-1/2 -translate-x-1/2 text-center">
-          <span class="wordmark block text-[19px] font-semibold leading-none">AVENUE 9</span>
-          <span class="mt-1 block text-[7px] uppercase tracking-[0.38em] text-white/70">Beauty & adornment</span>
-        </a>
-        <div class="flex items-center gap-3 sm:gap-5">
-          <button id="search-toggle" class="hidden h-10 w-10 items-center justify-center sm:flex" aria-label="Search">
-            <svg class="h-[18px] w-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="10.8" cy="10.8" r="6.8"/><path d="m16 16 5 5"/></svg>
-          </button>
-          <button id="bag-toggle" class="relative flex h-10 items-center gap-2" aria-label="Open shopping bag">
-            <svg class="h-[18px] w-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M5 8.5h14l-1 12H6l-1-12Z"/><path d="M8.5 9V6.8a3.5 3.5 0 0 1 7 0V9"/></svg>
-            <span class="hidden text-[10px] uppercase tracking-[0.2em] sm:inline">Bag</span>
-            <span id="bag-count" class="absolute -right-2 -top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-[#b69a6a] px-1 text-[9px] text-white">0</span>
-          </button>
+<body class="bg-luxury-cream text-luxury-dark font-sans antialiased min-h-screen">
+
+    <!-- Login Modal / Screen -->
+    <div id="loginScreen" class="fixed inset-0 z-50 flex items-center justify-center bg-luxury-dark/80 backdrop-blur-sm">
+        <div class="bg-white p-8 rounded-2xl shadow-2xl w-full max-w-md border border-luxury-gold/30">
+            <div class="text-center mb-8">
+                <h1 class="font-serif text-3xl font-bold tracking-wider text-luxury-dark">AURÉLIA</h1>
+                <p class="text-sm text-gray-500 mt-2">نظام الإدارة والتشغيل المركزي</p>
+            </div>
+            <form id="loginForm" onsubmit="handleLogin(event)" class="space-y-6">
+                <div>
+                    <label class="block text-sm font-semibold mb-2">اسم المستخدم</label>
+                    <input type="text" id="username" required class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:border-luxury-gold transition" placeholder="أدخل اسم المستخدم">
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold mb-2">كلمة المرور</label>
+                    <input type="password" id="password" required class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:border-luxury-gold transition" placeholder="أدخل كلمة المرور">
+                </div>
+                <button type="submit" class="w-full py-3 bg-luxury-gold text-white font-semibold rounded-lg hover:bg-luxury-accent transition shadow-lg">تسجيل الدخول</button>
+                <div id="loginError" class="text-red-500 text-sm text-center hidden">بيانات الدخول غير صحيحة. يرجى المحاولة مرة أخرى.</div>
+            </form>
         </div>
-      </div>
     </div>
-    <div id="search-bar" class="hidden border-b border-white/20 bg-[#3d302b]/90 backdrop-blur-xl">
-      <div class="mx-auto max-w-[1440px] px-5 py-4 sm:px-8 lg:px-12">
-        <label class="flex items-center gap-3 text-white/70" for="search-input">
-          <svg class="h-5 w-5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="10.8" cy="10.8" r="6.8"/><path d="m16 16 5 5"/></svg>
-          <input id="search-input" class="w-full bg-transparent text-sm text-white outline-none placeholder:text-white/50" placeholder="Search beauty, jewelry, and objects..." type="search">
-          <button id="search-close" class="text-[10px] uppercase tracking-[0.2em] text-white/70">Close</button>
-        </label>
-      </div>
+
+    <!-- Main Dashboard Container -->
+    <div id="dashboardApp" class="hidden flex h-screen overflow-hidden">
+        
+        <!-- Sidebar -->
+        <aside class="w-64 bg-luxury-dark text-white flex flex-col justify-between shadow-xl">
+            <div>
+                <div class="p-6 border-b border-gray-800 text-center">
+                    <h2 class="font-serif text-2xl font-bold tracking-widest text-luxury-gold">AURÉLIA</h2>
+                    <span class="text-xs text-gray-400">لوحة التحكم الإدارية</span>
+                </div>
+                <nav class="p-4 space-y-2">
+                    <button onclick="switchTab('overview')" class="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium hover:bg-luxury-gold/20 text-luxury-gold transition tab-btn active" data-tab="overview"><i class="fa-solid fa-chart-pie w-5"></i> نظرة عامة</button>
+                    <button onclick="switchTab('categories')" class="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium hover:bg-luxury-gold/20 text-gray-300 hover:text-white transition tab-btn" data-tab="categories"><i class="fa-solid fa-folder-tree w-5"></i> المجلدات والأقسام</button>
+                    <button onclick="switchTab('products')" class="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium hover:bg-luxury-gold/20 text-gray-300 hover:text-white transition tab-btn" data-tab="products"><i class="fa-solid fa-gem w-5"></i> المنتجات والمخزون</button>
+                    <button onclick="switchTab('orders')" class="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium hover:bg-luxury-gold/20 text-gray-300 hover:text-white transition tab-btn" data-tab="orders"><i class="fa-solid fa-box-open w-5"></i> إدارة الطلبات</button>
+                    <button onclick="switchTab('customers')" class="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium hover:bg-luxury-gold/20 text-gray-300 hover:text-white transition tab-btn" data-tab="customers"><i class="fa-solid fa-users w-5"></i> قاعدة العملاء</button>
+                    <button onclick="switchTab('promos')" class="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium hover:bg-luxury-gold/20 text-gray-300 hover:text-white transition tab-btn" data-tab="promos"><i class="fa-solid fa-ticket w-5"></i> أكواد الخصم</button>
+                    <button onclick="switchTab('layout')" class="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium hover:bg-luxury-gold/20 text-gray-300 hover:text-white transition tab-btn" data-tab="layout"><i class="fa-solid fa-sliders w-5"></i> تخطيط الواجهة</button>
+                    <button onclick="switchTab('admins')" class="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium hover:bg-luxury-gold/20 text-gray-300 hover:text-white transition tab-btn" data-tab="admins"><i class="fa-solid fa-user-shield w-5"></i> حسابات الإدارة</button>
+                </nav>
+            </div>
+            <div class="p-4 border-t border-gray-800">
+                <button onclick="logout()" class="w-full flex items-center justify-center gap-2 py-2.5 bg-red-600/20 text-red-400 hover:bg-red-600 hover:text-white rounded-lg transition text-sm font-semibold"><i class="fa-solid fa-arrow-right-from-bracket"></i> تسجيل الخروج</button>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="flex-1 flex flex-col overflow-y-auto">
+            <!-- Top Header -->
+            <header class="bg-white border-b border-gray-200 px-8 py-4 flex justify-between items-center shadow-sm">
+                <div class="flex items-center gap-4">
+                    <h3 id="currentTabTitle" class="font-serif text-xl font-bold text-luxury-dark">نظرة عامة</h3>
+                </div>
+                <div class="flex items-center gap-4">
+                    <span id="adminNameDisplay" class="text-sm font-semibold text-gray-600">Mohamed Nasser</span>
+                    <div class="w-10 h-10 rounded-full bg-luxury-gold text-white flex items-center justify-center font-bold">MN</div>
+                </div>
+            </header>
+
+            <!-- Dynamic Tab Contents -->
+            <div class="p-8 space-y-6">
+                
+                <!-- OVERVIEW TAB -->
+                <div id="tab-overview" class="tab-content space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                        <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-center justify-between">
+                            <div>
+                                <p class="text-sm text-gray-500">إجمالي المنتجات</p>
+                                <h4 id="statProducts" class="text-2xl font-bold mt-1">0</h4>
+                            </div>
+                            <div class="w-12 h-12 rounded-lg bg-luxury-gold/10 text-luxury-gold flex items-center justify-center text-xl"><i class="fa-solid fa-gem"></i></div>
+                        </div>
+                        <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-center justify-between">
+                            <div>
+                                <p class="text-sm text-gray-500">إجمالي الطلبات</p>
+                                <h4 id="statOrders" class="text-2xl font-bold mt-1">0</h4>
+                            </div>
+                            <div class="w-12 h-12 rounded-lg bg-blue-500/10 text-blue-500 flex items-center justify-center text-xl"><i class="fa-solid fa-box-open"></i></div>
+                        </div>
+                        <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-center justify-between">
+                            <div>
+                                <p class="text-sm text-gray-500">العملاء المسجلون</p>
+                                <h4 id="statCustomers" class="text-2xl font-bold mt-1">0</h4>
+                            </div>
+                            <div class="w-12 h-12 rounded-lg bg-green-500/10 text-green-500 flex items-center justify-center text-xl"><i class="fa-solid fa-users"></i></div>
+                        </div>
+                        <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-center justify-between">
+                            <div>
+                                <p class="text-sm text-gray-500">أكواد الخصم النشطة</p>
+                                <h4 id="statPromos" class="text-2xl font-bold mt-1">0</h4>
+                            </div>
+                            <div class="w-12 h-12 rounded-lg bg-purple-500/10 text-purple-500 flex items-center justify-center text-xl"><i class="fa-solid fa-ticket"></i></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CATEGORIES TAB -->
+                <div id="tab-categories" class="tab-content hidden space-y-6">
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                        <h4 class="font-serif text-lg font-bold mb-4">إضافة مجلد أو قسم جديد</h4>
+                        <form onsubmit="addCategory(event)" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <input type="text" id="catName" placeholder="اسم القسم (مثال: مجوهرات، مكياج)" required class="px-4 py-2.5 rounded-lg border border-gray-300 focus:outline-none focus:border-luxury-gold">
+                            <input type="text" id="subCatName" placeholder="التفريعات (مفصولة بفاصلة مثل: سلاسل,خواتم)" class="px-4 py-2.5 rounded-lg border border-gray-300 focus:outline-none focus:border-luxury-gold">
+                            <button type="submit" class="bg-luxury-gold text-white font-semibold rounded-lg hover:bg-luxury-accent transition py-2.5">حفظ القسم</button>
+                        </form>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                        <h4 class="font-serif text-lg font-bold mb-4">الأقسام الحالية</h4>
+                        <div id="categoriesList" class="space-y-3"></div>
+                    </div>
+                </div>
+
+                <!-- PRODUCTS TAB -->
+                <div id="tab-products" class="tab-content hidden space-y-6">
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                        <h4 class="font-serif text-lg font-bold mb-4">إضافة منتج جديد</h4>
+                        <form onsubmit="addProduct(event)" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <input type="text" id="prodName" placeholder="اسم المنتج" required class="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:border-luxury-gold">
+                            <input type="text" id="prodImg" placeholder="رابط صورة المنتج (URL)" required class="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:border-luxury-gold">
+                            <select id="prodCategory" required class="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:border-luxury-gold">
+                                <option value="">اختر القسم الرئيسي والفرعي</option>
+                            </select>
+                            <input type="number" id="prodPrice" placeholder="السعر الأساسي" required class="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:border-luxury-gold">
+                            <input type="number" id="prodDiscountPrice" placeholder="سعر العرض (اختياري)" class="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:border-luxury-gold">
+                            <input type="number" id="prodDiscountDays" placeholder="مدة العرض بالأيام (افتراضي 7 أيام)" value="7" class="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:border-luxury-gold">
+                            <input type="text" id="prodBarcode" placeholder="الباركود (خاص بالإدارة فقط)" required class="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:border-luxury-gold">
+                            <input type="text" id="prodColor" placeholder="اللون" required class="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:border-luxury-gold">
+                            <input type="number" id="prodInternalStock" placeholder="الكمية الداخلية (الإدارة: 0 تعني Sold Out)" required class="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:border-luxury-gold">
+                            <input type="number" id="prodPublicStock" placeholder="الكمية للعملاء (اختياري للدعاية / تنبيه عند أقل من 5)" class="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:border-luxury-gold">
+                            <button type="submit" class="md:col-span-3 bg-luxury-gold text-white font-semibold rounded-lg hover:bg-luxury-accent transition py-3">إضافة المنتج للنظام</button>
+                        </form>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                        <h4 class="font-serif text-lg font-bold mb-4">قائمة المنتجات والمخزون</h4>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-right border-collapse">
+                                <thead>
+                                    <tr class="border-b border-gray-200 text-gray-500 text-sm">
+                                        <th class="py-3 px-4">الصورة</th>
+                                        <th class="py-3 px-4">اسم المنتج</th>
+                                        <th class="py-3 px-4">القسم</th>
+                                        <th class="py-3 px-4">السعر العادي/العرض</th>
+                                        <th class="py-3 px-4">الباركود (سري)</th>
+                                        <th class="py-3 px-4">المخزون الداخلي</th>
+                                        <th class="py-3 px-4">الحالة</th>
+                                        <th class="py-3 px-4">إجراء</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="productsTableBody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ORDERS TAB -->
+                <div id="tab-orders" class="tab-content hidden space-y-6">
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                        <h4 class="font-serif text-lg font-bold mb-4">سجل الطلبات الواردة</h4>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-right border-collapse">
+                                <thead>
+                                    <tr class="border-b border-gray-200 text-gray-500 text-sm">
+                                        <th class="py-3 px-4">اسم العميل</th>
+                                        <th class="py-3 px-4">رقم الهاتف</th>
+                                        <th class="py-3 px-4">العنوان</th>
+                                        <th class="py-3 px-4">المنتج</th>
+                                        <th class="py-3 px-4">الباركود واللون</th>
+                                        <th class="py-3 px-4">الكمية</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="ordersTableBody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CUSTOMERS TAB -->
+                <div id="tab-customers" class="tab-content hidden space-y-6">
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                        <h4 class="font-serif text-lg font-bold mb-4">قاعدة بيانات العملاء</h4>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-right border-collapse">
+                                <thead>
+                                    <tr class="border-b border-gray-200 text-gray-500 text-sm">
+                                        <th class="py-3 px-4">اسم العميل</th>
+                                        <th class="py-3 px-4">أرقام الهواتف</th>
+                                        <th class="py-3 px-4">البريد الإلكتروني</th>
+                                        <th class="py-3 px-4">العناوين</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="customersTableBody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PROMO CODES TAB -->
+                <div id="tab-promos" class="tab-content hidden space-y-6">
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                        <h4 class="font-serif text-lg font-bold mb-4">إضافة كود خصم جديد</h4>
+                        <form onsubmit="addPromo(event)" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <input type="text" id="promoCode" placeholder="كود الخصم (مثال: AUR50)" required class="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:border-luxury-gold">
+                            <input type="number" id="promoDiscount" placeholder="نسبة الخصم % أو القيمة" required class="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:border-luxury-gold">
+                            <input type="number" id="promoLimit" placeholder="عدد مرات الاستخدام المسموحة" required class="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:border-luxury-gold">
+                            <button type="submit" class="md:col-span-3 bg-luxury-gold text-white font-semibold rounded-lg hover:bg-luxury-accent transition py-2.5">إضافة الكود</button>
+                        </form>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                        <h4 class="font-serif text-lg font-bold mb-4">أكواد الخصم النشطة وتتبع الاستخدام</h4>
+                        <div id="promosList" class="space-y-3"></div>
+                    </div>
+                </div>
+
+                <!-- LAYOUT CUSTOMIZER TAB -->
+                <div id="tab-layout" class="tab-content hidden space-y-6">
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                        <h4 class="font-serif text-lg font-bold mb-4">تخصيص وترتيب أقسام واجهة المتجر</h4>
+                        <p class="text-sm text-gray-500 mb-4">قم بسحب وإفلات العناصر أو تغيير ترتيبها البصري لتنعكس على الواجهة الأمامية للمتجر.</p>
+                        <div id="layoutBoxes" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div draggable="true" class="p-6 bg-luxury-cream border border-luxury-gold/30 rounded-xl cursor-move flex justify-between items-center shadow-sm">
+                                <div><h5 class="font-bold">قسم الماركات والفئات (Categories Section)</h5><p class="text-xs text-gray-500">العرض الأساسي للفئات الرئيسية</p></div>
+                                <i class="fa-solid fa-grip-vertical text-gray-400"></i>
+                            </div>
+                            <div draggable="true" class="p-6 bg-luxury-cream border border-luxury-gold/30 rounded-xl cursor-move flex justify-between items-center shadow-sm">
+                                <div><h5 class="font-bold">قسم الأكثر مبيعاً (Bestsellers Section)</h5><p class="text-xs text-gray-500">عرض المنتجات المميزة والخصومات</p></div>
+                                <i class="fa-solid fa-grip-vertical text-gray-400"></i>
+                            </div>
+                            <div draggable="true" class="p-6 bg-luxury-cream border border-luxury-gold/30 rounded-xl cursor-move flex justify-between items-center shadow-sm">
+                                <div><h5 class="font-bold">قسم العروض المؤقتة (Timed Offers)</h5><p class="text-xs text-gray-500">العد التنازلي للخصومات</p></div>
+                                <i class="fa-solid fa-grip-vertical text-gray-400"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ADMINS TAB -->
+                <div id="tab-admins" class="tab-content hidden space-y-6">
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                        <h4 class="font-serif text-lg font-bold mb-4">إضافة حساب إداري فرعي جديد</h4>
+                        <form onsubmit="addAdminAccount(event)" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <input type="text" id="newAdminUser" placeholder="اسم المستخدم الجديد" required class="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:border-luxury-gold">
+                            <input type="password" id="newAdminPass" placeholder="كلمة المرور" required class="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:border-luxury-gold">
+                            <button type="submit" class="bg-luxury-gold text-white font-semibold rounded-lg hover:bg-luxury-accent transition py-2">إنشاء الحساب</button>
+                        </form>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                        <h4 class="font-serif text-lg font-bold mb-4">حسابات الإدارة المسجلة</h4>
+                        <div id="adminsList" class="space-y-2"></div>
+                    </div>
+                </div>
+
+            </div>
+        </main>
     </div>
-    <div id="mobile-menu" class="mobile-menu absolute left-0 right-0 top-[76px] border-b border-[#4a3c36]/15 bg-[#fcfaf7] text-ink shadow-xl lg:hidden">
-      <nav class="flex flex-col px-6 py-5 text-[11px] uppercase tracking-[0.2em]" aria-label="Mobile navigation">
-        <a class="border-b border-line py-4" href="#shop">Shop</a>
-        <a class="border-b border-line py-4" href="#story">Our story</a>
-        <a class="border-b border-line py-4" href="#journal">Journal</a>
-        <a class="py-4" href="#newsletter">Join the circle</a>
-      </nav>
-    </div>
-  </header>
 
-  <main id="top">
-    <section class="relative isolate flex min-h-[720px] items-end overflow-hidden bg-[#473b35] sm:min-h-[820px] lg:min-h-[min(900px,100vh)]" aria-labelledby="hero-title">
-      <img class="hero-image absolute inset-0 h-full w-full object-cover object-center" src="https://images.pexels.com/photos/7256160/pexels-photo-7256160.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=2400&h=1600" alt="Makeup brushes and cosmetics arranged on a warm beige surface">
-      <div class="hero-overlay absolute inset-0"></div>
-      <div class="hero-shimmer pointer-events-none absolute inset-0 opacity-50"></div>
-      <div class="relative z-10 mx-auto w-full max-w-[1440px] px-5 pb-20 pt-48 sm:px-8 sm:pb-24 lg:px-12 lg:pb-28">
-        <div class="max-w-[680px] text-white">
-          <p class="rise mono mb-7 text-[10px] uppercase tracking-[0.3em] text-[#e8c7c2]">The new ritual / 2024 collection</p>
-          <h1 id="hero-title" class="rise delay-1 serif text-[clamp(3.6rem,8vw,8rem)] leading-[.88] tracking-[-0.05em]">Objects of<br><em>devotion.</em></h1>
-          <p class="rise delay-2 mt-8 max-w-[380px] text-[13px] leading-6 text-white/80 sm:text-sm">A considered edit of sensorial beauty and lasting adornment, made for the everyday extraordinary.</p>
-          <div class="rise delay-3 mt-9 flex flex-wrap items-center gap-6">
-            <a href="#shop" class="group inline-flex items-center gap-4 border border-white/70 px-5 py-3 text-[10px] uppercase tracking-[0.24em] transition-colors hover:border-white hover:bg-white hover:text-ink">Explore the edit <span class="round-arrow flex h-6 w-6 items-center justify-center rounded-full border border-white/60">&rarr;</span></a>
-            <a href="#story" class="text-[10px] uppercase tracking-[0.24em] text-white/75 transition-colors hover:text-white">Meet Avenue 9</a>
-          </div>
-        </div>
-        <div class="mt-20 flex items-end justify-between border-t border-white/25 pt-5 text-[10px] uppercase tracking-[0.2em] text-white/65 sm:mt-28">
-          <span>Curated in New York</span>
-          <span class="hidden sm:inline">Scroll to discover <span class="ml-2 text-[#e8c7c2]">&darr;</span></span>
-        </div>
-      </div>
-    </section>
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
-    <section id="shop" class="bg-paper px-5 py-24 sm:px-8 sm:py-32 lg:px-12" aria-labelledby="categories-title">
-      <div class="mx-auto max-w-[1440px]">
-        <div class="mb-12 flex flex-col justify-between gap-5 md:flex-row md:items-end">
-          <div>
-            <p class="mono mb-4 text-[10px] uppercase tracking-[0.28em] gold">01 / The edit</p>
-            <h2 id="categories-title" class="serif text-4xl leading-none sm:text-5xl">Find your <em>essential.</em></h2>
-          </div>
-          <p class="max-w-[285px] text-xs leading-5 text-muted">Pieces with a point of view. Rituals to return to. Start anywhere.</p>
-        </div>
-        <div class="grid grid-cols-2 gap-x-3 gap-y-10 sm:gap-x-5 lg:grid-cols-4">
-          <a class="category-item group block" href="#featured" data-filter-link="beauty">
-            <div class="relative aspect-[.78] overflow-hidden bg-[#eadad2]">
-              <img class="category-image h-full w-full object-cover" src="https://images.pexels.com/photos/4832435/pexels-photo-4832435.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=1100" alt="Pink cosmetic bottle on a marble surface" loading="lazy">
-            </div>
-            <div class="category-copy mt-5 flex items-center justify-between border-b border-line pb-3">
-              <div><h3 class="serif text-2xl">Beauty</h3><p class="mt-1 text-[10px] uppercase tracking-[0.2em] text-muted">16 essentials</p></div>
-              <span class="round-arrow flex h-8 w-8 items-center justify-center rounded-full border border-line text-lg">&rarr;</span>
-            </div>
-          </a>
-          <a class="category-item group block" href="#featured" data-filter-link="jewelry">
-            <div class="relative aspect-[.78] overflow-hidden bg-[#e8e1d8]">
-              <img class="category-image h-full w-full object-cover" src="https://images.pexels.com/photos/32797482/pexels-photo-32797482.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=1100" alt="Gold jewelry set on a creamy background" loading="lazy">
-            </div>
-            <div class="category-copy mt-5 flex items-center justify-between border-b border-line pb-3">
-              <div><h3 class="serif text-2xl">Jewelry</h3><p class="mt-1 text-[10px] uppercase tracking-[0.2em] text-muted">24 essentials</p></div>
-              <span class="round-arrow flex h-8 w-8 items-center justify-center rounded-full border border-line text-lg">&rarr;</span>
-            </div>
-          </a>
-          <a class="category-item group block" href="#featured" data-filter-link="fragrance">
-            <div class="relative aspect-[.78] overflow-hidden bg-[#dfb9b6]">
-              <img class="category-image h-full w-full object-cover" src="https://images.pexels.com/photos/30999189/pexels-photo-30999189.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=1100" alt="Perfume bottles on a blush pink background" loading="lazy">
-            </div>
-            <div class="category-copy mt-5 flex items-center justify-between border-b border-line pb-3">
-              <div><h3 class="serif text-2xl">Fragrance</h3><p class="mt-1 text-[10px] uppercase tracking-[0.2em] text-muted">09 essentials</p></div>
-              <span class="round-arrow flex h-8 w-8 items-center justify-center rounded-full border border-line text-lg">&rarr;</span>
-            </div>
-          </a>
-          <a class="category-item group block" href="#featured" data-filter-link="objects">
-            <div class="relative aspect-[.78] overflow-hidden bg-[#d7c7b3]">
-              <img class="category-image h-full w-full object-cover" src="https://images.pexels.com/photos/32874210/pexels-photo-32874210.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=1100" alt="Delicate gold chain on a creamy backdrop" loading="lazy">
-            </div>
-            <div class="category-copy mt-5 flex items-center justify-between border-b border-line pb-3">
-              <div><h3 class="serif text-2xl">Objects</h3><p class="mt-1 text-[10px] uppercase tracking-[0.2em] text-muted">12 essentials</p></div>
-              <span class="round-arrow flex h-8 w-8 items-center justify-center rounded-full border border-line text-lg">&rarr;</span>
-            </div>
-          </a>
-        </div>
-      </div>
-    </section>
+    <script>
+        // Firebase Configuration
+        const firebaseConfig = {
+            databaseURL: "https://mohamed-a9564-default-rtdb.firebaseio.com/"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
 
-    <section id="featured" class="bg-cream px-5 py-24 sm:px-8 sm:py-32 lg:px-12" aria-labelledby="featured-title">
-      <div class="mx-auto max-w-[1440px]">
-        <div class="flex flex-col justify-between gap-8 border-b border-line pb-8 md:flex-row md:items-end">
-          <div>
-            <p class="mono mb-4 text-[10px] uppercase tracking-[0.28em] gold">02 / On the shelf</p>
-            <h2 id="featured-title" class="serif text-4xl leading-none sm:text-5xl">The <em>featured</em> few</h2>
-          </div>
-          <div class="flex items-center gap-5 text-[10px] uppercase tracking-[0.2em] text-muted" role="tablist" aria-label="Filter featured products">
-            <button class="filter-button active" data-filter="all" role="tab" aria-selected="true">All</button>
-            <button class="filter-button" data-filter="beauty" role="tab" aria-selected="false">Beauty</button>
-            <button class="filter-button" data-filter="jewelry" role="tab" aria-selected="false">Jewelry</button>
-            <button class="filter-button" data-filter="fragrance" role="tab" aria-selected="false">Fragrance</button>
-          </div>
-        </div>
-        <div id="product-grid" class="mt-10 grid grid-cols-2 gap-x-3 gap-y-12 sm:grid-cols-2 sm:gap-x-5 lg:grid-cols-4">
-          <article class="product-card group" data-category="beauty">
-            <div class="relative aspect-[.82] overflow-hidden bg-[#e6d0c9]">
-              <img class="product-image h-full w-full object-cover" src="https://images.pexels.com/photos/31251024/pexels-photo-31251024.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=1100" alt="Colorful skincare dropper bottles" loading="lazy">
-              <button class="heart absolute right-4 top-4 text-white" aria-label="Add Dew Serum to wishlist"><svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M20.8 8.8c0 5.1-8.8 10.2-8.8 10.2S3.2 13.9 3.2 8.8A4.7 4.7 0 0 1 12 6.2a4.7 4.7 0 0 1 8.8 2.6Z"/></svg></button>
-            </div>
-            <div class="pt-4"><div class="flex items-start justify-between gap-3"><div><h3 class="serif text-xl">Dew Serum</h3><p class="mt-1 text-[10px] uppercase tracking-[0.16em] text-muted">Skin / 30 ml</p></div><p class="text-xs">$68</p></div><button class="add-to-bag add-label mt-5 text-[10px] uppercase tracking-[0.2em] text-muted hover:text-ink" data-product="Dew Serum" data-price="68">+ Add to bag</button></div>
-          </article>
-          <article class="product-card group" data-category="jewelry">
-            <div class="relative aspect-[.82] overflow-hidden bg-[#e7ddd0]">
-              <img class="product-image h-full w-full object-cover" src="https://images.pexels.com/photos/32797483/pexels-photo-32797483.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=1100" alt="Gold and diamond rings on a cream braided rope" loading="lazy">
-              <button class="heart absolute right-4 top-4 text-[#b59b7a]" aria-label="Add Arc Ring to wishlist"><svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M20.8 8.8c0 5.1-8.8 10.2-8.8 10.2S3.2 13.9 3.2 8.8A4.7 4.7 0 0 1 12 6.2a4.7 4.7 0 0 1 8.8 2.6Z"/></svg></button>
-            </div>
-            <div class="pt-4"><div class="flex items-start justify-between gap-3"><div><h3 class="serif text-xl">Arc Ring</h3><p class="mt-1 text-[10px] uppercase tracking-[0.16em] text-muted">14k gold vermeil</p></div><p class="text-xs">$124</p></div><button class="add-to-bag add-label mt-5 text-[10px] uppercase tracking-[0.2em] text-muted hover:text-ink" data-product="Arc Ring" data-price="124">+ Add to bag</button></div>
-          </article>
-          <article class="product-card group" data-category="fragrance">
-            <div class="relative aspect-[.82] overflow-hidden bg-[#e8c1bd]">
-              <img class="product-image h-full w-full object-cover" src="https://images.pexels.com/photos/30999189/pexels-photo-30999189.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=1100" alt="Elegant perfume bottles on a pink background" loading="lazy">
-              <button class="heart absolute right-4 top-4 text-white" aria-label="Add No. 09 Eau de Parfum to wishlist"><svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M20.8 8.8c0 5.1-8.8 10.2-8.8 10.2S3.2 13.9 3.2 8.8A4.7 4.7 0 0 1 12 6.2a4.7 4.7 0 0 1 8.8 2.6Z"/></svg></button>
-            </div>
-            <div class="pt-4"><div class="flex items-start justify-between gap-3"><div><h3 class="serif text-xl">No. 09</h3><p class="mt-1 text-[10px] uppercase tracking-[0.16em] text-muted">Eau de parfum / 50 ml</p></div><p class="text-xs">$96</p></div><button class="add-to-bag add-label mt-5 text-[10px] uppercase tracking-[0.2em] text-muted hover:text-ink" data-product="No. 09 Eau de Parfum" data-price="96">+ Add to bag</button></div>
-          </article>
-          <article class="product-card group" data-category="jewelry">
-            <div class="relative aspect-[.82] overflow-hidden bg-[#dfd4c3]">
-              <img class="product-image h-full w-full object-cover" src="https://images.pexels.com/photos/32874210/pexels-photo-32874210.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=1100" alt="Delicate gold chain with beads" loading="lazy">
-              <button class="heart absolute right-4 top-4 text-[#b59b7a]" aria-label="Add Linea Chain to wishlist"><svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M20.8 8.8c0 5.1-8.8 10.2-8.8 10.2S3.2 13.9 3.2 8.8A4.7 4.7 0 0 1 12 6.2a4.7 4.7 0 0 1 8.8 2.6Z"/></svg></button>
-            </div>
-            <div class="pt-4"><div class="flex items-start justify-between gap-3"><div><h3 class="serif text-xl">Linea Chain</h3><p class="mt-1 text-[10px] uppercase tracking-[0.16em] text-muted">Gold plated brass</p></div><p class="text-xs">$88</p></div><button class="add-to-bag add-label mt-5 text-[10px] uppercase tracking-[0.2em] text-muted hover:text-ink" data-product="Linea Chain" data-price="88">+ Add to bag</button></div>
-          </article>
-        </div>
-        <div id="no-results" class="hidden py-20 text-center"><p class="serif text-2xl">A quiet shelf.</p><p class="mt-2 text-xs text-muted">More pieces are being considered.</p></div>
-        <div class="mt-14 text-center"><a href="#newsletter" class="inline-block border-b border-[#b69a6a] pb-2 text-[10px] uppercase tracking-[0.24em] transition-colors hover:text-[#b69a6a]">View all pieces</a></div>
-      </div>
-    </section>
+        // Authentication Handler
+        function handleLogin(e) {
+            e.preventDefault();
+            const u = document.getElementById('username').value.trim();
+            const p = document.getElementById('password').value.trim();
+            
+            if ((u === "Mohamed Nasser" && p === "Mohamed59*")) {
+                localStorage.setItem('aurelia_admin', u);
+                initDashboard(u);
+                return;
+            }
 
-    <section id="story" class="overflow-hidden bg-[#3d302b] text-white" aria-labelledby="story-title">
-      <div class="mx-auto grid max-w-[1440px] lg:grid-cols-[.9fr_1.1fr]">
-        <div class="flex flex-col justify-center px-5 py-24 sm:px-8 sm:py-32 lg:px-12 lg:py-36">
-          <p class="mono mb-5 text-[10px] uppercase tracking-[0.28em] text-[#e8c7c2]">03 / A point of view</p>
-          <h2 id="story-title" class="serif max-w-[470px] text-4xl leading-[1.02] sm:text-6xl">Less, but <em>lovelier.</em></h2>
-          <div class="gold-rule my-8 h-px w-24"></div>
-          <p class="max-w-[390px] text-sm leading-7 text-white/65">Avenue 9 is a study in the objects we keep close. We look for considered ingredients, enduring forms, and the little luxuries that make a day feel more like yours.</p>
-          <a href="#newsletter" class="mt-9 w-fit border-b border-white/45 pb-2 text-[10px] uppercase tracking-[0.24em] text-white/85 transition-colors hover:border-[#e8c7c2] hover:text-[#e8c7c2]">Read our story</a>
-        </div>
-        <div class="relative min-h-[490px] overflow-hidden lg:min-h-[650px]">
-          <img class="h-full w-full object-cover object-center opacity-90" src="https://images.pexels.com/photos/7256092/pexels-photo-7256092.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=1600&h=1200" alt="Beauty products arranged in a refined editorial composition" loading="lazy">
-          <div class="absolute inset-0 bg-gradient-to-r from-[#3d302b] via-transparent to-transparent opacity-60"></div>
-        </div>
-      </div>
-    </section>
+            // Check sub-admins in Firebase
+            db.ref('admins').once('value').then(snapshot => {
+                const admins = snapshot.val() || {};
+                let found = false;
+                for (let key in admins) {
+                    if (admins[key].username === u && admins[key].password === p) {
+                        found = true;
+                        break;
+                    }
+                }
+                if (found) {
+                    localStorage.setItem('aurelia_admin', u);
+                    initDashboard(u);
+                } else {
+                    document.getElementById('loginError').classList.remove('hidden');
+                }
+            });
+        }
 
-    <section id="journal" class="bg-paper px-5 py-24 sm:px-8 sm:py-32 lg:px-12" aria-labelledby="journal-title">
-      <div class="mx-auto max-w-[1440px]">
-        <div class="mb-12 flex items-end justify-between border-b border-line pb-7">
-          <div><p class="mono mb-4 text-[10px] uppercase tracking-[0.28em] gold">04 / The journal</p><h2 id="journal-title" class="serif text-4xl sm:text-5xl">Notes on <em>ritual.</em></h2></div>
-          <a href="#newsletter" class="hidden text-[10px] uppercase tracking-[0.2em] text-muted transition-colors hover:text-ink sm:block">Read all notes &rarr;</a>
-        </div>
-        <div class="grid gap-10 md:grid-cols-3 md:gap-6">
-          <article class="group">
-            <div class="aspect-[1.15] overflow-hidden bg-[#edd9d3]"><img class="category-image h-full w-full object-cover" src="https://images.pexels.com/photos/7256133/pexels-photo-7256133.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=1100&h=900" alt="Crushed cosmetic powder in a container on a pink backdrop" loading="lazy"></div>
-            <p class="mono mt-5 text-[9px] uppercase tracking-[0.2em] gold">Beauty notes / 04 min</p><h3 class="serif mt-3 text-2xl leading-tight">The art of a slower morning</h3><a href="#newsletter" class="mt-4 inline-block text-[10px] uppercase tracking-[0.2em] text-muted transition-colors hover:text-ink">Read note &rarr;</a>
-          </article>
-          <article class="group">
-            <div class="aspect-[1.15] overflow-hidden bg-[#e7ddd0]"><img class="category-image h-full w-full object-cover" src="https://images.pexels.com/photos/28716779/pexels-photo-28716779.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=1100&h=900" alt="A geometric gold earring worn by a model" loading="lazy"></div>
-            <p class="mono mt-5 text-[9px] uppercase tracking-[0.2em] gold">Adorn / 03 min</p><h3 class="serif mt-3 text-2xl leading-tight">A case for your everyday gold</h3><a href="#newsletter" class="mt-4 inline-block text-[10px] uppercase tracking-[0.2em] text-muted transition-colors hover:text-ink">Read note &rarr;</a>
-          </article>
-          <article class="group">
-            <div class="aspect-[1.15] overflow-hidden bg-[#d7c7b3]"><img class="category-image h-full w-full object-cover" src="https://images.pexels.com/photos/32874210/pexels-photo-32874210.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=1100&h=900" alt="Gold chain on a neutral background" loading="lazy"></div>
-            <p class="mono mt-5 text-[9px] uppercase tracking-[0.2em] gold">Objects / 05 min</p><h3 class="serif mt-3 text-2xl leading-tight">Collected things, beautifully kept</h3><a href="#newsletter" class="mt-4 inline-block text-[10px] uppercase tracking-[0.2em] text-muted transition-colors hover:text-ink">Read note &rarr;</a>
-          </article>
-        </div>
-      </div>
-    </section>
+        function initDashboard(user) {
+            document.getElementById('loginScreen').classList.add('hidden');
+            document.getElementById('dashboardApp').classList.remove('hidden');
+            document.getElementById('adminNameDisplay').innerText = user;
+            loadAllData();
+        }
 
-    <section id="newsletter" class="bg-[#e8c7c2] px-5 py-20 sm:px-8 sm:py-24 lg:px-12" aria-labelledby="newsletter-title">
-      <div class="mx-auto grid max-w-[1440px] items-end gap-10 lg:grid-cols-[.8fr_1.2fr]">
-        <div><p class="mono mb-5 text-[10px] uppercase tracking-[0.28em] text-[#8d5f59]">05 / Keep close</p><h2 id="newsletter-title" class="serif max-w-[460px] text-4xl leading-[1.02] sm:text-5xl">A little more <em>beautiful.</em></h2></div>
-        <div><p class="max-w-[430px] text-sm leading-6 text-[#674c48]">Join the Avenue 9 circle for new arrivals, slow rituals, and first access to limited pieces.</p><form id="newsletter-form" class="mt-8 flex max-w-[560px] border-b border-[#8d5f59]" novalidate><label class="sr-only" for="email">Email address</label><input id="email" required type="email" class="min-w-0 flex-1 bg-transparent py-3 text-sm text-ink outline-none placeholder:text-[#8d5f59]" placeholder="Your email address"><button class="shrink-0 py-3 pl-5 text-[10px] uppercase tracking-[0.22em] text-[#674c48] transition-colors hover:text-ink" type="submit">Subscribe &rarr;</button></form><p id="form-message" class="mt-3 hidden text-xs text-[#674c48]"></p></div>
-      </div>
-    </section>
-  </main>
+        function logout() {
+            localStorage.removeItem('aurelia_admin');
+            location.reload();
+        }
 
-  <footer class="bg-[#2f2927] px-5 pb-8 pt-16 text-white sm:px-8 lg:px-12">
-    <div class="mx-auto max-w-[1440px]">
-      <div class="grid gap-12 border-b border-white/15 pb-14 sm:grid-cols-2 lg:grid-cols-[1.2fr_.7fr_.7fr_.9fr]">
-        <div><a href="#top" class="wordmark text-2xl font-semibold">AVENUE 9</a><p class="mt-4 max-w-[230px] text-xs leading-6 text-white/50">Beauty, adornment, and objects for a life well considered.</p></div>
-        <div><h3 class="mono text-[9px] uppercase tracking-[0.24em] text-[#e8c7c2]">Explore</h3><div class="mt-5 flex flex-col gap-3 text-xs text-white/60"><a href="#shop" class="transition-colors hover:text-white">Shop all</a><a href="#featured" class="transition-colors hover:text-white">New arrivals</a><a href="#journal" class="transition-colors hover:text-white">The journal</a></div></div>
-        <div><h3 class="mono text-[9px] uppercase tracking-[0.24em] text-[#e8c7c2]">Service</h3><div class="mt-5 flex flex-col gap-3 text-xs text-white/60"><a href="#newsletter" class="transition-colors hover:text-white">Contact</a><a href="#newsletter" class="transition-colors hover:text-white">Shipping & returns</a><a href="#newsletter" class="transition-colors hover:text-white">Care guide</a></div></div>
-        <div><h3 class="mono text-[9px] uppercase tracking-[0.24em] text-[#e8c7c2]">Find us</h3><p class="mt-5 text-xs leading-6 text-white/60">12 Mercer Street<br>New York, NY 10013</p><div class="mt-4 flex gap-4 text-xs text-white/60"><a href="#top" class="hover:text-white">Instagram</a><a href="#top" class="hover:text-white">Pinterest</a></div></div>
-      </div>
-      <div class="flex flex-col justify-between gap-3 pt-6 text-[9px] uppercase tracking-[0.18em] text-white/35 sm:flex-row"><span>&copy; 2024 Avenue 9 Studio</span><span>Made with intention</span></div>
-    </div>
-  </footer>
+        // Check active session on load
+        window.onload = function() {
+            const activeUser = localStorage.getItem('aurelia_admin');
+            if (activeUser) {
+                initDashboard(activeUser);
+            }
+        };
 
-  <div id="bag-drawer" class="drawer fixed inset-0 z-50" aria-hidden="true">
-    <div id="drawer-backdrop" class="absolute inset-0 bg-[#2f2927]/45 backdrop-blur-[2px]"></div>
-    <aside class="drawer-panel absolute right-0 top-0 flex h-full w-full max-w-[430px] flex-col bg-paper p-6 text-ink sm:p-8" aria-label="Shopping bag">
-      <div class="flex items-center justify-between border-b border-line pb-5"><div><p class="mono text-[9px] uppercase tracking-[0.22em] gold">Your edit</p><h2 class="serif mt-2 text-3xl">Shopping bag</h2></div><button id="drawer-close" class="flex h-9 w-9 items-center justify-center rounded-full border border-line" aria-label="Close shopping bag"><svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="m6 6 12 12M18 6 6 18"/></svg></button></div>
-      <div id="bag-items" class="flex-1 overflow-auto py-7"><div id="empty-bag" class="flex h-full min-h-[260px] flex-col items-center justify-center text-center"><div class="mb-5 flex h-14 w-14 items-center justify-center rounded-full border border-line text-[#b69a6a]"><svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M5 8.5h14l-1 12H6l-1-12Z"/><path d="M8.5 9V6.8a3.5 3.5 0 0 1 7 0V9"/></svg></div><p class="serif text-2xl">Your bag is quiet.</p><p class="mt-2 max-w-[230px] text-xs leading-5 text-muted">Add an object or two and your edit will appear here.</p><button id="continue-shopping" class="mt-7 border-b border-[#b69a6a] pb-2 text-[10px] uppercase tracking-[0.2em]">Continue shopping</button></div></div>
-      <div id="bag-summary" class="hidden border-t border-line pt-6"><div class="flex items-center justify-between text-sm"><span class="text-muted">Subtotal</span><span id="bag-total">$0</span></div><p class="mt-2 text-[10px] leading-5 text-muted">Shipping and taxes calculated at checkout.</p><button id="checkout-button" class="mt-6 w-full bg-[#3d302b] py-4 text-[10px] uppercase tracking-[0.24em] text-white transition-colors hover:bg-[#b69a6a]">Checkout</button></div>
-    </aside>
-  </div>
+        // Tab Navigation
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.tab-btn').forEach(el => {
+                el.classList.remove('active', 'bg-luxury-gold/20', 'text-luxury-gold');
+                el.classList.add('text-gray-300');
+            });
 
-  <div id="toast" class="toast fixed bottom-6 left-1/2 z-[60] -translate-x-1/2 bg-[#3d302b] px-5 py-3 text-[10px] uppercase tracking-[0.16em] text-white shadow-xl"></div>
+            document.getElementById('tab-' + tabId).classList.remove('hidden');
+            const activeBtn = document.querySelector(`[data-tab="${tabId}"]`);
+            activeBtn.classList.add('bg-luxury-gold/20', 'text-luxury-gold');
+            activeBtn.classList.remove('text-gray-300');
 
-  <script>
-    const header = document.getElementById('site-header');
-    const searchToggle = document.getElementById('search-toggle');
-    const searchBar = document.getElementById('search-bar');
-    const searchInput = document.getElementById('search-input');
-    const searchClose = document.getElementById('search-close');
-    const mobileToggle = document.getElementById('mobile-toggle');
-    const mobileMenu = document.getElementById('mobile-menu');
-    const drawer = document.getElementById('bag-drawer');
-    const bagItems = document.getElementById('bag-items');
-    const emptyBag = document.getElementById('empty-bag');
-    const bagSummary = document.getElementById('bag-summary');
-    const bagCount = document.getElementById('bag-count');
-    const bagTotal = document.getElementById('bag-total');
-    const toast = document.getElementById('toast');
-    let bag = [];
-    let toastTimer;
+            const titles = {
+                'overview': 'نظرة عامة',
+                'categories': 'المجلدات والأقسام',
+                'products': 'المنتجات والمخزون',
+                'orders': 'إدارة الطلبات',
+                'customers': 'قاعدة العملاء',
+                'promos': 'أكواد الخصم',
+                'layout': 'تخطيط الواجهة',
+                'admins': 'حسابات الإدارة'
+            };
+            document.getElementById('currentTabTitle').innerText = titles[tabId];
+        }
 
-    function showToast(message) {
-      toast.textContent = message;
-      toast.classList.add('show');
-      clearTimeout(toastTimer);
-      toastTimer = setTimeout(() => toast.classList.remove('show'), 2600);
-    }
+        // Data Loading & Syncing
+        function loadAllData() {
+            // Categories
+            db.ref('categories').on('value', snapshot => {
+                const data = snapshot.val() || {};
+                const list = document.getElementById('categoriesList');
+                const select = document.getElementById('prodCategory');
+                list.innerHTML = '';
+                select.innerHTML = '<option value="">اختر القسم الرئيسي والفرعي</option>';
 
-    function setDrawer(open) {
-      drawer.classList.toggle('is-open', open);
-      drawer.setAttribute('aria-hidden', String(!open));
-      document.body.classList.toggle('overflow-hidden', open);
-    }
+                for (let id in data) {
+                    const cat = data[id];
+                    list.innerHTML += `<div class="p-4 bg-luxury-cream rounded-lg border border-luxury-gold/20 flex justify-between items-center">
+                        <div><strong class="text-luxury-dark">${cat.name}</strong> <span class="text-xs text-gray-500 mr-2">(${cat.sub || 'بدون تفريعات'})</span></div>
+                        <button onclick="deleteCategory('${id}')" class="text-red-500 hover:text-red-700 text-sm"><i class="fa-solid fa-trash"></i></button>
+                    </div>`;
+                    if (cat.sub) {
+                        cat.sub.split(',').forEach(sub => {
+                            select.innerHTML += `<option value="${cat.name} > ${sub.trim()}">${cat.name} > ${sub.trim()}</option>`;
+                        });
+                    } else {
+                        select.innerHTML += `<option value="${cat.name}">${cat.name}</option>`;
+                    }
+                }
+            });
 
-    function renderBag() {
-      bagCount.textContent = bag.length;
-      const subtotal = bag.reduce((sum, item) => sum + item.price, 0);
-      bagTotal.textContent = '$' + subtotal;
-      emptyBag.classList.toggle('hidden', bag.length > 0);
-      bagSummary.classList.toggle('hidden', bag.length === 0);
-      bagItems.querySelectorAll('.bag-line').forEach((line) => line.remove());
-      bag.forEach((item, index) => {
-        const line = document.createElement('div');
-        line.className = 'bag-line mb-5 flex items-center justify-between gap-4 border-b border-line pb-5';
-        line.innerHTML = `<div><p class="serif text-xl">${item.name}</p><p class="mt-1 text-[10px] uppercase tracking-[0.16em] text-muted">Avenue 9 / one piece</p></div><div class="flex items-center gap-4"><span class="text-xs">$${item.price}</span><button class="remove-item text-[10px] uppercase tracking-[0.16em] text-muted hover:text-ink" data-index="${index}">Remove</button></div>`;
-        bagItems.prepend(line);
-      });
-      document.querySelectorAll('.remove-item').forEach((button) => {
-        button.addEventListener('click', () => {
-          bag.splice(Number(button.dataset.index), 1);
-          renderBag();
-        });
-      });
-    }
+            // Products
+            db.ref('products').on('value', snapshot => {
+                const data = snapshot.val() || {};
+                const tbody = document.getElementById('productsTableBody');
+                tbody.innerHTML = '';
+                let count = 0;
 
-    function setSearch(open) {
-      searchBar.classList.toggle('hidden', !open);
-      if (open) searchInput.focus();
-    }
+                for (let id in data) {
+                    const p = data[id];
+                    count++;
+                    const isSoldOut = p.internalStock <= 0;
+                    
+                    // Check discount timer expiry
+                    let priceDisplay = `${p.price} ج.م`;
+                    if (p.discountPrice) {
+                        const now = new Date().getTime();
+                        if (now > p.discountExpiry) {
+                            // Expired, revert to base price
+                            db.ref(`products/${id}`).update({ discountPrice: null, discountExpiry: null });
+                        } else {
+                            priceDisplay = `<span class="line-through text-gray-400 text-xs">${p.price}</span> <span class="text-green-600 font-bold">${p.discountPrice} ج.م</span>`;
+                        }
+                    }
 
-    window.addEventListener('scroll', () => header.classList.toggle('scrolled', window.scrollY > 28));
-    searchToggle.addEventListener('click', () => setSearch(searchBar.classList.contains('hidden')));
-    searchClose.addEventListener('click', () => setSearch(false));
-    mobileToggle.addEventListener('click', () => {
-      const open = !mobileMenu.classList.contains('is-open');
-      mobileMenu.classList.toggle('is-open', open);
-      mobileToggle.setAttribute('aria-expanded', String(open));
-    });
-    mobileMenu.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => {
-      mobileMenu.classList.remove('is-open');
-      mobileToggle.setAttribute('aria-expanded', 'false');
-    }));
-    document.getElementById('bag-toggle').addEventListener('click', () => setDrawer(true));
-    document.getElementById('drawer-close').addEventListener('click', () => setDrawer(false));
-    document.getElementById('drawer-backdrop').addEventListener('click', () => setDrawer(false));
-    document.getElementById('continue-shopping').addEventListener('click', () => setDrawer(false));
-    document.getElementById('checkout-button').addEventListener('click', () => showToast('Checkout is ready for your edit.'));
-    document.addEventListener('keydown', (event) => {
-      if (event.key === 'Escape') {
-        setDrawer(false);
-        setSearch(false);
-      }
-    });
+                    tbody.innerHTML += `<tr class="border-b border-gray-100 text-sm">
+                        <td class="py-3 px-4"><img src="${p.img}" class="w-10 h-10 object-cover rounded-md border"></td>
+                        <td class="py-3 px-4 font-medium">${p.name}</td>
+                        <td class="py-3 px-4 text-gray-500">${p.category}</td>
+                        <td class="py-3 px-4">${priceDisplay}</td>
+                        <td class="py-3 px-4 font-mono text-xs bg-gray-100 px-2 py-1 rounded inline-block">${p.barcode}</td>
+                        <td class="py-3 px-4">${p.internalStock}</td>
+                        <td class="py-3 px-4"><span class="px-2.5 py-1 rounded-full text-xs font-semibold ${isSoldOut ? 'bg-red-100 text-red-600' : 'bg-green-100 text-green-600'}">${isSoldOut ? 'Sold Out' : 'متوفر'}</span></td>
+                        <td class="py-3 px-4"><button onclick="deleteProduct('${id}')" class="text-red-500 hover:text-red-700"><i class="fa-solid fa-trash"></i></button></td>
+                    </tr>`;
+                }
+                document.getElementById('statProducts').innerText = count;
+            });
 
-    document.querySelectorAll('.add-to-bag').forEach((button) => {
-      button.addEventListener('click', () => {
-        const item = { name: button.dataset.product, price: Number(button.dataset.price) };
-        bag.push(item);
-        button.closest('.product-card').classList.add('is-added');
-        button.textContent = 'Added to bag';
-        renderBag();
-        showToast(item.name + ' added to your bag');
-      });
-    });
+            // Orders
+            db.ref('orders').on('value', snapshot => {
+                const data = snapshot.val() || {};
+                const tbody = document.getElementById('ordersTableBody');
+                tbody.innerHTML = '';
+                let count = 0;
+                for (let id in data) {
+                    const o = data[id];
+                    count++;
+                    tbody.innerHTML += `<tr class="border-b border-gray-100 text-sm">
+                        <td class="py-3 px-4 font-medium">${o.customerName}</td>
+                        <td class="py-3 px-4">${o.customerPhone}</td>
+                        <td class="py-3 px-4">${o.address}</td>
+                        <td class="py-3 px-4">${o.productName}</td>
+                        <td class="py-3 px-4 font-mono text-xs">${o.barcode} (${o.color})</td>
+                        <td class="py-3 px-4 font-bold">${o.quantity}</td>
+                    </tr>`;
+                }
+                document.getElementById('statOrders').innerText = count;
+            });
 
-    document.querySelectorAll('.heart').forEach((button) => {
-      button.addEventListener('click', () => {
-        const active = button.classList.toggle('text-[#c88780]');
-        const icon = button.querySelector('svg');
-        icon.setAttribute('fill', active ? 'currentColor' : 'none');
-        showToast(active ? 'Saved to your wishlist' : 'Removed from your wishlist');
-      });
-    });
+            // Customers
+            db.ref('customers').on('value', snapshot => {
+                const data = snapshot.val() || {};
+                const tbody = document.getElementById('customersTableBody');
+                tbody.innerHTML = '';
+                let count = 0;
+                for (let id in data) {
+                    const c = data[id];
+                    count++;
+                    tbody.innerHTML += `<tr class="border-b border-gray-100 text-sm">
+                        <td class="py-3 px-4 font-medium">${c.name}</td>
+                        <td class="py-3 px-4">${c.phones || '-'}</td>
+                        <td class="py-3 px-4">${c.emails || '-'}</td>
+                        <td class="py-3 px-4">${c.addresses || '-'}</td>
+                    </tr>`;
+                }
+                document.getElementById('statCustomers').innerText = count;
+            });
 
-    function filterProducts(category) {
-      const products = document.querySelectorAll('#product-grid .product-card');
-      let visible = 0;
-      products.forEach((product) => {
-        const show = category === 'all' || product.dataset.category === category;
-        product.classList.toggle('hidden-product', !show);
-        if (show) visible += 1;
-      });
-      document.getElementById('no-results').classList.toggle('hidden', visible !== 0);
-    }
+            // Promos
+            db.ref('promos').on('value', snapshot => {
+                const data = snapshot.val() || {};
+                const list = document.getElementById('promosList');
+                list.innerHTML = '';
+                let count = 0;
+                for (let id in data) {
+                    const pr = data[id];
+                    count++;
+                    list.innerHTML += `<div class="p-4 bg-luxury-cream rounded-lg border border-luxury-gold/20 flex justify-between items-center text-sm">
+                        <div><strong class="font-mono text-luxury-gold">${pr.code}</strong> - خصم: ${pr.discount} | متبقي من الاستخدام: <span class="font-bold text-red-600">${pr.limit}</span> مرة</div>
+                        <button onclick="deletePromo('${id}')" class="text-red-500 hover:text-red-700"><i class="fa-solid fa-trash"></i></button>
+                    </div>`;
+                }
+                document.getElementById('statPromos').innerText = count;
+            });
 
-    document.querySelectorAll('.filter-button').forEach((button) => {
-      button.addEventListener('click', () => {
-        document.querySelectorAll('.filter-button').forEach((item) => {
-          item.classList.remove('active');
-          item.setAttribute('aria-selected', 'false');
-        });
-        button.classList.add('active');
-        button.setAttribute('aria-selected', 'true');
-        filterProducts(button.dataset.filter);
-      });
-    });
-    document.querySelectorAll('[data-filter-link]').forEach((link) => {
-      link.addEventListener('click', () => {
-        const category = link.dataset.filterLink;
-        const matchingFilter = document.querySelector(`.filter-button[data-filter="${category === 'objects' ? 'all' : category}"]`);
-        if (matchingFilter) matchingFilter.click();
-      });
-    });
+            // Admins
+            db.ref('admins').on('value', snapshot => {
+                const data = snapshot.val() || {};
+                const list = document.getElementById('adminsList');
+                list.innerHTML = '';
+                for (let id in data) {
+                    const ad = data[id];
+                    list.innerHTML += `<div class="p-3 bg-gray-50 rounded-lg border flex justify-between items-center text-sm">
+                        <span>${ad.username}</span>
+                        <button onclick="deleteAdmin('${id}')" class="text-red-500 hover:text-red-700"><i class="fa-solid fa-trash"></i></button>
+                    </div>`;
+                }
+            });
+        }
 
-    document.getElementById('newsletter-form').addEventListener('submit', (event) => {
-      event.preventDefault();
-      const email = document.getElementById('email');
-      const message = document.getElementById('form-message');
-      if (!email.validity.valid) {
-        message.textContent = 'Please enter a valid email address.';
-        message.classList.remove('hidden');
-        email.focus();
-        return;
-      }
-      message.textContent = 'You are on the list. Welcome to the circle.';
-      message.classList.remove('hidden');
-      email.value = '';
-    });
+        // Form Actions
+        function addCategory(e) {
+            e.preventDefault();
+            db.ref('categories').push({
+                name: document.getElementById('catName').value,
+                sub: document.getElementById('subCatName').value
+            });
+            e.target.reset();
+        }
+        function deleteCategory(id) { db.ref(`categories/${id}`).remove(); }
 
-    renderBag();
-  </script>
+        function addProduct(e) {
+            e.preventDefault();
+            const days = parseInt(document.getElementById('prodDiscountDays').value) || 7;
+            const discountPrice = document.getElementById('prodDiscountPrice').value;
+            let discountExpiry = null;
+            if (discountPrice) {
+                discountExpiry = new Date().getTime() + (days * 24 * 60 * 60 * 1000);
+            }
+
+            db.ref('products').push({
+                name: document.getElementById('prodName').value,
+                img: document.getElementById('prodImg').value,
+                category: document.getElementById('prodCategory').value,
+                price: parseFloat(document.getElementById('prodPrice').value),
+                discountPrice: discountPrice ? parseFloat(discountPrice) : null,
+                discountExpiry: discountExpiry,
+                barcode: document.getElementById('prodBarcode').value,
+                color: document.getElementById('prodColor').value,
+                internalStock: parseInt(document.getElementById('prodInternalStock').value),
+                publicStock: parseInt(document.getElementById('prodPublicStock').value) || 0
+            });
+            e.target.reset();
+        }
+        function deleteProduct(id) { db.ref(`products/${id}`).remove(); }
+
+        function addPromo(e) {
+            e.preventDefault();
+            db.ref('promos').push({
+                code: document.getElementById('promoCode').value,
+                discount: document.getElementById('promoDiscount').value,
+                limit: parseInt(document.getElementById('promoLimit').value)
+            });
+            e.target.reset();
+        }
+        function deletePromo(id) { db.ref(`promos/${id}`).remove(); }
+
+        function addAdminAccount(e) {
+            e.preventDefault();
+            db.ref('admins').push({
+                username: document.getElementById('newAdminUser').value,
+                password: document.getElementById('newAdminPass').value
+            });
+            e.target.reset();
+        }
+        function deleteAdmin(id) { db.ref(`admins/${id}`).remove(); }
+    </script>
 </body>
 </html>
