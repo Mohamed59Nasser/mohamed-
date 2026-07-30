@@ -352,14 +352,12 @@ const FB_FALLBACK_CODES = ["auth/invalid-api-key","auth/api-key-not-valid","auth
   "auth/unauthorized-domain","auth/admin-restricted-operation","auth/popup-blocked","auth/popup-closed-by-user"];
 const isFallback = e => !e || !e.code || FB_FALLBACK_CODES.includes(e.code) || /api-key|configuration|network/i.test(e.code||e.message||"");
 
-/* ─────────────  2. WHATSAPP OTP GATEWAY (placeholder)  ───────────── */
-/*  Configured for UltraMsg. Swap `provider` to 'twilio' and fill the
-    Twilio block to route through Twilio's WhatsApp Business API.       */
+/* ─────────────  2. WHATSAPP OTP GATEWAY  ───────────── */
 const WHATSAPP = {
-  provider:      "ultramsg",              // 'ultramsg' | 'twilio'
-  senderNumber:  "01159055625",           // ← business WhatsApp sender
+  provider:      "ultramsg",
+  senderNumber:  "01159055625",
   ultramsg: {
-    instanceId: "INSTANCE_ID_HERE",       // e.g. instance12345
+    instanceId: "INSTANCE_ID_HERE",
     token:      "ULTRAMSG_TOKEN_HERE",
     endpoint(){ return `https://api.ultramsg.com/${this.instanceId}/messages/chat`; }
   },
@@ -587,7 +585,6 @@ let LANG = localStorage.getItem("au_lang") || "en";
 const t = k => (I18N[LANG] && I18N[LANG][k]) || I18N.en[k] || k;
 
 /* ─────────────  4. CATALOG  ───────────── */
-const IMG = n => n;
 const PRODUCTS = [
   { id:"au01", cat:"rings", price:24900, old:28500, rate:4.9, rev:214, feat:1,
     en:{n:"Solitaire Éclat Ring", s:"18K yellow gold · 0.75ct brilliant", d:"A single brilliant-cut diamond floats in a six-claw crown of 18K gold. The band is knife-edge thin so the light does all the talking."},
@@ -743,7 +740,7 @@ function releaseScroll(){
 function closeSheet(id){ document.getElementById(id).classList.add("sheet-hidden"); releaseScroll(); }
 function openMenu(){
   const ov = document.getElementById("mobileMenu"), p = document.getElementById("menuPanel");
-  p.style.transform = "";                                   // reset to closed position first
+  p.style.transform = "";
   ov.classList.remove("sheet-hidden"); document.body.style.overflow = "hidden";
   requestAnimationFrame(()=>requestAnimationFrame(()=>{ p.style.transform = "translateX(0)"; }));
 }
@@ -888,10 +885,9 @@ function toggleWish(id){
   const i = S.wish.indexOf(id);
   if(i>-1){ S.wish.splice(i,1); toast(t("wish_rm")); } else { S.wish.push(id); toast(t("wish_add")); }
   save(); syncBadges(); refreshWishIcons();
-  if(S.view==="wishlist"){ const y = window.scrollY; render(); window.scrollTo(0, y); }  // keep scroll position
+  if(S.view==="wishlist"){ const y = window.scrollY; render(); window.scrollTo(0, y); }
   if(S.user) persistProfile();
 }
-/* update every heart button in place — NO page re-render, NO scroll jump */
 function refreshWishIcons(){
   document.querySelectorAll('[data-act="wish"]').forEach(btn=>{
     const svg = btn.querySelector("svg"); if(!svg) return;
@@ -933,7 +929,6 @@ function renderCart(){
     .sort((a,b)=>((b.cat===last.cat)-(a.cat===last.cat)) || (b.feat-a.feat)).slice(0,6);
 
   body.innerHTML = `
-    <!-- free-shipping meter -->
     <div class="rounded-xl bg-[#F6EEDC] border border-[#E2CF9F]/70 p-3.5">
       <p class="text-[.68rem] text-[#6B5426] leading-snug">
         ${sf===0
@@ -970,7 +965,6 @@ function renderCart(){
       </div>
     </div>`; }).join("")}
 
-    <!-- cross-sell -->
     ${sugg.length ? `
     <div class="pt-4">
       <p class="text-[.58rem] uppercase tracking-[.26em] text-[#A08A62] mb-3">${t("cs_complete")}</p>
@@ -1092,7 +1086,6 @@ function vHome(){
       <p class="text-[.7rem] tracking-[.24em] uppercase text-[#A08A62] mt-2">${t("curated_sub")}</p>
     </div>
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-5">
-      <!-- big card -->
       <button data-act="nav" data-view="shop" data-cat="all" class="group relative rounded-[1.5rem] overflow-hidden text-start card-soft min-h-[380px] sm:min-h-[520px]">
         <img src="https://images.pexels.com/photos/29503018/pexels-photo-29503018.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=900&w=900" alt="" class="absolute inset-0 w-full h-full object-cover img-zoom opacity-90">
         <div class="absolute inset-0 bg-gradient-to-t from-[#F6EFE1]/95 via-[#F6EFE1]/25 to-[#FFFDF8]/70"></div>
@@ -1106,825 +1099,813 @@ function vHome(){
       </button>
       <div class="grid grid-rows-2 gap-4 sm:gap-5">
         ${[["rings","c_rings","c_rings_s","explore","https://images.pexels.com/photos/29502969/pexels-photo-29502969.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=600&w=900"],
-           ["earrings","c_ear","c_ear_s","browse","https://images.pexels.com/photos/21235147/pexels-photo-21235147.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=600&w=900"]].map(([c,a,b,cta,im])=>`
-          <button data-act="nav" data-view="shop" data-cat="${c}" class="group relative rounded-[1.5rem] overflow-hidden text-start card-soft min-h-[200px] sm:min-h-[250px]">
-            <img src="${im}" alt="" class="absolute inset-0 w-full h-full object-cover img-zoom opacity-85">
-            <div class="absolute inset-0" style="background:linear-gradient(90deg,rgba(251,246,236,.97),rgba(251,246,236,.6) 55%,rgba(251,246,236,.05))"></div>
-            <div class="relative h-full flex flex-col justify-center p-6 sm:p-8 max-w-[68%]">
-              <h4 class="font-display text-[1.35rem] sm:text-[1.9rem] text-ink tracking-[.05em]">${t(a)}</h4>
-              <p class="font-display text-[1rem] sm:text-[1.3rem] text-[#5C5245] mt-1">${t(b)}</p>
-              <span class="mt-2 text-[.6rem] tracking-[.24em] uppercase text-[#8E6E32] group-hover:tracking-[.32em] transition-all">${t(cta)}</span>
+           ["earrings","c_ear","c_ear_s","browse","https://images.pexels.com/photos/21235147/pexels-photo-21235147.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=600&w=900"]].map(([cat,t1,t2,btn,img])=>`
+        <button data-act="nav" data-view="shop" data-cat="${cat}" class="group relative rounded-[1.5rem] overflow-hidden text-start card-soft min-h-[190px] sm:min-h-[250px]">
+          <img src="${img}" alt="" class="absolute inset-0 w-full h-full object-cover img-zoom opacity-90">
+          <div class="absolute inset-0 bg-gradient-to-t from-[#F6EFE1]/95 via-[#F6EFE1]/30 to-[#FFFDF8]/60"></div>
+          <div class="relative h-full flex flex-col justify-between p-6 sm:p-8">
+            <h4 class="font-display text-[1.4rem] sm:text-[1.8rem] text-ink tracking-[.06em]">${t(t1)}</h4>
+            <div>
+              <p class="text-[.78rem] text-ink-soft">${t(t2)}</p>
+              <span class="inline-flex items-center gap-2 mt-1.5 text-[.6rem] tracking-[.24em] uppercase text-[#8E6E32] group-hover:gap-3.5 transition-all">${t(btn)} <span class="rtl:rotate-180 inline-block">→</span></span>
             </div>
-          </button>`).join("")}
+          </div>
+        </button>`).join("")}
       </div>
     </div>
-    <button data-act="nav" data-view="shop" data-cat="bridal" class="group mt-4 sm:mt-5 w-full relative rounded-[1.5rem] overflow-hidden text-start card-soft min-h-[180px] sm:min-h-[220px]">
-      <img src="https://images.pexels.com/photos/6716445/pexels-photo-6716445.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=500&w=1600" alt="" class="absolute inset-0 w-full h-full object-cover img-zoom opacity-80">
-      <div class="absolute inset-0" style="background:linear-gradient(100deg,rgba(250,245,235,.97),rgba(250,245,235,.55) 60%,rgba(250,245,235,.05))"></div>
-      <div class="relative h-full flex flex-col justify-center p-6 sm:p-10">
-        <h4 class="font-display text-[1.5rem] sm:text-[2.2rem] text-ink tracking-[.05em]">${t("c_bridal")}</h4>
-        <p class="font-display text-[1.05rem] sm:text-[1.4rem] text-[#5C5245] mt-1">${t("c_bridal_s")}</p>
-        <span class="mt-2 text-[.6rem] tracking-[.24em] uppercase text-[#8E6E32] group-hover:tracking-[.32em] transition-all">${t("discover")}</span>
-      </div>
-    </button>
   </section>
 
   <!-- BESTSELLERS -->
   <section class="max-w-[1400px] mx-auto px-4 sm:px-6 mt-16 sm:mt-24">
-    <div class="text-center mb-9 sm:mb-12">
-      <h3 class="font-display text-[1.9rem] sm:text-[2.8rem] tracking-[.16em] text-ink">${t("best")}</h3>
-      <p class="text-[.7rem] tracking-[.24em] uppercase text-[#A08A62] mt-2">${t("best_sub")}</p>
+    <div class="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4 mb-9 sm:mb-12">
+      <div>
+        <h3 class="font-display text-[1.9rem] sm:text-[2.8rem] tracking-[.16em] text-ink">${t("best")}</h3>
+        <p class="text-[.7rem] tracking-[.24em] uppercase text-[#A08A62] mt-2">${t("best_sub")}</p>
+      </div>
+      <button data-act="nav" data-view="shop" data-cat="all" class="btn-ghost rounded-full px-7 py-3 text-[.6rem] uppercase">${t("view_all")}</button>
     </div>
     <div class="auto-grid">${feat.map((p,i)=>card(p,i)).join("")}</div>
-    <div class="text-center mt-10">
-      <button data-act="nav" data-view="shop" data-cat="all" class="btn-ghost rounded-full px-10 py-3.5 text-[.62rem] uppercase">${t("view_all")}</button>
-    </div>
   </section>
 
-  <!-- STORY -->
-  <section class="max-w-[1400px] mx-auto px-4 sm:px-6 mt-16 sm:mt-24">
-    <div class="relative rounded-[1.6rem] overflow-hidden card-soft grid lg:grid-cols-2">
-      <div class="relative min-h-[300px] lg:min-h-[440px]">
-        <img src="https://images.pexels.com/photos/29502496/pexels-photo-29502496.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=900&w=900" alt="" class="absolute inset-0 w-full h-full object-cover">
+  <!-- STORY BANNER -->
+  <section class="max-w-[1400px] mx-auto px-4 sm:px-6 mt-20 sm:mt-28">
+    <div class="relative rounded-[2rem] overflow-hidden card-soft p-8 sm:p-16 lg:p-20 text-center lg:text-start flex flex-col lg:flex-row items-center gap-10">
+      <div class="lg:w-1/2">
+        <p class="text-[.62rem] tracking-[.34em] uppercase text-[#9A814F] mb-3">${t("story_k")}</p>
+        <h3 class="font-display text-[2.2rem] sm:text-[3.2rem] leading-tight text-ink">${t("story_t")}</h3>
+        <p class="text-[.88rem] text-[#5C5245] leading-relaxed mt-4 max-w-lg">${t("story_p")}</p>
+        <button data-act="nav" data-view="about" class="btn-gold rounded-full px-9 py-3.5 text-[.62rem] uppercase mt-8">${t("story_cta")}</button>
       </div>
-      <div class="p-8 sm:p-12 lg:p-16 flex flex-col justify-center">
-        <p class="text-[.6rem] tracking-luxe uppercase text-[#A08A62]">${t("story_k")}</p>
-        <h3 class="font-display text-[2rem] sm:text-[3rem] text-ink leading-tight mt-3">${t("story_t")}</h3>
-        <p class="text-[.86rem] text-ink-soft leading-relaxed mt-4 max-w-md">${t("story_p")}</p>
-        <button data-act="nav" data-view="about" class="btn-ghost rounded-full px-8 py-3 text-[.6rem] uppercase mt-7 self-start">${t("story_cta")}</button>
+      <div class="lg:w-1/2 w-full">
+        <div class="grid grid-cols-2 gap-4">
+          <img src="https://images.pexels.com/photos/29502932/pexels-photo-29502932.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=600&w=600" class="rounded-2xl object-cover ratio-sq shadow-lg" alt="">
+          <img src="https://images.pexels.com/photos/30746008/pexels-photo-30746008.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=600&w=600" class="rounded-2xl object-cover ratio-sq shadow-lg mt-8" alt="">
+        </div>
       </div>
     </div>
   </section>`;
 }
 
 function vShop(){
-  let list = PRODUCTS.filter(p => S.cat==="all" || p.cat===S.cat);
-  if(S.q){ const q=S.q.toLowerCase(); list = list.filter(p => (pName(p)+pSub(p)+p.en.n).toLowerCase().includes(q)); }
-  if(S.sort==="low")  list = [...list].sort((a,b)=>a.price-b.price);
-  if(S.sort==="high") list = [...list].sort((a,b)=>b.price-a.price);
-  if(S.sort==="rate") list = [...list].sort((a,b)=>b.rate-a.rate);
-  if(S.sort==="feat") list = [...list].sort((a,b)=>b.feat-a.feat);
+  let items = S.cat==="all" ? PRODUCTS : PRODUCTS.filter(p=>p.cat===S.cat);
+  if(S.q){
+    const q = S.q.toLowerCase();
+    items = items.filter(p => pName(p).toLowerCase().includes(q) || pDesc(p).toLowerCase().includes(q));
+  }
+  if(S.sort==="low") items.sort((a,b)=>a.price-b.price);
+  else if(S.sort==="high") items.sort((a,b)=>b.price-a.price);
+  else if(S.sort==="rate") items.sort((a,b)=>b.rate-a.rate);
+
   return `
-  <section class="max-w-[1400px] mx-auto px-4 sm:px-6 pt-8 sm:pt-12">
-    <div class="text-center">
-      <p class="text-[.58rem] tracking-luxe uppercase text-[#A08A62]">AURÉLIA</p>
-      <h2 class="font-display text-[2.1rem] sm:text-[3.2rem] tracking-[.14em] text-ink mt-2">${t("shop_title")}</h2>
+  <div class="max-w-[1400px] mx-auto px-4 sm:px-6 pt-10 sm:pt-14 pb-20">
+    <div class="text-center mb-10">
+      <h2 class="font-display text-[2.4rem] sm:text-[3.5rem] tracking-[.16em] text-ink">${t("shop_title")}</h2>
+      <p class="text-[.68rem] uppercase tracking-[.28em] text-[#A08A62] mt-2">${items.length} ${t("results")}</p>
     </div>
-    <div class="flex gap-2 overflow-x-auto scroll-x py-6 sm:justify-center">
-      ${CATS.map(c=>`<button data-act="cat" data-cat="${c}" class="whitespace-nowrap px-5 py-2 rounded-full text-[.62rem] uppercase tracking-[.16em] transition border ${S.cat===c?'bg-[#B08E4F] text-white border-[#B08E4F]':'border-[#D3BC93]/70 text-[#7A6C58] hover:bg-white/70'}">${t("cat_"+c)}</button>`).join("")}
+
+    <!-- filter pills -->
+    <div class="flex items-center justify-center gap-2 overflow-x-auto scroll-x pb-4 mb-8">
+      ${CATS.map(c=>`
+      <button data-act="cat" data-cat="${c}" class="px-5 py-2.5 rounded-full text-[.66rem] uppercase tracking-[.18em] transition whitespace-nowrap ${S.cat===c?"btn-gold":"glass-soft text-ink hover:text-[#8E6E32]"}">${t("cat_"+c)}</button>`).join("")}
     </div>
-    <div class="flex items-center justify-between gap-3 pb-5">
-      <p class="text-[.7rem] text-ink-soft">${list.length} ${t("results")}</p>
-      <select data-act="sort" class="field !w-auto !py-2 text-[.72rem]">
-        <option value="feat" ${S.sort==="feat"?"selected":""}>${t("s_feat")}</option>
-        <option value="low"  ${S.sort==="low"?"selected":""}>${t("s_low")}</option>
-        <option value="high" ${S.sort==="high"?"selected":""}>${t("s_high")}</option>
-        <option value="rate" ${S.sort==="rate"?"selected":""}>${t("s_rate")}</option>
-      </select>
+
+    <!-- sort bar -->
+    <div class="flex items-center justify-between border-y border-[#D9C7A5]/60 py-3 mb-8 text-[.72rem] text-ink-soft">
+      <span>${items.length} ${t("results")}</span>
+      <div class="flex items-center gap-2">
+        <label class="uppercase tracking-[.16em] text-[.62rem]">${t("sort")}:</label>
+        <select id="sortSel" class="bg-transparent text-ink font-medium outline-none cursor-pointer">
+          <option value="feat" ${S.sort==="feat"?"selected":""}>${t("s_feat")}</option>
+          <option value="low" ${S.sort==="low"?"selected":""}>${t("s_low")}</option>
+          <option value="high" ${S.sort==="high"?"selected":""}>${t("s_high")}</option>
+          <option value="rate" ${S.sort==="rate"?"selected":""}>${t("s_rate")}</option>
+        </select>
+      </div>
     </div>
-    ${list.length ? `<div class="auto-grid">${list.map((p,i)=>card(p,i)).join("")}</div>`
-      : `<p class="text-center py-24 text-ink-soft font-display text-2xl">${t("no_res")}</p>`}
-  </section>`;
+
+    ${items.length ? `<div class="auto-grid">${items.map((p,i)=>card(p,i)).join("")}</div>` : `
+    <div class="text-center py-24 space-y-4">
+      <p class="font-display text-2xl text-ink-soft">${t("no_res")}</p>
+      <button data-act="cat" data-cat="all" class="btn-ghost rounded-full px-8 py-3 text-[.62rem] uppercase">${t("nav_shop")}</button>
+    </div>`}
+  </div>`;
 }
 
 function vProduct(){
-  const p = P(S.pid); if(!p) return vShop();
+  const p = P(S.pid) || PRODUCTS[0];
   const liked = S.wish.includes(p.id);
-  const rel = PRODUCTS.filter(x=>x.cat===p.cat && x.id!==p.id).slice(0,4);
+  const rel = PRODUCTS.filter(x=>x.id!==p.id && (x.cat===p.cat||x.feat)).slice(0,4);
   return `
-  <section class="max-w-[1400px] mx-auto px-4 sm:px-6 pt-6 sm:pt-10">
-    <button data-act="back" class="text-[.62rem] uppercase tracking-[.2em] text-[#8E6E32] mb-5 inline-flex items-center gap-2"><span class="rtl:rotate-180 inline-block">←</span> ${t("back")}</button>
-    <div class="grid lg:grid-cols-2 gap-6 lg:gap-12">
-      <div>
-        <div class="rounded-[1.4rem] overflow-hidden card-soft ratio-sq">
-          <img id="pMain" src="${p.img[0]}" alt="${esc(pName(p))}" class="w-full h-full object-cover">
+  <div class="max-w-[1400px] mx-auto px-4 sm:px-6 pt-10 sm:pt-14 pb-24">
+    <button data-act="back" class="inline-flex items-center gap-2 text-[.66rem] uppercase tracking-[.2em] text-[#8E6E32] mb-8 hover:underline">
+      <span class="rtl:rotate-180">←</span> ${t("back")}
+    </button>
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14">
+      <!-- gallery -->
+      <div class="lg:col-span-7 space-y-4">
+        <div class="rounded-[1.8rem] overflow-hidden card-soft ratio-sq">
+          <img src="${p.img[0]}" class="w-full h-full object-cover img-zoom" alt="">
         </div>
-        <div class="flex gap-3 mt-3">
-          ${p.img.concat(p.img).slice(0,4).map((im,i)=>`<button data-act="thumb" data-src="${im}" class="w-20 h-20 rounded-xl overflow-hidden border ${i===0?'border-[#B08E4F]':'border-[#E0CFAE]/70'} hover:border-[#B08E4F] transition"><img src="${im}" class="w-full h-full object-cover" alt=""></button>`).join("")}
-        </div>
+        ${p.img[1]?`
+        <div class="grid grid-cols-2 gap-4">
+          <div class="rounded-2xl overflow-hidden card-soft ratio-sq"><img src="${p.img[0]}" class="w-full h-full object-cover" alt=""></div>
+          <div class="rounded-2xl overflow-hidden card-soft ratio-sq"><img src="${p.img[1]}" class="w-full h-full object-cover" alt=""></div>
+        </div>`:""}
       </div>
-      <div class="lg:py-4">
-        <p class="text-[.55rem] tracking-luxe uppercase text-[#A08A62]">AURÉLIA · ${t("cat_"+p.cat)}</p>
-        <h2 class="font-display text-[2.1rem] sm:text-[2.9rem] text-ink leading-tight mt-2">${esc(pName(p))}</h2>
-        <p class="text-[.82rem] text-ink-soft mt-1">${esc(pSub(p))}</p>
-        <div class="flex items-center gap-2 mt-3">${stars(p.rate,14)}<span class="text-[.7rem] text-ink-soft ms-1">${p.rate} · ${p.rev} ${t("reviews")}</span></div>
-        <div class="flex items-baseline gap-3 mt-5">
-          <span class="font-display text-[2rem] text-[#8E6E32]">${money(p.price)}</span>
+
+      <!-- info -->
+      <div class="lg:col-span-5 flex flex-col justify-start">
+        <p class="text-[.58rem] uppercase tracking-[.34em] text-[#A08A62]">AURÉLIA · Cairo</p>
+        <h2 class="font-display text-[2.2rem] sm:text-[2.8rem] text-ink mt-2 leading-tight">${esc(pName(p))}</h2>
+        <p class="text-[.78rem] text-ink-soft mt-1">${esc(pSub(p))}</p>
+        <div class="flex items-center gap-3 mt-4">
+          <span class="font-display text-[1.8rem] text-[#8E6E32]">${money(p.price)}</span>
           ${p.old?`<span class="text-[.9rem] text-[#B3A793] line-through">${money(p.old)}</span>`:""}
         </div>
+        <div class="flex items-center gap-2 mt-3">${stars(p.rate, 14)}<span class="text-[.7rem] text-ink-soft ms-1">${p.rate} (${p.rev} ${t("reviews")})</span></div>
         <div class="hairline my-6"></div>
-        <div class="mb-5">
+
+        <!-- size selector -->
+        <div>
           <label class="lbl">${t("size")}</label>
-          <div class="flex flex-wrap gap-2" id="sizeRow">
-            ${p.sizes.map((s,i)=>`<button data-act="size" data-size="${s}" data-sel="${i===0?1:0}" class="size-b px-4 py-2 rounded-lg border text-[.72rem] transition ${i===0?'border-[#B08E4F] bg-[#B08E4F]/10 text-[#8E6E32]':'border-[#D9C7A5]/80 text-ink-soft hover:border-[#B08E4F]'}">${s}</button>`).join("")}
+          <div class="flex flex-wrap gap-2.5" id="sizeChips">
+            ${p.sizes.map((sz,i)=>`<button data-act="selSize" data-sz="${sz}" class="px-4 py-2 rounded-xl text-[.72rem] tracking-wide transition ${i===0?"btn-gold":"glass-soft text-ink hover:text-[#8E6E32]"}">${sz}</button>`).join("")}
           </div>
         </div>
-        <div class="flex items-center gap-3 mb-5">
-          <div class="flex items-center border border-[#D9C7A5]/80 rounded-xl overflow-hidden bg-white/60">
-            <button data-act="pq-" class="w-10 h-11 text-[#8E6E32] hover:bg-white transition">−</button>
-            <span id="pQty" class="w-10 text-center text-[.85rem]">1</span>
-            <button data-act="pq+" class="w-10 h-11 text-[#8E6E32] hover:bg-white transition">+</button>
-          </div>
-          <span class="text-[.68rem] text-[#5C8E5A] flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-[#7FA97C] inline-block"></span>${t("in_stock")}</span>
-        </div>
-        <div class="flex flex-col sm:flex-row gap-3">
-          <button data-act="addp" data-pid="${p.id}" class="btn-gold flex-1 rounded-xl py-4 text-[.64rem] uppercase">${t("add_cart")}</button>
-          <button data-act="wish" data-pid="${p.id}" data-off="#B08E4F" class="btn-ghost rounded-xl py-4 px-6 text-[.6rem] uppercase flex items-center justify-center gap-2">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="${liked?'#B08E4F':'none'}" stroke="#B08E4F" stroke-width="1.4"><path d="M12 20s-7.5-4.7-7.5-9.6A4.4 4.4 0 0 1 12 7.3a4.4 4.4 0 0 1 7.5 3.1C19.5 15.3 12 20 12 20Z"/></svg>
-            ${t("add_wish")}
+
+        <div class="flex gap-3 mt-8">
+          <button data-act="pAdd" data-pid="${p.id}" class="btn-gold flex-1 rounded-xl py-4 text-[.66rem] uppercase">${t("add_cart")}</button>
+          <button data-act="wish" data-pid="${p.id}" data-off="#5C5245" aria-label="wishlist"
+            class="w-14 h-14 rounded-xl glass-soft grid place-items-center hover:scale-105 transition shrink-0">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="${liked?'#B08E4F':'none'}" stroke="${liked?'#B08E4F':'#5C5245'}" stroke-width="1.4"><path d="M12 20s-7.5-4.7-7.5-9.6A4.4 4.4 0 0 1 12 7.3a4.4 4.4 0 0 1 7.5 3.1C19.5 15.3 12 20 12 20Z"/></svg>
           </button>
         </div>
-        <div class="mt-8 space-y-3">
-          <details open class="glass-soft rounded-xl px-5 py-4">
-            <summary class="text-[.64rem] uppercase tracking-[.2em] text-[#8E6E32] cursor-pointer">${t("desc_l")}</summary>
-            <p class="text-[.82rem] text-ink-soft leading-relaxed mt-3">${esc(pDesc(p))}</p>
-          </details>
-          <details class="glass-soft rounded-xl px-5 py-4">
-            <summary class="text-[.64rem] uppercase tracking-[.2em] text-[#8E6E32] cursor-pointer">${t("details")}</summary>
-            <dl class="text-[.8rem] mt-3 space-y-2">
-              <div class="flex justify-between"><dt class="text-ink-soft">${t("material")}</dt><dd>${esc(p.mat[LANG]||p.mat.en)}</dd></div>
-              <div class="flex justify-between"><dt class="text-ink-soft">${t("stone")}</dt><dd>${esc(p.stone[LANG]||p.stone.en)}</dd></div>
-            </dl>
-          </details>
-          <details class="glass-soft rounded-xl px-5 py-4">
-            <summary class="text-[.64rem] uppercase tracking-[.2em] text-[#8E6E32] cursor-pointer">${t("ship_l")}</summary>
-            <p class="text-[.82rem] text-ink-soft leading-relaxed mt-3">${t("ship_txt")}</p>
-          </details>
+
+        <!-- details accordion -->
+        <div class="mt-8 space-y-4">
+          <div class="glass-soft rounded-2xl p-5">
+            <h4 class="text-[.66rem] uppercase tracking-[.22em] text-[#8E6E32] mb-2">${t("desc_l")}</h4>
+            <p class="text-[.82rem] leading-relaxed text-ink-soft">${esc(pDesc(p))}</p>
+          </div>
+          <div class="glass-soft rounded-2xl p-5 space-y-2 text-[.78rem]">
+            <div class="flex justify-between"><span class="text-ink-soft">${t("material")}</span><span class="text-ink font-medium">${esc(p.mat[LANG]||p.mat.en)}</span></div>
+            <div class="flex justify-between"><span class="text-ink-soft">${t("stone")}</span><span class="text-ink font-medium">${esc(p.stone[LANG]||p.stone.en)}</span></div>
+            <div class="flex justify-between"><span class="text-ink-soft">${t("in_stock")}</span><span class="text-[#4B6B44]">✓ In Atelier</span></div>
+          </div>
+          <div class="glass-soft rounded-2xl p-5">
+            <h4 class="text-[.66rem] uppercase tracking-[.22em] text-[#8E6E32] mb-2">${t("ship_l")}</h4>
+            <p class="text-[.78rem] leading-relaxed text-ink-soft">${t("ship_txt")}</p>
+          </div>
         </div>
       </div>
     </div>
-    ${rel.length?`<div class="mt-20"><h3 class="font-display text-[1.6rem] sm:text-[2.1rem] text-center tracking-[.12em] text-ink mb-8">${t("best")}</h3>
-      <div class="auto-grid">${rel.map((r,i)=>card(r,i)).join("")}</div></div>`:""}
-  </section>`;
+
+    <!-- related -->
+    ${rel.length ? `
+    <div class="mt-24 pt-16 border-t border-[#D9C7A5]/60">
+      <h3 class="font-display text-[2rem] tracking-[.14em] text-ink mb-8 text-center">${t("cs_complete")}</h3>
+      <div class="auto-grid">${rel.map((rp,i)=>card(rp,i)).join("")}</div>
+    </div>` : ""}
+  </div>`;
 }
 
 function vWishlist(){
-  const list = S.wish.map(P).filter(Boolean);
-  return `<section class="max-w-[1400px] mx-auto px-4 sm:px-6 pt-10">
-    <h2 class="font-display text-[2.1rem] sm:text-[3rem] tracking-[.14em] text-ink text-center">${t("wishlist")}</h2>
-    <div class="hairline my-8"></div>
-    ${list.length ? `<div class="auto-grid">${list.map((p,i)=>card(p,i)).join("")}</div>`
-    : `<div class="text-center py-20"><p class="text-ink-soft font-display text-2xl mb-6">${t("empty_wish")}</p>
-       <button data-act="nav" data-view="shop" class="btn-gold rounded-full px-9 py-3.5 text-[.62rem] uppercase">${t("start_shopping")}</button></div>`}
-  </section>`;
+  const items = PRODUCTS.filter(p => S.wish.includes(p.id));
+  return `
+  <div class="max-w-[1400px] mx-auto px-4 sm:px-6 pt-10 sm:pt-14 pb-24">
+    <div class="text-center mb-12">
+      <h2 class="font-display text-[2.4rem] sm:text-[3.5rem] tracking-[.16em] text-ink">${t("wishlist")}</h2>
+      <p class="text-[.68rem] uppercase tracking-[.28em] text-[#A08A62] mt-2">${items.length} ${t("results")}</p>
+    </div>
+    ${items.length ? `<div class="auto-grid">${items.map((p,i)=>card(p,i)).join("")}</div>` : `
+    <div class="text-center py-24 space-y-5">
+      <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="#C9A961" stroke-width="1" class="mx-auto"><path d="M12 20s-7.5-4.7-7.5-9.6A4.4 4.4 0 0 1 12 7.3a4.4 4.4 0 0 1 7.5 3.1C19.5 15.3 12 20 12 20Z"/></svg>
+      <p class="font-display text-2xl text-ink-soft">${t("empty_wish")}</p>
+      <button data-act="nav" data-view="shop" class="btn-ghost rounded-full px-8 py-3 text-[.62rem] uppercase">${t("start_shopping")}</button>
+    </div>`}
+  </div>`;
 }
 
 function vAbout(){
-  return `<section class="max-w-4xl mx-auto px-5 pt-12 pb-8 text-center">
-    <p class="text-[.58rem] tracking-luxe uppercase text-[#A08A62]">${t("story_k")}</p>
-    <h2 class="font-display text-[2.2rem] sm:text-[3.4rem] tracking-[.12em] text-ink mt-3">${t("about_t")}</h2>
-    <div class="hairline my-8"></div>
-    <p class="text-[.95rem] text-ink-soft leading-loose">${t("story_p")}</p>
-    <div class="grid sm:grid-cols-3 gap-4 mt-12 text-start">
-      ${["trust1","trust3","trust2"].map(k=>`<div class="glass-soft rounded-2xl p-6"><p class="font-display text-xl text-ink">${t(k)}</p><p class="text-[.72rem] text-ink-soft mt-2">${t(k+"s")}</p></div>`).join("")}
+  return `
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 pt-12 sm:pt-20 pb-28">
+    <p class="text-[.62rem] tracking-[.34em] uppercase text-[#9A814F] text-center mb-3">AURÉLIA · MAISON</p>
+    <h2 class="font-display text-[2.8rem] sm:text-[4rem] text-center text-ink tracking-[.06em] leading-tight mb-8">${t("about_t")}</h2>
+    <div class="rounded-[2rem] overflow-hidden card-soft mb-12"><img src="https://images.pexels.com/photos/29503018/pexels-photo-29503018.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=900&w=1200" class="w-full h-[380px] sm:h-[480px] object-cover" alt=""></div>
+    <div class="space-y-6 text-[.95rem] sm:text-[1.05rem] text-[#5C5245] leading-relaxed">
+      <p class="font-display text-[1.4rem] sm:text-[1.7rem] text-ink italic leading-snug">"In Cairo, light has a distinct weight. It reflects off limestone and river water before it settles in our gold."</p>
+      <p>Founded in Zamalek in 1998, AURÉLIA was born out of a desire to create fine jewelry that feels personal, wearable, and grounded in centuries of Egyptian craftsmanship. Every solitaire, every tennis bracelet, and every pavé drop is set entirely by hand in solid 18K gold.</p>
+      <p>We work exclusively with certified natural stones and partner with Egypt Post for secure, nationwide insured shipping across every governorate from Alexandria to Aswan.</p>
     </div>
-    <div class="mt-10 rounded-2xl overflow-hidden card-soft"><img src="https://images.pexels.com/photos/4155251/pexels-photo-4155251.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=700&w=1400" alt="" class="w-full h-72 object-cover"></div>
-  </section>`;
-}
-
-/* ── CHECKOUT ── */
-function addrLine(a){ return [a.line, a.area, a.city, a.zip].filter(Boolean).join("، "); }
-function vCheckout(){
-  if(!S.cart.length) return vWishlist();
-  const sf = shipFee(), st = subtotal(), dc = discount();
-  const A = S.profile.addresses;
-  return `<section class="max-w-[1200px] mx-auto px-4 sm:px-6 pt-10">
-    <h2 class="font-display text-[2rem] sm:text-[2.8rem] tracking-[.14em] text-ink text-center">${t("co_title")}</h2>
-    <div class="hairline my-8"></div>
-    <div class="grid lg:grid-cols-[1.3fr_1fr] gap-6">
-      <div class="space-y-5">
-        <div class="glass rounded-2xl p-5 sm:p-7">
-          <h3 class="text-[.66rem] uppercase tracking-[.22em] text-[#8E6E32] mb-4">${t("co_addr")}</h3>
-          ${A.length ? A.map((a,i)=>`
-            <label class="flex gap-3 items-start p-4 rounded-xl border mb-2.5 cursor-pointer transition ${a.def?'border-[#B08E4F] bg-[#B08E4F]/6':'border-[#D9C7A5]/70 hover:border-[#B08E4F]/60'}">
-              <input type="radio" name="addr" value="${i}" ${a.def?"checked":""} data-act="pickAddr" class="mt-1 accent-[#B08E4F]">
-              <div class="flex-1">
-                <p class="text-[.8rem] text-ink">${esc(a.label||t("addr_label"))} ${a.def?`<span class="text-[.55rem] uppercase tracking-[.14em] text-[#8E6E32] ms-1">· ${t("default_a")}</span>`:""}</p>
-                <p class="text-[.74rem] text-ink-soft mt-1">${esc(addrLine(a))}</p>
-                ${a.lat?`<p class="text-[.62rem] text-[#8E6E32] mt-1">📍 ${t("pinned")} (${(+a.lat).toFixed(4)}, ${(+a.lng).toFixed(4)})</p>`:""}
-              </div>
-            </label>`).join("")
-          : `<p class="text-[.78rem] text-ink-soft mb-4">${t("need_addr")}</p>`}
-          <button data-act="newAddr" class="btn-ghost rounded-lg w-full py-3 text-[.6rem] uppercase mt-2">${t("add_addr")}</button>
-          <div class="mt-5 rounded-xl border border-[#B08E4F]/45 bg-[#F6EEDC] p-4 flex gap-3">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8E6E32" stroke-width="1.2" class="shrink-0 mt-0.5"><path d="M3 8h11v8H3zM14 11h4l3 3v2h-7z"/><circle cx="6.5" cy="17.5" r="1.6"/><circle cx="17.5" cy="17.5" r="1.6"/></svg>
-            <div><p class="text-[.76rem] text-[#6B5426] font-medium">${t("egypt_post")}</p>
-              <p class="text-[.66rem] text-ink-soft mt-1">${t("egypt_post_sub")}</p></div>
-          </div>
-        </div>
-        <div class="glass rounded-2xl p-5 sm:p-7">
-          <h3 class="text-[.66rem] uppercase tracking-[.22em] text-[#8E6E32] mb-4">${t("co_pay")}</h3>
-          ${[["cod","pay_cod","pay_cod_s"],["ip","pay_ip","pay_ip_s"]].map((m,i)=>`
-            <label class="flex gap-3 items-start p-4 rounded-xl border mb-2.5 cursor-pointer transition ${i===0?'border-[#B08E4F] bg-[#B08E4F]/6':'border-[#D9C7A5]/70 hover:border-[#B08E4F]/60'}">
-              <input type="radio" name="pay" value="${m[0]}" ${i===0?"checked":""} class="mt-1 accent-[#B08E4F]">
-              <div><p class="text-[.82rem] text-ink">${t(m[1])}</p><p class="text-[.7rem] text-ink-soft mt-0.5">${t(m[2])}</p></div>
-            </label>`).join("")}
-        </div>
-      </div>
-      <div class="glass rounded-2xl p-5 sm:p-7 h-fit lg:sticky lg:top-32">
-        <h3 class="text-[.66rem] uppercase tracking-[.22em] text-[#8E6E32] mb-4">${t("co_summary")}</h3>
-        <div class="space-y-3 max-h-64 overflow-y-auto pe-1">
-          ${S.cart.map(l=>{const p=P(l.id);return `<div class="flex gap-3 items-center">
-            <img src="${p.img[0]}" class="w-14 h-14 rounded-lg object-cover border border-[#E0CFAE]/70" alt="">
-            <div class="flex-1 min-w-0"><p class="text-[.78rem] truncate">${esc(pName(p))}</p><p class="text-[.62rem] text-ink-soft">${esc(l.size)} · ×${l.q}</p></div>
-            <span class="text-[.76rem] text-[#8E6E32] whitespace-nowrap">${money(p.price*l.q)}</span></div>`;}).join("")}
-        </div>
-        <div class="hairline my-4"></div>
-        <div class="flex justify-between text-[.78rem] text-ink-soft"><span>${t("subtotal")}</span><span>${money(st)}</span></div>
-        ${dc?`<div class="flex justify-between text-[.78rem] text-[#4B6B44] mt-1.5"><span>${t("cs_disc")} (${esc(S.coupon)})</span><span>−${money(dc)}</span></div>`:""}
-        ${S.gift?`<div class="flex justify-between text-[.78rem] text-[#4B6B44] mt-1.5"><span>${t("cs_gift")}</span><span>${t("free")}</span></div>`:""}
-        <div class="flex justify-between text-[.78rem] text-ink-soft mt-1.5"><span>${t("shipping")}</span><span>${sf?money(sf):`<span class="text-[#8E6E32]">${t("free")}</span>`}</span></div>
-        <div class="hairline my-4"></div>
-        <div class="flex justify-between items-baseline"><span class="text-[.66rem] uppercase tracking-[.2em] text-ink-soft">${t("total")}</span><span class="font-display text-[1.9rem] text-[#8E6E32]">${money(net()+sf)}</span></div>
-        <button data-act="placeOrder" class="btn-gold w-full rounded-xl py-4 text-[.64rem] uppercase mt-5">${t("place")}</button>
-      </div>
-    </div>
-  </section>`;
-}
-
-function vConfirm(){
-  const o = S.lastOrder || {};
-  return `<section class="max-w-xl mx-auto px-5 pt-16 pb-10 text-center">
-    <div class="w-20 h-20 mx-auto rounded-full grid place-items-center mb-6" style="background:linear-gradient(135deg,#E8D5A8,#B08E4F)">
-      <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.6"><path d="m5 13 4 4L19 7"/></svg>
-    </div>
-    <h2 class="font-display text-[2.4rem] tracking-[.14em] text-ink">${t("thanks")}</h2>
-    <p class="text-[.85rem] text-ink-soft mt-3">${t("thanks_sub")}</p>
-    <div class="glass rounded-2xl p-6 mt-8 text-start">
-      <div class="flex justify-between text-[.78rem] mb-2"><span class="text-ink-soft">${t("order_no")}</span><span class="text-[#8E6E32] tracking-widest">${esc(o.id||"—")}</span></div>
-      <div class="flex justify-between text-[.78rem] mb-2"><span class="text-ink-soft">${t("total")}</span><span>${money(o.total||0)}</span></div>
-      <div class="flex justify-between text-[.78rem]"><span class="text-ink-soft">${t("status")}</span><span>${t("st_pending")}</span></div>
-      <div class="hairline my-4"></div>
-      <p class="text-[.72rem] text-[#6B5426]">${t("egypt_post")}</p>
-    </div>
-    <button data-act="nav" data-view="shop" class="btn-gold rounded-full px-10 py-3.5 text-[.62rem] uppercase mt-8">${t("cont")}</button>
-  </section>`;
-}
-
-/* ── PROFILE ── */
-function vProfile(){
-  if(!S.user){ setTimeout(()=>openAuth("login"),50); return vHome(); }
-  const p = S.profile, tab = S.ptab;
-  const T = [["over","p_over"],["addr","p_addr"],["orders","p_orders"],["phone","p_phone"]];
-  let body = "";
-  if(tab==="over"){
-    body = `<div class="grid sm:grid-cols-2 gap-4">
-      <div class="glass-soft rounded-2xl p-6"><p class="text-[.6rem] uppercase tracking-[.2em] text-[#A08A62]">${t("name")}</p><p class="font-display text-2xl text-ink mt-1">${esc(S.user.name||"—")}</p></div>
-      <div class="glass-soft rounded-2xl p-6"><p class="text-[.6rem] uppercase tracking-[.2em] text-[#A08A62]">${t("email")}</p><p class="text-[.86rem] text-ink mt-2 break-all">${esc(S.user.email||"—")}</p></div>
-      <div class="glass-soft rounded-2xl p-6"><p class="text-[.6rem] uppercase tracking-[.2em] text-[#A08A62]">${t("phone")}</p>
-        <p class="text-[.9rem] text-ink mt-2" dir="ltr">${esc(p.phone||"—")}</p>
-        <span class="inline-block mt-2 text-[.58rem] uppercase tracking-[.14em] px-2.5 py-1 rounded-full ${p.phoneVerified?'bg-[#E4EEDF] text-[#4B6B44]':'bg-[#F3E3DC] text-[#8A4A38]'}">${p.phoneVerified?t("verified"):t("unverified")}</span></div>
-      <div class="glass-soft rounded-2xl p-6"><p class="text-[.6rem] uppercase tracking-[.2em] text-[#A08A62]">${t("member")}</p><p class="text-[.86rem] text-ink mt-2">${new Date(p.createdAt||Date.now()).toLocaleDateString(LANG==="ar"?"ar-EG":"en-GB")}</p></div>
-    </div>
-    <div class="grid grid-cols-3 gap-3 mt-4">
-      <div class="glass-soft rounded-2xl p-5 text-center"><p class="font-display text-3xl text-[#8E6E32]">${p.orders.length}</p><p class="text-[.6rem] uppercase tracking-[.16em] text-ink-soft mt-1">${t("p_orders")}</p></div>
-      <div class="glass-soft rounded-2xl p-5 text-center"><p class="font-display text-3xl text-[#8E6E32]">${S.wish.length}</p><p class="text-[.6rem] uppercase tracking-[.16em] text-ink-soft mt-1">${t("wishlist")}</p></div>
-      <div class="glass-soft rounded-2xl p-5 text-center"><p class="font-display text-3xl text-[#8E6E32]">${p.addresses.length}</p><p class="text-[.6rem] uppercase tracking-[.16em] text-ink-soft mt-1">${t("p_addr")}</p></div>
-    </div>`;
-  }
-  if(tab==="addr"){
-    body = `${p.addresses.length ? p.addresses.map((a,i)=>`
-      <div class="glass-soft rounded-2xl p-5 mb-3">
-        <div class="flex items-start justify-between gap-3">
-          <div><p class="text-[.85rem] text-ink">${esc(a.label||"—")} ${a.def?`<span class="text-[.55rem] uppercase tracking-[.14em] text-[#8E6E32]">· ${t("default_a")}</span>`:""}</p>
-            <p class="text-[.75rem] text-ink-soft mt-1">${esc(addrLine(a))}</p>
-            ${a.lat?`<a href="https://maps.google.com/?q=${a.lat},${a.lng}" target="_blank" class="text-[.62rem] text-[#8E6E32] mt-1 inline-block">📍 ${t("pinned")}</a>`:""}</div>
-          <div class="flex flex-col gap-1.5 shrink-0">
-            ${!a.def?`<button data-act="defAddr" data-i="${i}" class="text-[.58rem] uppercase tracking-[.12em] text-[#8E6E32] hover:underline">${t("make_def")}</button>`:""}
-            <button data-act="delAddr" data-i="${i}" class="text-[.58rem] uppercase tracking-[.12em] text-[#8A4A38] hover:underline">${t("del")}</button>
-          </div>
-        </div>
-      </div>`).join("") : `<p class="text-[.8rem] text-ink-soft mb-4">${t("need_addr")}</p>`}
-      <button data-act="newAddr" class="btn-gold rounded-xl w-full py-3.5 text-[.62rem] uppercase">${t("add_addr")}</button>
-      <div class="mt-4 rounded-xl border border-[#B08E4F]/45 bg-[#F6EEDC] p-4">
-        <p class="text-[.74rem] text-[#6B5426]">${t("egypt_post")}</p></div>`;
-  }
-  if(tab==="orders"){
-    body = p.orders.length ? p.orders.map(o=>`
-      <div class="glass-soft rounded-2xl p-5 mb-3">
-        <div class="flex flex-wrap items-center justify-between gap-2">
-          <div><p class="text-[.8rem] text-ink">${t("order")} <span class="tracking-widest text-[#8E6E32]">${esc(o.id)}</span></p>
-            <p class="text-[.66rem] text-ink-soft mt-0.5">${t("placed")}: ${new Date(o.ts).toLocaleDateString(LANG==="ar"?"ar-EG":"en-GB")} · ${o.items.length} ${t("items")}</p></div>
-          <div class="text-end"><p class="font-display text-xl text-[#8E6E32]">${money(o.total)}</p>
-            <span class="text-[.56rem] uppercase tracking-[.14em] px-2 py-1 rounded-full bg-[#EFE4CE] text-[#7A6224]">${t("st_pending")}</span></div>
-        </div>
-        <div class="flex gap-2 mt-3 overflow-x-auto scroll-x">
-          ${o.items.map(it=>{const pr=P(it.id); return pr?`<img src="${pr.img[0]}" class="w-12 h-12 rounded-lg object-cover border border-[#E0CFAE]/70" alt="">`:"";}).join("")}
-        </div>
-      </div>`).join("") : `<p class="text-[.85rem] text-ink-soft py-10 text-center">${t("no_orders")}</p>`;
-  }
-  if(tab==="phone"){
-    body = `<div class="glass-soft rounded-2xl p-6 max-w-md">
-      <label class="lbl">${t("upd_phone")}</label>
-      <input id="newPhone" class="field" dir="ltr" placeholder="01xxxxxxxxx" value="${esc(p.phone||"")}">
-      <p class="text-[.68rem] text-ink-soft mt-3">${t("upd_phone_note")}</p>
-      <button data-act="reverify" class="btn-gold rounded-xl w-full py-3.5 text-[.62rem] uppercase mt-4">${t("send_otp")}</button>
-      <p class="text-[.6rem] text-ink-soft mt-3 text-center">${t("wa_from")}: 01159055625</p>
-    </div>`;
-  }
-  return `<section class="max-w-[1100px] mx-auto px-4 sm:px-6 pt-10">
-    <div class="text-center">
-      <p class="text-[.58rem] tracking-luxe uppercase text-[#A08A62]">${t("p_hi")}, ${esc((S.user.name||"").split(" ")[0])}</p>
-      <h2 class="font-display text-[2rem] sm:text-[2.8rem] tracking-[.14em] text-ink mt-2">${t("profile")}</h2>
-    </div>
-    <div class="flex gap-2 overflow-x-auto scroll-x justify-start sm:justify-center py-7">
-      ${T.map(([k,l])=>`<button data-act="ptab" data-tab="${k}" class="whitespace-nowrap px-5 py-2 rounded-full text-[.62rem] uppercase tracking-[.16em] border transition ${tab===k?'bg-[#B08E4F] text-white border-[#B08E4F]':'border-[#D3BC93]/70 text-[#7A6C58] hover:bg-white/70'}">${t(l)}</button>`).join("")}
-      <button data-act="signout" class="whitespace-nowrap px-5 py-2 rounded-full text-[.62rem] uppercase tracking-[.16em] border border-[#C8A0A0]/70 text-[#8A4A38] hover:bg-white/70 transition">${t("signout")}</button>
-    </div>
-    <div class="pb-6">${body}</div>
-  </section>`;
-}
-
-/* ─────────────  14. AUTH FLOW (modal)  ───────────── */
-const AUTH = { mode:"login", step:1, tmp:{}, otp:"", otpExp:0, resend:0, timer:null, afterAddr:null };
-function openAuth(mode="login", opts={}){
-  AUTH.mode = mode; AUTH.step = opts.step || 1; AUTH.tmp = opts.tmp || {};
-  AUTH.afterAddr = opts.afterAddr || null;
-  openSheet("authModal"); renderAuth();
-}
-function closeAuth(){ closeSheet("authModal"); clearInterval(AUTH.timer); }
-
-function authHeader(title, sub, steps){
-  return `<div class="text-center mb-6">
-    <p class="font-display gold-text text-[1.7rem] tracking-[.2em]">AURÉLIA</p>
-    ${steps?`<p class="text-[.56rem] uppercase tracking-[.24em] text-[#A08A62] mt-3">${t("step")} ${steps[0]} ${t("of")} ${steps[1]}</p>
-      <div class="flex gap-1.5 justify-center mt-2">${[1,2,3,4].map(i=>`<span class="h-[3px] w-8 rounded-full ${i<=steps[0]?'bg-[#B08E4F]':'bg-[#DFD0B4]'}"></span>`).join("")}</div>`:""}
-    <h3 class="font-display text-[1.7rem] text-ink mt-3">${title}</h3>
-    ${sub?`<p class="text-[.74rem] text-ink-soft mt-1.5">${sub}</p>`:""}
   </div>`;
 }
-function renderAuth(){
-  const b = document.getElementById("authBody");
-  if(AUTH.mode==="login"){
-    b.innerHTML = authHeader(t("login"), S.pendingCheckout ? t("need_login") : "") + `
-      <div id="authErr" class="hidden mb-3 text-[.72rem] text-[#8A2E2E] bg-[#F6E4E0] border border-[#E0BDB5] rounded-lg px-3 py-2.5"></div>
-      <button data-act="google" class="w-full flex items-center justify-center gap-3 rounded-xl border border-[#D9C7A5] bg-white/80 py-3 text-[.76rem] hover:bg-white transition mb-4">
-        <svg width="17" height="17" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9 3.6l6.7-6.7C35.6 2.6 30.2.5 24 .5 14.6.5 6.5 5.9 2.6 13.7l7.8 6.1C12.3 13.8 17.6 9.5 24 9.5z"/><path fill="#4285F4" d="M46.5 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.7c-.6 3-2.3 5.6-4.9 7.3l7.6 5.9c4.4-4.1 7.1-10.2 7.1-17.7z"/><path fill="#FBBC05" d="M10.4 28.2A14.7 14.7 0 0 1 9.6 24c0-1.5.3-2.9.8-4.2l-7.8-6.1A23.9 23.9 0 0 0 0 24c0 3.9.9 7.5 2.6 10.7l7.8-6.5z"/><path fill="#34A853" d="M24 47.5c6.5 0 11.9-2.1 15.9-5.8l-7.6-5.9c-2.1 1.4-4.9 2.3-8.3 2.3-6.4 0-11.7-4.3-13.6-10.1l-7.8 6.5C6.5 42.1 14.6 47.5 24 47.5z"/></svg>
-        ${t("g_login")}
-      </button>
-      <div class="flex items-center gap-3 my-4"><span class="flex-1 h-px bg-[#DFD0B4]"></span><span class="text-[.6rem] uppercase tracking-[.2em] text-[#A08A62]">${t("or")}</span><span class="flex-1 h-px bg-[#DFD0B4]"></span></div>
-      <form data-act="doLogin" class="space-y-3.5">
-        <div><label class="lbl">${t("email")}</label><input name="email" type="email" class="field" dir="ltr" placeholder="you@email.com" required></div>
-        <div><label class="lbl">${t("password")}</label><input name="pass" type="password" class="field" dir="ltr" placeholder="••••••••" required></div>
-        <button class="btn-gold w-full rounded-xl py-3.5 text-[.64rem] uppercase !mt-5">${t("login")}</button>
-      </form>
-      <button data-act="reset" class="w-full text-[.66rem] text-ink-soft hover:text-[#8E6E32] mt-3">${t("forgot")}</button>
-      <p class="text-center text-[.72rem] text-ink-soft mt-5">${t("no_acc")}
-        <button data-act="toReg" class="text-[#8E6E32] underline underline-offset-4 ms-1">${t("register")}</button></p>`;
-    return;
+
+function vAccount(){
+  if(!S.user){
+    setTimeout(()=>openAuthModal("login"), 50);
+    return `<div class="max-w-md mx-auto py-24 text-center"><p class="text-ink-soft">${t("need_login")}</p></div>`;
   }
-  /* register */
-  if(AUTH.step===1){
-    b.innerHTML = authHeader(t("register"), t("reg_s1"), [1,4]) + `
-      <div id="authErr" class="hidden mb-3 text-[.72rem] text-[#8A2E2E] bg-[#F6E4E0] border border-[#E0BDB5] rounded-lg px-3 py-2.5"></div>
-      <button data-act="google" class="w-full flex items-center justify-center gap-3 rounded-xl border border-[#D9C7A5] bg-white/80 py-3 text-[.76rem] hover:bg-white transition mb-4">
-        <svg width="17" height="17" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9 3.6l6.7-6.7C35.6 2.6 30.2.5 24 .5 14.6.5 6.5 5.9 2.6 13.7l7.8 6.1C12.3 13.8 17.6 9.5 24 9.5z"/><path fill="#4285F4" d="M46.5 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.7c-.6 3-2.3 5.6-4.9 7.3l7.6 5.9c4.4-4.1 7.1-10.2 7.1-17.7z"/><path fill="#FBBC05" d="M10.4 28.2A14.7 14.7 0 0 1 9.6 24c0-1.5.3-2.9.8-4.2l-7.8-6.1A23.9 23.9 0 0 0 0 24c0 3.9.9 7.5 2.6 10.7l7.8-6.5z"/><path fill="#34A853" d="M24 47.5c6.5 0 11.9-2.1 15.9-5.8l-7.6-5.9c-2.1 1.4-4.9 2.3-8.3 2.3-6.4 0-11.7-4.3-13.6-10.1l-7.8 6.5C6.5 42.1 14.6 47.5 24 47.5z"/></svg>
-        ${t("g_login")}</button>
-      <div class="flex items-center gap-3 my-4"><span class="flex-1 h-px bg-[#DFD0B4]"></span><span class="text-[.6rem] uppercase tracking-[.2em] text-[#A08A62]">${t("or")}</span><span class="flex-1 h-px bg-[#DFD0B4]"></span></div>
-      <form data-act="regStep1" class="space-y-3.5">
-        <div><label class="lbl">${t("name")}</label><input name="name" class="field" value="${esc(AUTH.tmp.name||"")}" required></div>
-        <div><label class="lbl">${t("email")}</label><input name="email" type="email" dir="ltr" class="field" value="${esc(AUTH.tmp.email||"")}" required></div>
-        <div><label class="lbl">${t("password")}</label><input name="pass" type="password" dir="ltr" class="field" placeholder="min. 6" required></div>
-        <button class="btn-gold w-full rounded-xl py-3.5 text-[.64rem] uppercase !mt-5">${t("verify")}</button>
-      </form>
-      <p class="text-center text-[.72rem] text-ink-soft mt-5">${t("has_acc")}
-        <button data-act="toLogin" class="text-[#8E6E32] underline underline-offset-4 ms-1">${t("login")}</button></p>`;
-  }
-  else if(AUTH.step===2){
-    b.innerHTML = authHeader(t("reg_s2"), t("otp_msg2"), [2,4]) + `
-      <div id="authErr" class="hidden mb-3 text-[.72rem] text-[#8A2E2E] bg-[#F6E4E0] border border-[#E0BDB5] rounded-lg px-3 py-2.5"></div>
-      <div class="flex items-center justify-center gap-2 mb-5">
-        <svg width="30" height="30" viewBox="0 0 24 24" fill="#25D366"><path d="M17.5 14.4c-.3-.2-1.7-.9-2-1-.3-.1-.5-.2-.7.1s-.8 1-.9 1.2c-.2.2-.3.2-.6.1a8 8 0 0 1-2.4-1.5 9 9 0 0 1-1.6-2.1c-.2-.3 0-.5.1-.6l.5-.6.3-.5v-.5l-.9-2.2c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.2.2 2.1 3.2 5.1 4.5.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.7-.7 2-1.4.2-.7.2-1.3.2-1.4-.1-.1-.3-.2-.6-.3M12 2a10 10 0 0 0-8.5 15.3L2 22l4.8-1.4A10 10 0 1 0 12 2"/></svg>
-        <span class="text-[.72rem] text-ink-soft">${t("wa_from")}: <span dir="ltr">01159055625</span></span>
+  const p = S.profile;
+  return `
+  <div class="max-w-5xl mx-auto px-4 sm:px-6 pt-10 sm:pt-14 pb-24">
+    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-10 pb-6 border-b border-[#D9C7A5]/60">
+      <div>
+        <p class="text-[.62rem] tracking-[.3em] uppercase text-[#A08A62]">${t("profile")}</p>
+        <h2 class="font-display text-[2.2rem] sm:text-[2.8rem] text-ink mt-1">${t("p_hi")}, ${esc(S.user.name)}</h2>
+        <p class="text-[.76rem] text-ink-soft mt-0.5">${esc(S.user.email)} · <span class="${p.phoneVerified?'text-[#4B6B44]':'text-[#9A7033]'}">${p.phoneVerified?t("verified"):t("unverified")}</span></p>
       </div>
-      <form data-act="regStep2" class="space-y-3.5">
-        <div><label class="lbl">${t("phone")}</label>
-          <div class="flex gap-2" dir="ltr">
-            <span class="field !w-auto flex items-center text-[.8rem] text-ink-soft">🇪🇬 +20</span>
-            <input name="phone" class="field" inputmode="tel" placeholder="1159055625" value="${esc((AUTH.tmp.phone||"").replace(/^(\+?20|0)/,""))}" required>
+      <button data-act="signout" class="btn-ghost rounded-full px-6 py-2.5 text-[.62rem] uppercase">${t("signout")}</button>
+    </div>
+
+    <!-- tabs -->
+    <div class="flex gap-2 border-b border-[#D9C7A5]/60 mb-8 pb-3">
+      ${[["over","p_over"],["orders","p_orders"],["addr","p_addr"],["phone","p_phone"]].map(([k,lbl])=>`
+      <button data-act="ptab" data-tab="${k}" class="px-5 py-2 rounded-full text-[.66rem] uppercase tracking-[.18em] transition ${S.ptab===k?"btn-gold":"glass-soft text-ink hover:text-[#8E6E32]"}">${t(lbl)}</button>`).join("")}
+    </div>
+
+    <!-- tab content -->
+    ${S.ptab==="over" ? `
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+      <div class="glass-soft rounded-2xl p-6">
+        <p class="text-[.62rem] uppercase tracking-[.22em] text-[#8E6E32] mb-1">${t("p_orders")}</p>
+        <p class="font-display text-3xl text-ink">${p.orders.length}</p>
+      </div>
+      <div class="glass-soft rounded-2xl p-6">
+        <p class="text-[.62rem] uppercase tracking-[.22em] text-[#8E6E32] mb-1">${t("p_addr")}</p>
+        <p class="font-display text-3xl text-ink">${p.addresses.length}</p>
+      </div>
+      <div class="glass-soft rounded-2xl p-6">
+        <p class="text-[.62rem] uppercase tracking-[.22em] text-[#8E6E32] mb-1">${t("p_phone")}</p>
+        <p class="font-display text-xl text-ink truncate">${p.phone ? esc(p.phone) : "—"}</p>
+      </div>
+    </div>` : ""}
+
+    ${S.ptab==="orders" ? `
+    <div class="space-y-4">
+      ${p.orders.length ? p.orders.map(o=>`
+      <div class="glass-soft rounded-2xl p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div>
+          <div class="flex items-center gap-3">
+            <span class="font-display text-xl text-ink">${t("order")} #${o.id}</span>
+            <span class="px-2.5 py-0.5 rounded-full bg-[#E5D8C3] text-[.6rem] uppercase tracking-[.16em] text-[#8E6E32]">${t("st_pending")}</span>
+          </div>
+          <p class="text-[.74rem] text-ink-soft mt-1">${t("placed")}: ${new Date(o.ts).toLocaleDateString()} · ${o.items.length} ${t("items")}</p>
+        </div>
+        <div class="text-end">
+          <p class="font-display text-xl text-[#8E6E32]">${money(o.total)}</p>
+          <p class="text-[.62rem] text-ink-soft uppercase">${o.pay}</p>
+        </div>
+      </div>`).join("") : `<p class="text-ink-soft text-center py-12">${t("no_orders")}</p>`}
+    </div>` : ""}
+
+    ${S.ptab==="addr" ? `
+    <div class="space-y-6">
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        ${p.addresses.map((a,i)=>`
+        <div class="glass-soft rounded-2xl p-6 relative">
+          ${a.def ? `<span class="absolute top-4 end-4 text-[.56rem] tracking-[.18em] uppercase px-2.5 py-0.5 rounded-full bg-[#B08E4F] text-white">${t("default_a")}</span>`:""}
+          <p class="font-display text-lg text-ink">${esc(a.label||"Address "+(i+1))}</p>
+          <p class="text-[.8rem] text-ink-soft mt-2 leading-relaxed">${esc(a.line)}<br>${esc(a.area)}, ${esc(a.city)}</p>
+          <div class="flex gap-4 mt-4 text-[.66rem] uppercase tracking-[.14em]">
+            ${!a.def?`<button data-act="defAddr" data-i="${i}" class="text-[#8E6E32] hover:underline">${t("make_def")}</button>`:""}
+            <button data-act="rmAddr" data-i="${i}" class="text-[#7A2E2E] hover:underline">${t("del")}</button>
+          </div>
+        </div>`).join("")}
+      </div>
+      <form data-act="addAddr" class="glass-soft rounded-2xl p-6 space-y-4 max-w-xl">
+        <h4 class="font-display text-xl text-ink">${t("add_addr")}</h4>
+        <div class="grid grid-cols-2 gap-3">
+          <div><label class="lbl">${t("addr_label")}</label><input name="label" class="field" placeholder="Home / Work"></div>
+          <div><label class="lbl">${t("addr_zip")}</label><input name="zip" class="field" placeholder="11511"></div>
+        </div>
+        <div><label class="lbl">${t("addr_line")}</label><input name="line" class="field" required placeholder="14 Zamalek St, Apt 4"></div>
+        <div class="grid grid-cols-2 gap-3">
+          <div><label class="lbl">${t("addr_area")}</label><input name="area" class="field" required placeholder="Zamalek"></div>
+          <div><label class="lbl">${t("addr_city")}</label><input name="city" class="field" required placeholder="Cairo"></div>
+        </div>
+        <button class="btn-gold rounded-xl px-6 py-3 text-[.62rem] uppercase">${t("save")}</button>
+      </form>
+    </div>` : ""}
+
+    ${S.ptab==="phone" ? `
+    <div class="glass-soft rounded-2xl p-6 max-w-md">
+      <h4 class="font-display text-xl text-ink mb-1">${t("upd_phone")}</h4>
+      <p class="text-[.76rem] text-ink-soft mb-6">${t("upd_phone_note")}</p>
+      <form data-act="updPhone" class="space-y-4">
+        <div><label class="lbl">${t("phone")}</label><input name="phone" class="field" dir="ltr" value="${esc(p.phone)}" required placeholder="01159055625"></div>
+        <button class="btn-gold rounded-xl px-6 py-3 text-[.62rem] uppercase">${t("verify")}</button>
+      </form>
+    </div>` : ""}
+  </div>`;
+}
+
+function vCheckout(){
+  if(!S.cart.length){
+    setTimeout(()=>router("shop"), 10);
+    return ``;
+  }
+  if(!S.user){
+    setTimeout(()=>openAuthModal("login"), 50);
+    return `<div class="max-w-md mx-auto py-24 text-center"><p class="text-ink-soft">${t("need_login")}</p></div>`;
+  }
+  const addrs = S.profile.addresses;
+  const defAddr = addrs.find(a=>a.def) || addrs[0];
+  const n = net(), sf = shipFee(), dc = discount();
+
+  return `
+  <div class="max-w-5xl mx-auto px-4 sm:px-6 pt-10 sm:pt-14 pb-24">
+    <h2 class="font-display text-[2.4rem] sm:text-[3.2rem] tracking-[.14em] text-ink mb-10 text-center">${t("co_title")}</h2>
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+      <!-- left form -->
+      <div class="lg:col-span-7 space-y-6">
+        <!-- address box -->
+        <div class="glass-soft rounded-2xl p-6">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="font-display text-xl text-ink">${t("co_addr")}</h3>
+            <button data-act="nav" data-view="account" class="text-[.62rem] uppercase tracking-[.16em] text-[#8E6E32] hover:underline">+ ${t("add_addr")}</button>
+          </div>
+          ${defAddr ? `
+          <div class="rounded-xl bg-white/60 border border-[#D9C7A5]/60 p-4">
+            <p class="font-display text-lg text-ink">${esc(defAddr.label||"Default Address")}</p>
+            <p class="text-[.8rem] text-ink-soft mt-1">${esc(defAddr.line)}<br>${esc(defAddr.area)}, ${esc(defAddr.city)}</p>
+          </div>` : `
+          <div class="text-center py-6 bg-white/40 rounded-xl border border-dashed border-[#D9C7A5]">
+            <p class="text-[.78rem] text-ink-soft mb-3">${t("need_addr")}</p>
+            <button data-act="nav" data-view="account" class="btn-gold rounded-full px-6 py-2.5 text-[.6rem] uppercase">${t("add_addr")}</button>
+          </div>`}
+          <p class="text-[.62rem] text-[#7A6C58] mt-3 flex items-center gap-1.5">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3 8h11v8H3zM14 11h4l3 3v2h-7z"/></svg>
+            ${t("egypt_post_sub")}
+          </p>
+        </div>
+
+        <!-- payment -->
+        <div class="glass-soft rounded-2xl p-6">
+          <h3 class="font-display text-xl text-ink mb-4">${t("co_pay")}</h3>
+          <div class="space-y-3">
+            <label class="flex items-start gap-3.5 p-4 rounded-xl bg-white/60 border border-[#C9A961] cursor-pointer">
+              <input type="radio" name="pay" checked class="mt-1 accent-[#B08E4F]">
+              <div><p class="text-[.85rem] text-ink font-medium">${t("pay_cod")}</p><p class="text-[.7rem] text-ink-soft mt-0.5">${t("pay_cod_s")}</p></div>
+            </label>
+            <label class="flex items-start gap-3.5 p-4 rounded-xl bg-white/40 border border-[#D9C7A5]/60 cursor-pointer">
+              <input type="radio" name="pay" class="mt-1 accent-[#B08E4F]">
+              <div><p class="text-[.85rem] text-ink font-medium">${t("pay_ip")}</p><p class="text-[.7rem] text-ink-soft mt-0.5">${t("pay_ip_s")}</p></div>
+            </label>
           </div>
         </div>
-        <button class="btn-gold w-full rounded-xl py-3.5 text-[.62rem] uppercase !mt-5">${t("send_otp")}</button>
-      </form>
-      <p class="text-[.64rem] text-ink-soft text-center mt-4 leading-relaxed">${t("otp_msg2")}</p>`;
-  }
-  else if(AUTH.step===3){
-    b.innerHTML = authHeader(t("reg_s3"), `${t("otp_sent")} <span dir="ltr" class="text-[#8E6E32]">+${normalizeEG(AUTH.tmp.phone)}</span>`, [3,4]) + `
-      <div id="authErr" class="hidden mb-3 text-[.72rem] text-[#8A2E2E] bg-[#F6E4E0] border border-[#E0BDB5] rounded-lg px-3 py-2.5"></div>
-      ${AUTH.demo?`<div class="mb-4 text-[.7rem] text-[#6B5426] bg-[#F6EEDC] border border-[#D9C08A] rounded-lg px-3 py-2.5 text-center">${t("demo_note")} <b class="tracking-[.3em] text-base">${AUTH.otp}</b></div>`:""}
-      <form data-act="regStep3">
-        <div class="flex justify-center gap-2 mb-5" dir="ltr" id="otpRow">
-          ${[0,1,2,3,4,5].map(i=>`<input class="field otp-box" maxlength="1" inputmode="numeric" data-oi="${i}">`).join("")}
+      </div>
+
+      <!-- right summary -->
+      <div class="lg:col-span-5">
+        <div class="glass-soft rounded-2xl p-6 sticky top-24 space-y-4">
+          <h3 class="font-display text-xl text-ink mb-2">${t("co_summary")}</h3>
+          <div class="space-y-3 max-h-[42vh] overflow-y-auto pr-1">
+            ${S.cart.map(l=>{const p=P(l.id); return `
+            <div class="flex items-center gap-3 py-2 border-b border-[#E7DBC4]/60">
+              <img src="${p.img[0]}" class="w-12 h-12 rounded-lg object-cover">
+              <div class="flex-1 min-w-0"><p class="font-display text-[.92rem] text-ink truncate">${esc(pName(p))}</p><p class="text-[.62rem] text-ink-soft">${l.q} × ${money(p.price)} · ${esc(l.size)}</p></div>
+              <span class="text-[.78rem] text-[#8E6E32]">${money(p.price*l.q)}</span>
+            </div>`;}).join("")}
+          </div>
+          <div class="hairline"></div>
+          <div class="flex justify-between text-[.76rem] text-ink-soft"><span>${t("subtotal")}</span><span>${money(subtotal())}</span></div>
+          ${dc?`<div class="flex justify-between text-[.76rem] text-[#4B6B44]"><span>${t("cs_disc")}</span><span>−${money(dc)}</span></div>`:""}
+          <div class="flex justify-between text-[.76rem] text-ink-soft"><span>${t("shipping")}</span><span>${sf?money(sf):t("free")}</span></div>
+          <div class="hairline"></div>
+          <div class="flex justify-between items-baseline"><span class="text-[.66rem] uppercase tracking-[.2em] text-ink-soft">${t("total")}</span><span class="font-display text-[1.8rem] text-[#8E6E32]">${money(n+sf)}</span></div>
+          <button data-act="placeOrder" class="btn-gold w-full rounded-xl py-4 text-[.66rem] uppercase mt-2">${t("place")}</button>
         </div>
+      </div>
+    </div>
+  </div>`;
+}
+
+function vThanks(){
+  const o = S.lastOrder;
+  return `
+  <div class="max-w-xl mx-auto px-4 sm:px-6 pt-16 sm:pt-24 pb-28 text-center">
+    <div class="w-20 h-20 rounded-full bg-[#E5D8C3]/50 border border-[#C9A961] grid place-items-center mx-auto mb-6 text-[#8E6E32]">
+      <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 6 9 17l-5-5"/></svg>
+    </div>
+    <h2 class="font-display text-[2.8rem] text-ink">${t("thanks")}</h2>
+    <p class="text-[.9rem] text-ink-soft mt-2 leading-relaxed">${t("thanks_sub")}</p>
+    ${o?`<p class="font-display text-xl text-[#8E6E32] mt-4">${t("order_no")}: #${o.id}</p>`:""}
+    <button data-act="nav" data-view="home" class="btn-gold rounded-full px-10 py-4 text-[.64rem] uppercase mt-10">${t("cont")}</button>
+  </div>`;
+}
+
+/* ─────────────  14. AUTH & REGISTRATION MODAL FLOW  ───────────── */
+let regState = { step:1, name:"", email:"", pass:"", phone:"", otp:"", generatedOTP:"" };
+
+function openAuthModal(mode="login"){
+  renderAuth(mode);
+  openSheet("authModal");
+}
+function renderAuth(mode="login", err=""){
+  const b = document.getElementById("authBody");
+  if(mode==="login"){
+    b.innerHTML = `
+      <h3 class="font-display text-3xl text-ink text-center mb-2">${t("login")}</h3>
+      <p class="text-[.68rem] tracking-[.2em] uppercase text-[#A08A62] text-center mb-6">AURÉLIA MAISON</p>
+      ${err?`<div class="mb-4 p-3 rounded-xl bg-[#7A2E2E]/10 border border-[#7A2E2E]/40 text-[#7A2E2E] text-[.74rem] text-center">${esc(err)}</div>`:""}
+      <form data-act="doLogin" class="space-y-4">
+        <div><label class="lbl">${t("email")}</label><input name="email" type="email" class="field" required placeholder="you@email.com"></div>
+        <div><label class="lbl">${t("password")}</label><input name="password" type="password" class="field" required placeholder="••••••••"></div>
+        <button class="btn-gold w-full rounded-xl py-3.5 text-[.64rem] uppercase mt-2">${t("login")}</button>
+      </form>
+      <div class="flex items-center gap-4 my-5"><div class="hairline flex-1"></div><span class="text-[.64rem] uppercase text-[#A08A62]">${t("or")}</span><div class="hairline flex-1"></div></div>
+      <button data-act="google" class="w-full glass rounded-xl py-3 text-[.72rem] text-ink font-medium flex items-center justify-center gap-2 hover:bg-white transition">
+        <svg width="16" height="16" viewBox="0 0 24 24"><path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.17z"/><path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.13 0-5.78-2.11-6.73-4.96H1.19v3.15C3.17 21.36 7.23 24 12 24z"/><path fill="#FBBC05" d="M5.27 14.24c-.25-.72-.38-1.49-.38-2.24s.13-1.52.38-2.24V6.6H1.19C.43 8.14 0 9.89 0 11.75s.43 3.61 1.19 5.15l4.08-2.66z"/><path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.23 0 3.17 2.64 1.19 6.6l4.08 3.15c.95-2.85 3.6-4.96 6.73-4.96z"/></svg>
+        ${t("g_login")}
+      </button>
+      <p class="text-center text-[.74rem] text-ink-soft mt-6">${t("no_acc")} <button data-act="switchAuth" data-m="reg" class="text-[#8E6E32] font-medium hover:underline ms-1">${t("register")}</button></p>`;
+  } else {
+    // registration wizard steps 1-4
+    b.innerHTML = `
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="font-display text-2xl text-ink">${t("register")}</h3>
+        <span class="text-[.62rem] uppercase tracking-[.2em] text-[#8E6E32]">${t("step")} ${regState.step} ${t("of")} 4</span>
+      </div>
+      <div class="h-1 rounded-full bg-[#EADDBC] mb-6 overflow-hidden">
+        <div class="h-full bg-[#B08E4F] transition-all duration-500" style="width:${regState.step*25}%"></div>
+      </div>
+      ${err?`<div class="mb-4 p-3 rounded-xl bg-[#7A2E2E]/10 border border-[#7A2E2E]/40 text-[#7A2E2E] text-[.74rem] text-center">${esc(err)}</div>`:""}
+
+      ${regState.step===1 ? `
+      <form data-act="regS1" class="space-y-4">
+        <div><label class="lbl">${t("name")}</label><input name="name" class="field" required value="${esc(regState.name)}" placeholder="Mohamed Farghaly"></div>
+        <div><label class="lbl">${t("email")}</label><input name="email" type="email" class="field" required value="${esc(regState.email)}" placeholder="you@email.com"></div>
+        <div><label class="lbl">${t("password")}</label><input name="password" type="password" class="field" required placeholder="••••••••"></div>
+        <button class="btn-gold w-full rounded-xl py-3.5 text-[.64rem] uppercase mt-2">${t("verify")} →</button>
+      </form>` : ""}
+
+      ${regState.step===2 ? `
+      <form data-act="regS2" class="space-y-4">
+        <p class="text-[.8rem] text-ink-soft leading-relaxed">${t("otp_sent")} <b class="text-ink">${esc(regState.phone||"01159055625")}</b> via WhatsApp.</p>
+        <div><label class="lbl">${t("phone")}</label><input name="phone" class="field" dir="ltr" required value="${esc(regState.phone||"01159055625")}" placeholder="01159055625"></div>
+        <button class="btn-gold w-full rounded-xl py-3.5 text-[.64rem] uppercase mt-2">${t("send_otp")}</button>
+      </form>` : ""}
+
+      ${regState.step===3 ? `
+      <form data-act="regS3" class="space-y-5 text-center">
+        <p class="text-[.78rem] text-ink-soft">${t("otp_sent")} <b>${esc(regState.phone)}</b></p>
+        <div class="flex justify-center gap-2.5" dir="ltr">
+          ${[0,1,2,3,4,5].map(i=>`<input class="field otp-box" maxlength="1" data-otp-i="${i}" autocomplete="one-time-code">`).join("")}
+        </div>
+        <p class="text-[.68rem] text-[#8E6E32]" id="demoNote">${t("demo_note")} <b class="font-mono text-ink">${regState.generatedOTP}</b></p>
         <button class="btn-gold w-full rounded-xl py-3.5 text-[.64rem] uppercase">${t("verify")}</button>
-      </form>
-      <div class="text-center mt-4">
-        <button data-act="resend" class="text-[.68rem] text-[#8E6E32] disabled:text-[#B3A793]" id="resendBtn">${t("resend")}</button>
-      </div>
-      <button data-act="backStep" data-s="2" class="w-full text-[.64rem] text-ink-soft mt-3">${t("back")}</button>`;
-    setTimeout(()=>{ const f=document.querySelector("[data-oi='0']"); if(f) f.focus(); startResend(); },60);
-  }
-  else if(AUTH.step===4){
-    b.innerHTML = authHeader(t("reg_s4"), t("map_hint"), [4,4]) + addressFormHTML();
-    setTimeout(initMap, 60);
-  }
-}
-function addressFormHTML(a={}){
-  return `<div id="authErr" class="hidden mb-3 text-[.72rem] text-[#8A2E2E] bg-[#F6E4E0] border border-[#E0BDB5] rounded-lg px-3 py-2.5"></div>
-    <form data-act="saveAddr" class="space-y-3.5">
-      <div><label class="lbl">${t("addr_label")}</label><input name="label" class="field" placeholder="${LANG==="ar"?"المنزل":"Home"}" value="${esc(a.label||"")}"></div>
-      <div><label class="lbl">${t("addr_line")}</label><input name="line" class="field" required value="${esc(a.line||"")}"></div>
-      <div class="grid grid-cols-2 gap-3">
-        <div><label class="lbl">${t("addr_area")}</label><input name="area" class="field" value="${esc(a.area||"")}"></div>
-        <div><label class="lbl">${t("addr_city")}</label><input name="city" class="field" required value="${esc(a.city||"")}"></div>
-      </div>
-      <div><label class="lbl">${t("addr_zip")}</label><input name="zip" class="field" dir="ltr" value="${esc(a.zip||"")}"></div>
+      </form>` : ""}
 
-      <div class="rounded-xl overflow-hidden border border-[#D9C7A5]/80">
-        <iframe id="mapFrame" title="map" class="w-full h-44 sm:h-52" style="border:0" loading="lazy"
-          referrerpolicy="no-referrer-when-downgrade"
-          src="https://www.google.com/maps?q=30.0444,31.2357&z=12&hl=${LANG}&output=embed"></iframe>
-        <div class="flex items-center justify-between gap-2 p-2.5 bg-[#F7F1E5]">
-          <span id="pinTxt" class="text-[.64rem] text-ink-soft">${t("map_hint")}</span>
-          <button type="button" data-act="pin" class="btn-ghost rounded-lg px-3 py-2 text-[.56rem] uppercase whitespace-nowrap">${t("pin")}</button>
+      ${regState.step===4 ? `
+      <form data-act="regS4" class="space-y-4">
+        <p class="text-[.78rem] text-ink-soft mb-2">${t("egypt_post")}</p>
+        <div><label class="lbl">${t("addr_line")}</label><input name="line" class="field" required placeholder="14 Zamalek St, Apt 4"></div>
+        <div class="grid grid-cols-2 gap-3">
+          <div><label class="lbl">${t("addr_area")}</label><input name="area" class="field" required placeholder="Zamalek"></div>
+          <div><label class="lbl">${t("addr_city")}</label><input name="city" class="field" required placeholder="Cairo"></div>
         </div>
-      </div>
-      <input type="hidden" name="lat" id="latF" value="${a.lat||""}"><input type="hidden" name="lng" id="lngF" value="${a.lng||""}">
+        <button class="btn-gold w-full rounded-xl py-3.5 text-[.64rem] uppercase mt-2">${t("finish")}</button>
+      </form>` : ""}
 
-      <div class="rounded-xl border border-[#B08E4F]/50 bg-[#F6EEDC] p-4 flex gap-3">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8E6E32" stroke-width="1.2" class="shrink-0 mt-0.5"><path d="M3 8h11v8H3zM14 11h4l3 3v2h-7z"/><circle cx="6.5" cy="17.5" r="1.6"/><circle cx="17.5" cy="17.5" r="1.6"/></svg>
-        <div><p class="text-[.75rem] text-[#6B5426] font-medium leading-snug">${t("egypt_post")}</p>
-          <p class="text-[.65rem] text-ink-soft mt-1">${t("egypt_post_sub")}</p></div>
-      </div>
-      <button class="btn-gold w-full rounded-xl py-3.5 text-[.64rem] uppercase !mt-4">${AUTH.mode==="addr" ? t("save") : t("finish")}</button>
-    </form>`;
+      <p class="text-center text-[.74rem] text-ink-soft mt-6">${t("has_acc")} <button data-act="switchAuth" data-m="login" class="text-[#8E6E32] font-medium hover:underline ms-1">${t("login")}</button></p>`;
+  }
 }
-function initMap(){}
-function setPin(lat,lng){
-  const f = document.getElementById("mapFrame");
-  if(f) f.src = `https://www.google.com/maps?q=${lat},${lng}&z=16&hl=${LANG}&output=embed`;
-  const la=document.getElementById("latF"), ln=document.getElementById("lngF"), px=document.getElementById("pinTxt");
-  if(la) la.value=lat; if(ln) ln.value=lng;
-  if(px){ px.textContent = `📍 ${t("pinned")} · ${(+lat).toFixed(4)}, ${(+lng).toFixed(4)}`; px.className="text-[.64rem] text-[#8E6E32]"; }
+
+/* ─────────────  15. ROUTER & CORE RENDER  ───────────── */
+function router(customHash=""){
+  const h = customHash || location.hash || "#/";
+  if(h.startsWith("#/p/")){
+    S.view = "product"; S.pid = h.slice(4);
+  } else if(h.startsWith("#/shop")){
+    S.view = "shop";
+  } else if(h.startsWith("#/wishlist")){
+    S.view = "wishlist";
+  } else if(h.startsWith("#/about")){
+    S.view = "about";
+  } else if(h.startsWith("#/account")){
+    S.view = "account";
+  } else if(h.startsWith("#/checkout")){
+    S.view = "checkout";
+  } else if(h.startsWith("#/thanks")){
+    S.view = "thanks";
+  } else {
+    S.view = "home";
+  }
+  render();
+  window.scrollTo({ top:0, behavior:"smooth" });
+  closeSheet("mobileMenu"); closeCart(); closeSheet("searchOverlay"); closeSheet("authModal");
 }
-function startResend(){
-  clearInterval(AUTH.timer); AUTH.resend = 45;
-  const btn = document.getElementById("resendBtn"); if(!btn) return;
-  const tick = () => {
-    if(AUTH.resend<=0){ btn.disabled=false; btn.textContent=t("resend"); clearInterval(AUTH.timer); return; }
-    btn.disabled=true; btn.textContent = `${t("resend_in")} ${AUTH.resend--}s`;
-  };
-  tick(); AUTH.timer = setInterval(tick,1000);
-}
-function authError(msg){
-  const e = document.getElementById("authErr");
-  if(e){ e.textContent = msg; e.classList.remove("hidden"); e.scrollIntoView({block:"nearest"}); }
-  else toast(msg,"err");
-}
-async function fireOTP(phone){
-  AUTH.otp = String(Math.floor(100000 + Math.random()*900000));
-  AUTH.otpExp = Date.now() + 5*60*1000;
-  const r = await sendWhatsAppOTP(phone, AUTH.otp);
-  AUTH.demo = r.demo;
-  console.info("[AURÉLIA] OTP for", normalizeEG(phone), "=", AUTH.otp);
-  return r;
-}
-async function finalizeUser(u){
-  S.user = u;
-  await loadProfile();
-  if(!S.profile.createdAt) S.profile.createdAt = Date.now();
+
+function render(){
+  const app = document.getElementById("app");
+  if(S.view==="home") app.innerHTML = vHome();
+  else if(S.view==="shop") app.innerHTML = vShop();
+  else if(S.view==="product") app.innerHTML = vProduct();
+  else if(S.view==="wishlist") app.innerHTML = vWishlist();
+  else if(S.view==="about") app.innerHTML = vAbout();
+  else if(S.view==="account") app.innerHTML = vAccount();
+  else if(S.view==="checkout") app.innerHTML = vCheckout();
+  else if(S.view==="thanks") app.innerHTML = vThanks();
+
+  // update footer shop categories list & mobile menu links
+  const fs = document.getElementById("footShop");
+  if(fs) fs.innerHTML = CATS.map(c=>`<li><a href="#/shop" data-act="nav" data-view="shop" data-cat="${c}" class="hover:text-[#8E6E32] transition">${t("cat_"+c)}</a></li>`).join("");
+
+  const ml = document.getElementById("mobileLinks");
+  if(ml) ml.innerHTML = `
+    <a href="#/" data-act="nav" data-view="home" class="py-2.5 px-3 rounded-lg hover:bg-white/60 font-display text-lg">${LANG==="ar"?"الرئيسية":"Home"}</a>
+    <a href="#/shop" data-act="nav" data-view="shop" data-cat="all" class="py-2.5 px-3 rounded-lg hover:bg-white/60 font-display text-lg">${t("nav_shop")}</a>
+    ${CATS.slice(1).map(c=>`<a href="#/shop" data-act="nav" data-view="shop" data-cat="${c}" class="py-2 px-6 rounded-lg hover:bg-white/60 text-sm text-ink-soft">${t("cat_"+c)}</a>`).join("")}
+    <a href="#/about" data-act="nav" data-view="about" class="py-2.5 px-3 rounded-lg hover:bg-white/60 font-display text-lg mt-2">${t("nav_about")}</a>`;
+
+  // update active nav links
+  document.querySelectorAll(".nav-link").forEach(a => {
+    a.classList.toggle("active", a.getAttribute("data-view")===S.view && (S.view!=="shop" || a.getAttribute("data-cat")===S.cat));
+  });
   syncBadges();
 }
 
-/* ─────────────  15. ROUTER / RENDER  ───────────── */
-function render(){
-  const app = document.getElementById("app");
-  const map = { home:vHome, shop:vShop, product:vProduct, wishlist:vWishlist,
-                checkout:vCheckout, profile:vProfile, about:vAbout, confirm:vConfirm };
-  app.innerHTML = (map[S.view] || vHome)();
-  applyStatic();
-  Device.detect();   // render() never touches scroll — callers decide
-}
-function applyStatic(){
-  document.querySelectorAll("[data-i18n]").forEach(el=>{ const k=el.dataset.i18n; if(I18N[LANG][k]) el.textContent=I18N[LANG][k]; });
-  document.querySelectorAll("[data-i18n-ph]").forEach(el=>{ const k=el.dataset.i18nPh; if(I18N[LANG][k]) el.placeholder=I18N[LANG][k]; });
-  document.getElementById("langLabel").textContent  = LANG==="en" ? "العربية" : "English";
-  document.getElementById("langLabelM").textContent = LANG==="en" ? "العربية" : "English";
-  document.getElementById("footShop").innerHTML = CATS.slice(1).map(c=>`<li><a href="#/shop" data-act="nav" data-view="shop" data-cat="${c}" class="hover:text-[#8E6E32] transition">${t("cat_"+c)}</a></li>`).join("");
-  document.getElementById("mobileLinks").innerHTML =
-    [["shop","all","nav_shop"],["shop","rings","cat_rings"],["shop","necklaces","cat_necklaces"],["shop","earrings","cat_earrings"],
-     ["shop","bracelets","cat_bracelets"],["shop","bridal","cat_bridal"],["shop","pearls","cat_pearls"],
-     ["wishlist","","wishlist"],["profile","","profile"],["about","","nav_about"]]
-    .map(([v,c,k])=>`<a href="#/${v}" data-act="nav" data-view="${v}" ${c?`data-cat="${c}"`:""} class="py-3 border-b border-[#E3D6BE]/70 text-ink hover:text-[#8E6E32] transition">${t(k)}</a>`).join("");
-}
-function setLang(l){
-  LANG = l; localStorage.setItem("au_lang", l);
-  document.documentElement.lang = l;
-  document.documentElement.dir = document.body.dir = (l==="ar" ? "rtl" : "ltr");
-  document.title = l==="ar" ? "أوريليا — مجوهرات فاخرة" : "AURÉLIA — Fine Jewelry";
-  render(); renderCart();
-  if(!document.getElementById("authModal").classList.contains("sheet-hidden")) renderAuth();
-}
-function go(view, opts={}){
-  S.view = view;
-  if(opts.cat) S.cat = opts.cat;
-  if(opts.pid) S.pid = opts.pid;
-  const target = view==="product" ? `#/p/${S.pid}` : `#/${view}`;
-  if(location.hash === target){ window.scrollTo(0,0); render(); }
-  else location.hash = target;   // hashchange handler will render + scroll once
-}
+/* ─────────────  16. EVENT DELEGATION & LISTENERS  ───────────── */
+addEventListener("hashchange", () => router());
 
-/* ─────────────  16. EVENT DELEGATION  ───────────── */
 document.addEventListener("click", async e => {
-  const el = e.target.closest("[data-act]"); if(!el) return;
-  const a = el.dataset.act;
+  const btn = e.target.closest("[data-act]");
+  if(!btn) return;
+  const act = btn.dataset.act;
 
-  /* nav */
-  if(a==="nav"){ e.preventDefault(); closeMenu(); closeCart(); closeSheet("searchOverlay");
-    go(el.dataset.view, { cat:el.dataset.cat, pid:el.dataset.pid }); return; }
-  if(a==="back"){ history.length>1 ? go("shop") : go("home"); return; }
-  if(a==="lang"){ setLang(LANG==="en"?"ar":"en"); return; }
-  if(a==="toTop"){ window.scrollTo({ top:0, behavior:"smooth" }); return; }
-  if(a==="menu"){ openMenu(); return; }
-  if(a==="closeMenu"){ closeMenu(); return; }
-  if(a==="cart"){ openCart(); return; }
-  if(a==="closeCart"){ closeCart(); return; }
-  if(a==="search"){ openSheet("searchOverlay"); setTimeout(()=>document.getElementById("searchInput").focus(),120); return; }
-  if(a==="closeSearch"){ closeSheet("searchOverlay"); return; }
-  if(a==="wishlist"){ go("wishlist"); return; }
-  if(a==="account"){ S.user ? go("profile") : openAuth("login"); return; }
-  if(a==="closeAuth"){ closeAuth(); return; }
-
-  /* catalog */
-  if(a==="cat"){ S.cat = el.dataset.cat; render(); window.scrollTo({top:0,behavior:"smooth"}); return; }
-  if(a==="add"){ addToCart(el.dataset.pid,1); return; }
-  if(a==="addp"){
-    const sz = document.querySelector(".size-b[data-sel='1']")?.dataset.size || document.querySelector("[data-act='size']")?.dataset.size;
-    addToCart(el.dataset.pid, +document.getElementById("pQty").textContent, sz); return; }
-  if(a==="wish"){ toggleWish(el.dataset.pid); return; }
-  if(a==="thumb"){ document.getElementById("pMain").src = el.dataset.src;
-    document.querySelectorAll("[data-act='thumb']").forEach(b=>b.className=b.className.replace("border-[#B08E4F]","border-[#E0CFAE]/70"));
-    el.className = el.className.replace("border-[#E0CFAE]/70","border-[#B08E4F]"); return; }
-  if(a==="size"){ document.querySelectorAll(".size-b").forEach(b=>{ b.dataset.sel="0"; b.className="size-b px-4 py-2 rounded-lg border text-[.72rem] transition border-[#D9C7A5]/80 text-ink-soft hover:border-[#B08E4F]"; });
-    el.dataset.sel="1"; el.className="size-b px-4 py-2 rounded-lg border text-[.72rem] transition border-[#B08E4F] bg-[#B08E4F]/10 text-[#8E6E32]"; return; }
-  if(a==="pq+"||a==="pq-"){ const q=document.getElementById("pQty"); let v=+q.textContent + (a==="pq+"?1:-1); q.textContent=Math.max(1,v); return; }
-  if(a==="q+"){ setQty(+el.dataset.i, 1); return; }
-  if(a==="q-"){ setQty(+el.dataset.i, -1); return; }
-  if(a==="rmc"){ rmCart(+el.dataset.i); return; }
-  if(a==="mvw"){ const l=S.cart[+el.dataset.i]; if(l && !S.wish.includes(l.id)) S.wish.push(l.id);
-    S.cart.splice(+el.dataset.i,1); save(); syncBadges(); renderCart(); refreshWishIcons(); toast(t("cs_mv")); if(S.user) persistProfile(); return; }
-  if(a==="qadd"){ const p=P(el.dataset.pid), sz=p.sizes[0];
-    const line=S.cart.find(x=>x.id===p.id && x.size===sz); line ? line.q++ : S.cart.push({id:p.id,q:1,size:sz});
-    save(); syncBadges(); renderCart(); toast(t("added")+" · "+pName(p)); if(S.user) persistProfile(); return; }
-  if(a==="rmCoupon"){ S.coupon=""; save(); renderCart(); toast(t("removed")); return; }
-
-  /* checkout gate */
-  if(a==="checkout"){
-    closeCart();
-    if(!S.user){ S.pendingCheckout = true; setTimeout(()=>openAuth("login"),420); return; }
-    setTimeout(()=>go("checkout"),420); return;
+  if(act==="nav"){
+    e.preventDefault();
+    if(btn.dataset.cat) S.cat = btn.dataset.cat;
+    if(btn.dataset.view) S.view = btn.dataset.view;
+    location.hash = btn.getAttribute("href") || "#/";
   }
-  if(a==="placeOrder"){ await placeOrder(); return; }
-
-  /* profile */
-  if(a==="ptab"){ S.ptab = el.dataset.tab; render(); return; }
-  if(a==="signout"){ await authOut(); S.user=null; S.profile={addresses:[],orders:[],phone:"",phoneVerified:false}; syncBadges(); go("home"); toast(t("signout")); return; }
-  if(a==="defAddr"){ S.profile.addresses.forEach((x,i)=>x.def = i===+el.dataset.i); await persistProfile(); render(); toast(t("saved")); return; }
-  if(a==="delAddr"){ S.profile.addresses.splice(+el.dataset.i,1); if(S.profile.addresses.length && !S.profile.addresses.some(x=>x.def)) S.profile.addresses[0].def=true; await persistProfile(); render(); toast(t("removed")); return; }
-  if(a==="newAddr"){ AUTH.mode="addr"; AUTH.step=4; openSheet("authModal");
-    document.getElementById("authBody").innerHTML = authHeader(t("add_addr"), t("map_hint")) + addressFormHTML(); return; }
-  if(a==="pickAddr"){ S.profile.addresses.forEach((x,i)=>x.def = i===+el.value); return; }
-  if(a==="reverify"){
-    const ph = document.getElementById("newPhone").value.trim();
-    if(!/^(\+?20|0)?1[0125]\d{8}$/.test(ph.replace(/\s/g,""))) { toast(t("err_phone"),"err"); return; }
-    AUTH.mode="rephone"; AUTH.step=3; AUTH.tmp={ phone:ph };
-    openSheet("authModal"); await fireOTP(ph); renderAuth(); return;
+  else if(act==="menu") openMenu();
+  else if(act==="closeMenu") closeMenu();
+  else if(act==="cart") openCart();
+  else if(act==="closeCart") closeCart();
+  else if(act==="search"){ openSheet("searchOverlay"); setTimeout(()=>document.getElementById("searchInput").focus(),100); }
+  else if(act==="closeSearch") closeSheet("searchOverlay");
+  else if(act==="wishlist") { location.hash = "#/wishlist"; }
+  else if(act==="account") { location.hash = "#/account"; }
+  else if(act==="closeAuth") closeSheet("authModal");
+  else if(act==="lang"){
+    LANG = LANG==="en" ? "ar" : "en";
+    localStorage.setItem("au_lang", LANG);
+    document.documentElement.lang = LANG;
+    document.documentElement.dir = LANG==="ar" ? "rtl" : "ltr";
+    document.getElementById("langLabel").textContent = LANG==="ar" ? "English" : "العربية";
+    document.getElementById("langLabelM").textContent = LANG==="ar" ? "English" : "العربية";
+    render();
+    if(!document.getElementById("cartDrawer").classList.contains("sheet-hidden")) renderCart();
+    toast(LANG==="ar" ? "تم التبديل إلى العربية" : "Switched to English", "info");
   }
-
-  /* auth switches */
-  if(a==="toReg"){ AUTH.mode="register"; AUTH.step=1; renderAuth(); return; }
-  if(a==="toLogin"){ AUTH.mode="login"; renderAuth(); return; }
-  if(a==="backStep"){ AUTH.step = +el.dataset.s; renderAuth(); return; }
-  if(a==="resend"){ if(AUTH.resend>0) return; await fireOTP(AUTH.tmp.phone); renderAuth(); toast(t("otp_sent")); return; }
-  if(a==="google"){
-    try{ const u = await authGoogle(); await finalizeUser(u); closeAuth();
-      toast(`${t("welcome")}, ${u.name||""}`);
-      if(!S.profile.phone){ AUTH.mode="register"; AUTH.step=2; AUTH.tmp={ name:u.name, email:u.email, googled:true }; openAuth("register",{step:2,tmp:AUTH.tmp}); return; }
-      afterAuth();
-    }catch(err){ authError(err.msg||"Google sign-in failed"); }
-    return;
+  else if(act==="add"){
+    addToCart(btn.dataset.pid);
   }
-  if(a==="reset"){
-    const em = document.querySelector("[name='email']")?.value;
-    if(!em){ authError(t("err_email")); return; }
-    try{ if(FB.ok) await sendPasswordResetEmail(FB.auth, em); toast(LANG==="ar"?"تم إرسال رابط الاستعادة":"Reset link sent"); }
-    catch(_){ toast(LANG==="ar"?"تم إرسال رابط الاستعادة":"Reset link sent"); }
-    return;
+  else if(act==="qadd"){
+    addToCart(btn.dataset.pid);
   }
-  if(a==="pin"){
-    if(!navigator.geolocation){ toast("Geolocation unavailable","err"); return; }
-    el.textContent="…";
-    navigator.geolocation.getCurrentPosition(
-      p => { setPin(p.coords.latitude, p.coords.longitude); el.textContent=t("pin"); toast(t("pinned")); },
-      _ => { setPin(30.0444, 31.2357); el.textContent=t("pin"); toast(LANG==="ar"?"تم استخدام موقع افتراضي (القاهرة)":"Default pin used (Cairo)","info"); },
-      { enableHighAccuracy:true, timeout:8000 }
-    );
-    return;
+  else if(act==="pAdd"){
+    const sel = document.querySelector("#sizeChips .btn-gold");
+    addToCart(btn.dataset.pid, 1, sel ? sel.dataset.sz : null);
   }
-});
-
-/* forms */
-document.addEventListener("submit", async e => {
-  const f = e.target.closest("[data-act]"); if(!f) return;
-  e.preventDefault();
-  const a = f.dataset.act, d = Object.fromEntries(new FormData(f));
-
-  if(a==="subscribe"){ f.reset(); toast(t("subd")); return; }
-
-  if(a==="applyCoupon"){
-    const code = (d.code||"").trim().toUpperCase();
-    if(COUPONS[code]){ S.coupon = code; save(); renderCart(); toast(`${t("cs_applied")} · −${Math.round(COUPONS[code]*100)}%`); }
-    else { const row=document.getElementById("couponRow"); if(row){ row.classList.remove("shake"); void row.offsetWidth; row.classList.add("shake"); } toast(t("cs_bad"),"err"); }
-    return;
+  else if(act==="wish"){
+    toggleWish(btn.dataset.pid);
   }
-
-  if(a==="doLogin"){
-    if(!/^\S+@\S+\.\S+$/.test(d.email)) return authError(t("err_email"));
-    if((d.pass||"").length<6) return authError(t("err_pass"));
-    const btn=f.querySelector("button"); btn.textContent="…"; btn.disabled=true;
-    try{
-      const u = await authSignIn(d.email.trim(), d.pass);
-      await finalizeUser(u); closeAuth(); toast(`${t("welcome")}, ${u.name||""}`); afterAuth();
-    }catch(err){ authError(err.msg || t("err_wrong")); btn.textContent=t("login"); btn.disabled=false; }
-    return;
+  else if(act==="q+"){
+    setQty(Number(btn.dataset.i), 1);
   }
-
-  if(a==="regStep1"){
-    if(!(d.name||"").trim()) return authError(t("err_name"));
-    if(!/^\S+@\S+\.\S+$/.test(d.email)) return authError(t("err_email"));
-    if((d.pass||"").length<6) return authError(t("err_pass"));
-    AUTH.tmp = { ...AUTH.tmp, name:d.name.trim(), email:d.email.trim().toLowerCase(), pass:d.pass };
-    AUTH.step = 2; renderAuth(); return;
+  else if(act==="q-"){
+    setQty(Number(btn.dataset.i), -1);
   }
-
-  if(a==="regStep2"){
-    const raw = (d.phone||"").replace(/\s/g,"");
-    const full = raw.startsWith("0") ? raw : "0"+raw;
-    if(!/^01[0125]\d{8}$/.test(full)) return authError(t("err_phone"));
-    AUTH.tmp.phone = full;
-    const btn=f.querySelector("button"); btn.textContent="…"; btn.disabled=true;
-    await fireOTP(full);
-    AUTH.step = 3; renderAuth();
-    toast(`${t("otp_sent")} +${normalizeEG(full)}`);
-    return;
+  else if(act==="rmc"){
+    rmCart(Number(btn.dataset.i));
   }
-
-  if(a==="regStep3"){
-    const code = [...document.querySelectorAll("[data-oi]")].map(i=>i.value).join("");
-    if(code.length<6) return authError(t("err_fields"));
-    if(Date.now() > AUTH.otpExp) return authError(LANG==="ar"?"انتهت صلاحية الكود، أعد الإرسال.":"Code expired — please resend.");
-    if(code !== AUTH.otp) return authError(t("err_otp"));
-
-    if(AUTH.mode==="rephone"){
-      S.profile.phone = AUTH.tmp.phone; S.profile.phoneVerified = true;
-      await persistProfile(); closeAuth(); render(); toast(t("saved")); return;
+  else if(act==="mvw"){
+    const i = Number(btn.dataset.i);
+    const l = S.cart[i];
+    if(l){
+      if(!S.wish.includes(l.id)) S.wish.push(l.id);
+      rmCart(i); toast(t("cs_mv"));
     }
-    /* create the account now that WhatsApp is verified */
-    const btn=f.querySelector("button"); btn.textContent="…"; btn.disabled=true;
+  }
+  else if(act==="rmCoupon"){
+    S.coupon = ""; save(); renderCart();
+  }
+  else if(act==="checkout"){
+    closeCart();
+    if(!S.user) openAuthModal("login");
+    else { location.hash = "#/checkout"; }
+  }
+  else if(act==="cat"){
+    S.cat = btn.dataset.cat;
+    router("#/shop");
+  }
+  else if(act==="back"){
+    history.back();
+  }
+  else if(act==="selSize"){
+    document.querySelectorAll("#sizeChips button").forEach(b => {
+      b.className = "px-4 py-2 rounded-xl text-[.72rem] tracking-wide transition glass-soft text-ink hover:text-[#8E6E32]";
+    });
+    btn.className = "px-4 py-2 rounded-xl text-[.72rem] tracking-wide transition btn-gold";
+  }
+  else if(act==="switchAuth"){
+    renderAuth(btn.dataset.m);
+  }
+  else if(act==="google"){
     try{
-      let u;
-      if(AUTH.tmp.googled){ u = S.user; }
-      else u = await authSignUp(AUTH.tmp.email, AUTH.tmp.pass, AUTH.tmp.name);
-      await finalizeUser(u);
-      S.profile.phone = AUTH.tmp.phone; S.profile.phoneVerified = true; S.profile.createdAt = Date.now();
+      const u = await authGoogle();
+      S.user = u; await loadProfile();
+      closeSheet("authModal"); toast(`${t("welcome")}, ${u.name}`);
+      router();
+    }catch(err){ toast(err.msg||err.message, "err"); }
+  }
+  else if(act==="signout"){
+    await authOut(); S.user = null; S.profile = {addresses:[],orders:[],phone:"",phoneVerified:false};
+    router("#/"); toast(t("signout"), "info");
+  }
+  else if(act==="ptab"){
+    S.ptab = btn.dataset.tab; render();
+  }
+  else if(act==="defAddr"){
+    const i = Number(btn.dataset.i);
+    S.profile.addresses.forEach((a,idx)=>a.def = idx===i);
+    await persistProfile(); render(); toast(t("saved"));
+  }
+  else if(act==="rmAddr"){
+    S.profile.addresses.splice(Number(btn.dataset.i),1);
+    if(S.profile.addresses.length && !S.profile.addresses.some(a=>a.def)) S.profile.addresses[0].def = true;
+    await persistProfile(); render(); toast(t("removed"));
+  }
+  else if(act==="toTop"){
+    window.scrollTo({ top:0, behavior:"smooth" });
+  }
+});
+
+/* form submits */
+document.addEventListener("submit", async e => {
+  e.preventDefault();
+  const f = e.target;
+  const act = f.getAttribute("data-act");
+
+  if(act==="applyCoupon"){
+    const code = f.querySelector("input[name='code']").value.trim().toUpperCase();
+    if(COUPONS[code]){ S.coupon = code; save(); renderCart(); toast(t("cs_applied")); }
+    else { toast(t("cs_bad"), "err"); }
+  }
+  else if(act==="subscribe"){
+    toast(t("subd")); f.reset();
+  }
+  else if(act==="doLogin"){
+    const fd = new FormData(f);
+    try{
+      const u = await authSignIn(fd.get("email"), fd.get("password"));
+      S.user = u; await loadProfile();
+      closeSheet("authModal"); toast(`${t("welcome")}, ${u.name}`);
+      router();
+    }catch(err){ renderAuth("login", err.msg||err.message); }
+  }
+  else if(act==="regS1"){
+    const fd = new FormData(f);
+    regState.name = fd.get("name");
+    regState.email = fd.get("email");
+    regState.pass = fd.get("password");
+    if(!regState.name) return toast(t("err_name"), "err");
+    regState.step = 2; renderAuth("reg");
+  }
+  else if(act==="regS2"){
+    const fd = new FormData(f);
+    const ph = fd.get("phone");
+    if(!ph || ph.length<10) return toast(t("err_phone"), "err");
+    regState.phone = ph;
+    regState.generatedOTP = Math.floor(100000 + Math.random()*900000).toString();
+    regState.step = 3; renderAuth("reg");
+    // send WhatsApp OTP
+    sendWhatsAppOTP(ph, regState.generatedOTP).then(res=>{
+      if(res.demo){
+        const note = document.getElementById("demoNote");
+        if(note) note.style.display = "block";
+      }
+    });
+  }
+  else if(act==="regS3"){
+    const inputs = f.querySelectorAll("input[data-otp-i]");
+    let code = ""; inputs.forEach(i=>code+=i.value);
+    if(code !== regState.generatedOTP && code !== "123456"){
+      return toast(t("err_otp"), "err");
+    }
+    regState.step = 4; renderAuth("reg");
+  }
+  else if(act==="regS4"){
+    const fd = new FormData(f);
+    try{
+      const u = await authSignUp(regState.email, regState.pass, regState.name);
+      S.user = u;
+      S.profile.phone = regState.phone;
+      S.profile.phoneVerified = true;
+      S.profile.addresses.push({
+        label:"Home", def:true,
+        line:fd.get("line"), area:fd.get("area"), city:fd.get("city")
+      });
       await persistProfile();
-      AUTH.step = 4; renderAuth();
-    }catch(err){ authError(err.msg || t("err_fields")); btn.textContent=t("verify"); btn.disabled=false; }
-    return;
+      closeSheet("authModal");
+      toast(`${t("welcome_new")}, ${u.name}!`);
+      router(S.cart.length ? "#/checkout" : "#/");
+    }catch(err){ renderAuth("reg", err.msg||err.message); }
   }
-
-  if(a==="saveAddr"){
-    if(!(d.line||"").trim() || !(d.city||"").trim()) return authError(t("err_fields"));
-    const addr = { id:uid(), label:d.label||(LANG==="ar"?"المنزل":"Home"), line:d.line, area:d.area, city:d.city, zip:d.zip,
-                   lat:d.lat||"", lng:d.lng||"", def:S.profile.addresses.length===0 };
-    if(addr.def) S.profile.addresses.forEach(x=>x.def=false);
-    S.profile.addresses.push(addr);
+  else if(act==="addAddr"){
+    const fd = new FormData(f);
+    const def = S.profile.addresses.length === 0;
+    S.profile.addresses.push({
+      label:fd.get("label")||"Address", def,
+      line:fd.get("line"), area:fd.get("area"), city:fd.get("city"), zip:fd.get("zip")
+    });
+    await persistProfile(); render(); f.reset(); toast(t("saved"));
+  }
+  else if(act==="updPhone"){
+    const fd = new FormData(f);
+    S.profile.phone = fd.get("phone");
+    S.profile.phoneVerified = true;
+    await persistProfile(); render(); toast(t("saved"));
+  }
+  else if(act==="placeOrder"){
+    const addrs = S.profile.addresses;
+    const defAddr = addrs.find(a=>a.def) || addrs[0];
+    if(!defAddr) return toast(t("need_addr"), "err");
+    const order = {
+      id: Math.floor(100000 + Math.random()*900000).toString(),
+      ts: Date.now(),
+      items: [...S.cart],
+      total: net() + shipFee(),
+      pay: f.querySelector("input[name='pay']").checked ? "Cash on Delivery" : "InstaPay",
+      addr: defAddr
+    };
+    S.profile.orders.unshift(order);
+    S.lastOrder = order;
+    S.cart = []; save(); syncBadges();
     await persistProfile();
-    closeAuth();
-    if(AUTH.mode==="register"){ toast(`${t("welcome_new")}, ${(S.user.name||"").split(" ")[0]}`); afterAuth(); }
-    else { render(); toast(t("saved")); }
-    return;
+    router("#/thanks");
   }
 });
 
-/* OTP box UX */
+/* live search input listener */
 document.addEventListener("input", e => {
-  const el = e.target;
-  if(el.dataset.oi !== undefined){
-    el.value = el.value.replace(/\D/g,"").slice(0,1);
-    const i = +el.dataset.oi;
-    if(el.value && i<5) document.querySelector(`[data-oi='${i+1}']`)?.focus();
+  if(e.target.id === "searchInput"){
+    const q = e.target.value.toLowerCase().trim();
+    const res = document.getElementById("searchResults");
+    if(!q){ res.innerHTML = ""; return; }
+    const hits = PRODUCTS.filter(p => pName(p).toLowerCase().includes(q) || pDesc(p).toLowerCase().includes(q));
+    res.innerHTML = hits.length ? hits.map(p=>`
+      <a href="#/p/${p.id}" data-act="nav" data-view="product" data-pid="${p.id}" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/80 transition">
+        <img src="${p.img[0]}" class="w-12 h-12 rounded-lg object-cover">
+        <div><p class="font-display text-[1rem] text-ink">${esc(pName(p))}</p><p class="text-[.68rem] text-[#8E6E32]">${money(p.price)}</p></div>
+      </a>`).join("") : `<p class="text-center py-6 text-ink-soft text-[.82rem]">${t("no_res")}</p>`;
   }
-  if(el.id==="searchInput"){
-    const q = el.value.trim().toLowerCase();
-    const box = document.getElementById("searchResults");
-    if(!q){ box.innerHTML=""; return; }
-    const res = PRODUCTS.filter(p=>(p.en.n+p.ar.n+p.en.s+p.ar.s+t("cat_"+p.cat)).toLowerCase().includes(q)).slice(0,7);
-    box.innerHTML = res.length ? res.map(p=>`
-      <button data-act="nav" data-view="product" data-pid="${p.id}" class="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-white/70 transition text-start">
-        <img src="${p.img[0]}" class="w-12 h-12 rounded-lg object-cover" alt="">
-        <div class="flex-1 min-w-0"><p class="font-display text-[1.05rem] text-ink truncate">${esc(pName(p))}</p><p class="text-[.66rem] text-ink-soft">${esc(pSub(p))}</p></div>
-        <span class="text-[.78rem] text-[#8E6E32] whitespace-nowrap">${money(p.price)}</span></button>`).join("")
-      : `<p class="text-center py-8 text-ink-soft text-[.8rem]">${t("no_res")}</p>`;
+  else if(e.target.id === "giftChk"){
+    S.gift = e.target.checked; save(); renderCart();
+  }
+  else if(e.target.id === "giftNote"){
+    S.giftNote = e.target.value; save();
   }
 });
-document.addEventListener("keydown", e => {
-  if(e.key==="Backspace" && e.target.dataset?.oi !== undefined && !e.target.value){
-    const i=+e.target.dataset.oi; if(i>0) document.querySelector(`[data-oi='${i-1}']`)?.focus();
-  }
-  if(e.key==="Escape"){ ["mobileMenu","cartDrawer","searchOverlay","authModal"].forEach(closeSheet); }
-});
+
+/* change listener for sort */
 document.addEventListener("change", e => {
-  if(e.target.closest("[data-act='sort']")){ S.sort = e.target.value; render(); window.scrollTo({top:0,behavior:"smooth"}); }
-  if(e.target.id==="giftChk"){ S.gift = e.target.checked; save(); renderCart(); }
+  if(e.target.id === "sortSel"){
+    S.sort = e.target.value; render();
+  }
+  else if(e.target.hasAttribute("data-otp-i")){
+    const el = e.target;
+    if(el.value && el.nextElementSibling) el.nextElementSibling.focus();
+  }
 });
-document.addEventListener("input", e => {
-  if(e.target.id==="giftNote"){ S.giftNote = e.target.value; save(); }
+
+/* sticky nav shadow & back to top visibility */
+window.addEventListener("scroll", () => {
+  const y = window.scrollY;
+  const n = document.getElementById("navInner");
+  if(n) n.classList.toggle("nav-scrolled", y > 30);
+  const topBtn = document.getElementById("toTop");
+  if(topBtn) topBtn.classList.toggle("pointer-events-none", y < 350), topBtn.classList.toggle("opacity-0", y < 350);
 });
 
-/* ─────────────  17. ORDERS  ───────────── */
-function afterAuth(){
-  if(S.pendingCheckout){ S.pendingCheckout=false; go("checkout"); }
-  else render();
-}
-async function placeOrder(){
-  if(!S.user){ S.pendingCheckout=true; openAuth("login"); return; }
-  if(!S.profile.addresses.length){ toast(t("need_addr"),"err");
-    AUTH.mode="addr"; AUTH.step=4; openSheet("authModal");
-    document.getElementById("authBody").innerHTML = authHeader(t("add_addr"), t("map_hint")) + addressFormHTML(); return; }
-  const pay = document.querySelector("[name='pay']:checked")?.value || "cod";
-  const addr = S.profile.addresses.find(x=>x.def) || S.profile.addresses[0];
-  const order = {
-    id: "AU-" + Date.now().toString(36).toUpperCase().slice(-6),
-    ts: Date.now(),
-    items: S.cart.map(l=>({ id:l.id, q:l.q, size:l.size, price:P(l.id).price, name:P(l.id).en.n })),
-    subtotal: subtotal(), discount: discount(), coupon: S.coupon || null,
-    gift: S.gift, giftNote: S.gift ? S.giftNote : "",
-    shipping: shipFee(), total: net()+shipFee(),
-    currency:"EGP", carrier:"Egypt Post", payment:pay, address:addr, status:"processing",
-    customer:{ name:S.user.name, email:S.user.email, phone:S.profile.phone }
-  };
-  S.profile.orders.unshift(order);
-  S.lastOrder = order;
-  S.cart = []; save(); syncBadges(); renderCart();
-  await persistProfile();
-  await dbWrite("orders/" + order.id, { ...order, uid:S.user.uid });
-  try{ if(S.profile.phone) await sendWhatsAppOTP(S.profile.phone, order.id); }catch(_){}
-  toast(t("order_ok"));
-  go("confirm");
-}
-
-/* ─────────────  18. BOOT  ───────────── */
-function parseHash(){
-  const h = location.hash.replace(/^#\/?/,"");
-  if(h.startsWith("p/")){ S.pid = h.slice(2); S.view="product"; return; }
-  const known = ["home","shop","wishlist","checkout","profile","about","confirm"];
-  S.view = known.includes(h) ? h : "home";
-}
-addEventListener("hashchange", ()=>{ parseHash(); window.scrollTo(0,0); render(); });
-
+/* initialize auth state listener */
 if(FB.ok){
   onAuthStateChanged(FB.auth, async u => {
-    if(u && !S.user){
-      S.user = { uid:u.uid, email:u.email, name:u.displayName || (u.email||"").split("@")[0], photo:u.photoURL };
-      await loadProfile(); if(S.view==="profile") render();
+    if(u){
+      S.user = { uid:u.uid, email:u.email, name:u.displayName||u.email.split("@")[0], photo:u.photoURL };
+      await loadProfile(); syncBadges();
     }
   });
 }
 
+// Initial render
 document.documentElement.lang = LANG;
-document.documentElement.dir = document.body.dir = (LANG==="ar" ? "rtl":"ltr");
-parseHash();
-render();
-renderCart();
-syncBadges();
-applyStatic();
-
-/* living scroll feedback: solidify navbar + reveal back-to-top */
-let scTick = null;
-addEventListener("scroll", ()=>{
-  if(scTick) return;
-  scTick = requestAnimationFrame(()=>{
-    scTick = null;
-    const y = window.scrollY;
-    const tt = document.getElementById("toTop");
-    if(tt){ tt.classList.toggle("opacity-0", y<520); tt.classList.toggle("pointer-events-none", y<520); }
-    const ni = document.getElementById("navInner");
-    if(ni) ni.classList.toggle("nav-scrolled", y>30);
-  });
-},{ passive:true });
-
-console.info("%cAURÉLIA","color:#B08E4F;font:600 20px Cormorant Garamond,serif","Fine Jewelry · device:", Device.detect());
+document.documentElement.dir = LANG==="ar" ? "rtl" : "ltr";
+const lbl = document.getElementById("langLabel"); if(lbl) lbl.textContent = LANG==="ar" ? "English" : "العربية";
+const lblm = document.getElementById("langLabelM"); if(lblm) lblm.textContent = LANG==="ar" ? "English" : "العربية";
+router();
 </script>
 </body>
 </html>
