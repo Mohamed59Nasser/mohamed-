@@ -1,1911 +1,211 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr" data-device="laptop">
+<html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="theme-color" content="#F8F4ED">
-<title>AURÉLIA — Fine Jewelry | مجوهرات فاخرة</title>
-<meta name="description" content="AURÉLIA — Radiance Redefined. Fine jewelry crafted in 18K gold and natural diamonds. Prices in EGP. Shipping via Egypt Post.">
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Jost:wght@200;300;400;500;600&family=Cairo:wght@200;300;400;600;700&family=Amiri:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-
-<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-
-<style type="text/tailwindcss">
-  @theme {
-    --color-cream:      #F9F5EE;
-    --color-cream-2:    #F3EBDF;
-    --color-shell:      #EFE6D8;
-    --color-sand:       #E5D8C3;
-    --color-gold:       #B08E4F;
-    --color-gold-2:     #C9A961;
-    --color-gold-soft:  #E4D3AE;
-    --color-ink:        #2B2621;
-    --color-ink-soft:   #6B6157;
-    --font-display: "Cormorant Garamond", "Amiri", serif;
-    --font-body: "Jost", "Cairo", sans-serif;
-    --animate-float: float 11s ease-in-out infinite;
-    --animate-float-slow: float 17s ease-in-out infinite;
-    --animate-shimmer: shimmer 3.2s linear infinite;
-    --animate-fade-up: fadeUp .7s cubic-bezier(.22,.61,.36,1) both;
-    --animate-fade-in: fadeIn .5s ease both;
-    --animate-scale-in: scaleIn .35s cubic-bezier(.22,.61,.36,1) both;
-    --animate-drift: drift 24s ease-in-out infinite alternate;
-    --animate-spin-slow: spin 26s linear infinite;
-  }
-  @keyframes float { 0%,100%{transform:translate3d(0,0,0)} 50%{transform:translate3d(0,-18px,0)} }
-  @keyframes drift { 0%{transform:translate3d(0,0,0) scale(1) rotate(0deg)} 100%{transform:translate3d(4%,-6%,0) scale(1.15) rotate(12deg)} }
-  @keyframes shimmer { 0%{background-position:-180% 0} 100%{background-position:180% 0} }
-  @keyframes fadeUp { from{opacity:0;transform:translateY(26px)} to{opacity:1;transform:none} }
-  @keyframes fadeIn { from{opacity:0} to{opacity:1} }
-  @keyframes scaleIn { from{opacity:0;transform:scale(.96) translateY(10px)} to{opacity:1;transform:none} }
-</style>
-
-<style>
-  :root{
-    --grid-cols: 3;
-    --type-scale: 1;
-    --hero-h: 78vh;
-  }
-  html{ font-size: calc(16px * var(--type-scale)); scroll-behavior:smooth; }
-  body{
-    font-family:"Jost",sans-serif; background:#EDE4D6; color:#2B2621;
-    -webkit-font-smoothing:antialiased; overflow-x:hidden;
-  }
-  body[dir="rtl"]{ font-family:"Cairo",sans-serif; }
-  body[dir="rtl"] .font-display, body[dir="rtl"] h1, body[dir="rtl"] h2, body[dir="rtl"] h3, body[dir="rtl"] .display{ font-family:"Amiri","Cormorant Garamond",serif; }
-  .font-display{ font-family:"Cormorant Garamond","Amiri",serif; }
-
-  /* ---------- Device-driven auto grid ---------- */
-  .auto-grid{ display:grid; gap:1.25rem; grid-template-columns: repeat(var(--grid-cols), minmax(0,1fr)); }
-  .auto-grid-tight{ display:grid; gap:1rem; grid-template-columns: repeat(min(var(--grid-cols),4), minmax(0,1fr)); }
-
-  /* ---------- Fluid silk hero background ---------- */
-  .silk{ position:absolute; inset:0; overflow:hidden; background:
-      radial-gradient(120% 90% at 12% 18%, #FFFDF9 0%, rgba(255,253,249,0) 55%),
-      radial-gradient(90% 80% at 82% 22%, #F6ECDC 0%, rgba(246,236,220,0) 60%),
-      radial-gradient(100% 100% at 50% 110%, #E3D2B8 0%, rgba(227,210,184,0) 62%),
-      linear-gradient(150deg,#FBF7F0 0%,#F1E5D3 42%,#E8D8BF 72%,#F7F1E6 100%);
-  }
-  .silk::after{
-    content:""; position:absolute; inset:-30%;
-    background:
-      conic-gradient(from 210deg at 30% 40%, rgba(255,255,255,.95), rgba(226,206,175,.15) 22%, rgba(255,252,246,.85) 44%, rgba(210,186,148,.22) 66%, rgba(255,255,255,.9) 88%, rgba(255,255,255,.95)),
-      conic-gradient(from 40deg at 72% 68%, rgba(255,255,255,.8), rgba(203,175,131,.18) 30%, rgba(255,251,243,.9) 58%, rgba(255,255,255,.8));
-    mix-blend-mode:screen; filter:blur(46px); opacity:.95; animation:drift 26s ease-in-out infinite alternate;
-  }
-  .silk-blob{ position:absolute; border-radius:50%; filter:blur(58px); mix-blend-mode:multiply; opacity:.5; }
-  .grain{ position:absolute; inset:0; opacity:.30; pointer-events:none; mix-blend-mode:multiply;
-    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E"); }
-
-  /* ---------- Glass ---------- */
-  .glass{ background:rgba(252,249,243,.72); backdrop-filter:blur(22px) saturate(150%); -webkit-backdrop-filter:blur(22px) saturate(150%); border:1px solid rgba(255,255,255,.65); box-shadow:0 10px 40px -18px rgba(120,95,55,.35); }
-  .glass-soft{ background:rgba(255,253,249,.55); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); border:1px solid rgba(255,255,255,.55); }
-
-  .gold-text{ background:linear-gradient(100deg,#8E6E32 0%,#C9A961 32%,#F0DFB4 48%,#B08E4F 70%,#8E6E32 100%); -webkit-background-clip:text; background-clip:text; color:transparent; background-size:200% auto; }
-  .gold-shimmer{ animation:shimmer 6s linear infinite; }
-  .btn-gold{ background:linear-gradient(120deg,#B4924F 0%,#D6BC80 38%,#B08E4F 62%,#9A7C3F 100%); background-size:200% auto; color:#fff; letter-spacing:.16em; transition:.5s; box-shadow:0 12px 28px -14px rgba(150,118,60,.85); }
-  .btn-gold:hover{ background-position:right center; box-shadow:0 16px 34px -12px rgba(150,118,60,.95); transform:translateY(-1px); }
-  .btn-ghost{ border:1px solid rgba(176,142,79,.45); color:#8E6E32; transition:.35s; letter-spacing:.14em; }
-  .btn-ghost:hover{ background:rgba(176,142,79,.1); border-color:#B08E4F; }
-
-  .card-soft{ background:linear-gradient(160deg,#FFFDF9 0%,#F7F0E4 100%); border:1px solid rgba(214,193,158,.45); box-shadow:0 18px 44px -30px rgba(120,95,55,.55); transition:transform .55s cubic-bezier(.22,.61,.36,1), box-shadow .55s, border-color .4s; }
-  .card-soft:hover{ transform:translateY(-8px); box-shadow:0 34px 60px -32px rgba(120,95,55,.65); border-color:rgba(176,142,79,.65); }
-
-  .hairline{ height:1px; background:linear-gradient(90deg,transparent,rgba(176,142,79,.5),transparent); }
-  .nav-link{ position:relative; letter-spacing:.12em; }
-  .nav-link::after{ content:""; position:absolute; left:50%; bottom:-6px; height:1px; width:0; background:#B08E4F; transition:.4s; transform:translateX(-50%); }
-  .nav-link:hover::after,.nav-link.active::after{ width:100%; }
-
-  input,select,textarea{ font-family:inherit; }
-  .field{ width:100%; background:rgba(255,255,255,.75); border:1px solid rgba(200,178,140,.55); border-radius:.6rem; padding:.72rem .9rem; font-size:.92rem; color:#2B2621; transition:.3s; outline:none; }
-  .field:focus{ border-color:#B08E4F; box-shadow:0 0 0 3px rgba(201,169,97,.18); background:#fff; }
-  .field::placeholder{ color:#A79A88; }
-  label.lbl{ font-size:.68rem; letter-spacing:.18em; text-transform:uppercase; color:#8A7B66; display:block; margin-bottom:.4rem; }
-  body[dir="rtl"] label.lbl{ letter-spacing:0; }
-
-  .otp-box{ width:3rem; height:3.4rem; text-align:center; font-size:1.35rem; font-family:"Cormorant Garamond",serif; }
-  .scroll-x{ scrollbar-width:none; } .scroll-x::-webkit-scrollbar{ display:none; }
-  ::-webkit-scrollbar{ width:9px; height:9px } ::-webkit-scrollbar-track{ background:#F1E7D8 } ::-webkit-scrollbar-thumb{ background:#D3BC93; border-radius:9px }
-
-  .drawer{ transition:transform .55s cubic-bezier(.22,.61,.36,1); }
-  .sheet-hidden{ opacity:0; pointer-events:none; }
-  .nav-scrolled{ background:rgba(252,249,243,.94) !important; box-shadow:0 18px 50px -22px rgba(120,95,55,.55) !important; }
-  #toTop{ transform:translateY(14px); transition:opacity .45s, transform .45s; }
-  #toTop:not(.pointer-events-none){ transform:translateY(0); }
-  .bump{ animation:bump .5s cubic-bezier(.36,.07,.19,.97); }
-  @keyframes bump{ 0%,100%{transform:scale(1)} 35%{transform:scale(1.3) rotate(-6deg)} 60%{transform:scale(.92)} }
-  .shake{ animation:shake .4s ease; }
-  @keyframes shake{ 0%,100%{transform:translateX(0)} 25%{transform:translateX(-5px)} 75%{transform:translateX(5px)} }
-  .line-out{ opacity:0 !important; transform:translateX(14px) !important; }
-  .ratio-sq{ aspect-ratio:1/1; }
-  .img-zoom{ transition:transform 1.1s cubic-bezier(.22,.61,.36,1), filter .6s; }
-  .group:hover .img-zoom{ transform:scale(1.07); }
-  .marquee{ display:flex; gap:3.5rem; animation:marq 34s linear infinite; white-space:nowrap; }
-  @keyframes marq{ from{transform:translateX(0)} to{transform:translateX(-50%)} }
-  body[dir="rtl"] .marquee{ animation-direction:reverse; }
-  .tracking-luxe{ letter-spacing:.34em }
-  body[dir="rtl"] .tracking-luxe{ letter-spacing:.06em }
-  [hidden]{ display:none !important; }
-  .no-print{}
-  @media (max-width:640px){ :root{ --hero-h:76vh } }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>أوريليا — مجوهرات فاخرة</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@300;400;600;700&display=swap');
+    :root { --gold: #B08E4F; --gold-light: #D9C7A5; --dark: #1A1A1A; }
+    body { font-family: 'Cairo', sans-serif; background-color: #FAFAFA; color: var(--dark); overflow-x: hidden; }
+    h1, h2, h3, .font-display { font-family: 'Amiri', serif; }
+    
+    /* Custom Scrollbar & Utils */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-thumb { background: var(--gold-light); border-radius: 4px; }
+    .btn-gold { background: var(--gold); color: white; transition: 0.3s; }
+    .btn-gold:hover { background: #8E6E32; }
+    .glass-nav { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(10px); border-bottom: 1px solid #E3D6BE; }
+    
+    /* Modals & Overlays */
+    .sheet-hidden { opacity: 0; pointer-events: none; visibility: hidden; }
+    .sheet-active { opacity: 1; pointer-events: auto; visibility: visible; }
+    .loader { border: 3px solid #f3f3f3; border-top: 3px solid var(--gold); border-radius: 50%; width: 24px; height: 24px; animation: spin 1s linear infinite; }
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+  </style>
 </head>
-<body class="bg-[#EDE4D6] text-ink">
+<body class="antialiased">
 
-<!-- ═══════════ TOP BAR ═══════════ -->
-<div class="w-full bg-[#2B2621] text-[#E9DDC6] text-[.66rem] sm:text-[.72rem] py-2 overflow-hidden">
-  <div class="marquee">
-    <span class="tracking-[.28em] uppercase" data-i18n="ticker1">Complimentary gift wrapping on every order</span>
-    <span class="tracking-[.28em] uppercase" data-i18n="ticker2">Shipping via Egypt Post — nationwide</span>
-    <span class="tracking-[.28em] uppercase" data-i18n="ticker3">18K solid gold · Certified natural diamonds</span>
-    <span class="tracking-[.28em] uppercase" data-i18n="ticker1b">Complimentary gift wrapping on every order</span>
-    <span class="tracking-[.28em] uppercase" data-i18n="ticker2b">Shipping via Egypt Post — nationwide</span>
-    <span class="tracking-[.28em] uppercase" data-i18n="ticker3b">18K solid gold · Certified natural diamonds</span>
-  </div>
-</div>
-
-<!-- ═══════════ NAVBAR ═══════════ -->
-<header id="nav" class="sticky top-0 z-50 px-2 sm:px-4 pt-2 sm:pt-3">
-  <div id="navInner" class="max-w-[1400px] mx-auto glass rounded-2xl sm:rounded-[1.6rem] px-3 sm:px-6 py-2.5 sm:py-3 transition-all duration-500">
-    <div class="flex items-center justify-between gap-2">
-      <!-- left -->
-      <div class="flex items-center gap-1 sm:gap-3 flex-1 min-w-0">
-        <button data-act="menu" class="lg:hidden p-2 rounded-lg hover:bg-white/60 transition" aria-label="Menu">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8E6E32" stroke-width="1.4"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
-        </button>
-        <button data-act="lang" class="hidden sm:flex items-center gap-1.5 px-2.5 py-1.5 rounded-full border border-[#C9A961]/40 hover:bg-white/70 transition text-[.62rem] tracking-[.2em] text-[#8E6E32]">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 0 1 0 18M12 3a15 15 0 0 0 0 18"/></svg>
-          <span id="langLabel">العربية</span>
-        </button>
+  <!-- Navbar -->
+  <header class="fixed top-0 w-full z-50 glass-nav transition-all duration-300" id="navInner">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-4">
+        <button data-act="menu" class="lg:hidden text-2xl">☰</button>
+        <a href="#/home" data-act="nav" data-view="home" class="text-2xl font-display font-bold text-[#B08E4F] tracking-wide">AURÉLIA</a>
       </div>
-      <!-- logo -->
-      <a href="#/" data-act="nav" data-view="home" class="shrink-0 text-center px-1">
-        <h1 class="font-display gold-text gold-shimmer text-[1.5rem] sm:text-[2rem] lg:text-[2.3rem] leading-none tracking-[.18em] font-medium">AURÉLIA</h1>
-        <p class="text-[.44rem] sm:text-[.5rem] tracking-[.44em] text-[#A08A62] mt-0.5 uppercase" data-i18n="tagline">Fine Jewelry</p>
-      </a>
-      <!-- right -->
-      <div class="flex items-center justify-end gap-0.5 sm:gap-1.5 flex-1">
-        <button data-act="search" class="p-2 rounded-lg hover:bg-white/60 transition" aria-label="Search">
-          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#5C5245" stroke-width="1.3"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-        </button>
-        <button data-act="wishlist" class="relative p-2 rounded-lg hover:bg-white/60 transition" aria-label="Wishlist">
-          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#5C5245" stroke-width="1.3"><path d="M12 20s-7.5-4.7-7.5-9.6A4.4 4.4 0 0 1 12 7.3a4.4 4.4 0 0 1 7.5 3.1C19.5 15.3 12 20 12 20Z"/></svg>
-          <span id="wishCount" class="absolute -top-0.5 -right-0.5 min-w-[16px] h-4 px-1 rounded-full bg-[#B08E4F] text-white text-[.55rem] grid place-items-center" hidden>0</span>
-        </button>
-        <button data-act="account" class="p-2 rounded-lg hover:bg-white/60 transition" aria-label="Account">
-          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#5C5245" stroke-width="1.3"><circle cx="12" cy="8" r="3.6"/><path d="M4.5 20a7.5 7.5 0 0 1 15 0"/></svg>
-        </button>
-        <button data-act="cart" class="flex items-center gap-1.5 ps-2 pe-2.5 py-2 rounded-lg hover:bg-white/60 transition">
-          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#5C5245" stroke-width="1.3"><path d="M6 8h12l-1 12H7L6 8Z"/><path d="M9.5 8V6.5a2.5 2.5 0 0 1 5 0V8"/></svg>
-          <span class="hidden sm:inline text-[.7rem] tracking-[.14em] text-[#5C5245]"><span data-i18n="cart">Cart</span> [<span id="cartCount">0</span>]</span>
-          <span class="sm:hidden text-[.65rem] text-[#8E6E32]" id="cartCountM">0</span>
+      <nav class="hidden lg:flex items-center gap-8 text-sm font-semibold">
+        <a href="#/shop" data-act="nav" data-view="shop" class="hover:text-[#B08E4F] transition">المتجر</a>
+        <a href="#/wishlist" data-act="nav" data-view="wishlist" class="hover:text-[#B08E4F] transition">المفضلة</a>
+        <a href="#/about" data-act="nav" data-view="about" class="hover:text-[#B08E4F] transition">من نحن</a>
+      </nav>
+      <div class="flex items-center gap-4">
+        <button data-act="lang" id="langLabel" class="text-xs font-bold uppercase hover:text-[#B08E4F]">EN</button>
+        <button data-act="account" class="text-xl hover:text-[#B08E4F]">👤</button>
+        <button data-act="cart" class="text-xl relative hover:text-[#B08E4F]">
+          🛒 <span id="cartBadge" class="absolute -top-1 -right-2 bg-[#B08E4F] text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center hidden">0</span>
         </button>
       </div>
     </div>
-    <!-- nav links -->
-    <nav class="hidden lg:flex items-center justify-center gap-9 pt-3 mt-2.5 border-t border-[#D9C7A5]/45 text-[.68rem] uppercase text-[#5C5245]">
-      <a href="#/shop" data-act="nav" data-view="shop" data-cat="all" class="nav-link" data-i18n="nav_shop">Shop All</a>
-      <a href="#/shop" data-act="nav" data-view="shop" data-cat="rings" class="nav-link" data-i18n="cat_rings">Rings</a>
-      <a href="#/shop" data-act="nav" data-view="shop" data-cat="necklaces" class="nav-link" data-i18n="cat_necklaces">Necklaces</a>
-      <a href="#/shop" data-act="nav" data-view="shop" data-cat="earrings" class="nav-link" data-i18n="cat_earrings">Earrings</a>
-      <a href="#/shop" data-act="nav" data-view="shop" data-cat="bracelets" class="nav-link" data-i18n="cat_bracelets">Bracelets</a>
-      <a href="#/shop" data-act="nav" data-view="shop" data-cat="bridal" class="nav-link" data-i18n="cat_bridal">Bridal</a>
-      <a href="#/about" data-act="nav" data-view="about" class="nav-link" data-i18n="nav_about">Maison</a>
-    </nav>
-  </div>
-</header>
+  </header>
 
-<!-- mobile drawer -->
-<div id="mobileMenu" class="fixed inset-0 z-[70] sheet-hidden transition-opacity duration-300">
-  <div class="absolute inset-0 bg-[#2B2621]/45 backdrop-blur-sm" data-act="closeMenu"></div>
-  <aside class="drawer absolute top-0 bottom-0 start-0 w-[82%] max-w-xs bg-cream shadow-2xl p-6 flex flex-col -translate-x-full rtl:translate-x-full" id="menuPanel">
-    <div class="flex items-center justify-between mb-8">
-      <span class="font-display gold-text text-2xl tracking-[.2em]">AURÉLIA</span>
-      <button data-act="closeMenu" class="p-1.5 text-[#8E6E32]">✕</button>
-    </div>
-    <nav class="flex flex-col gap-1 text-[.82rem]" id="mobileLinks"></nav>
-    <button data-act="lang" class="mt-auto btn-ghost rounded-full py-3 text-[.66rem] uppercase"><span id="langLabelM">العربية</span></button>
-  </aside>
-</div>
+  <!-- Main App Container -->
+  <main id="app" class="pt-16 min-h-screen"></main>
 
-<!-- ═══════════ MAIN ═══════════ -->
-<main id="app" class="min-h-[60vh]"></main>
+  <!-- Firebase & App Logic -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+    import { getDatabase, ref, onValue, set, get } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
-<!-- ═══════════ FOOTER ═══════════ -->
-<footer class="mt-16 bg-[#EFE6D8] border-t border-[#D9C7A5]/60">
-  <div class="max-w-[1400px] mx-auto px-5 sm:px-8 py-14">
-    <div class="grid grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-10">
-      <div class="col-span-2 lg:col-span-2">
-        <h3 class="font-display gold-text text-3xl tracking-[.2em] mb-3">AURÉLIA</h3>
-        <p class="text-[.78rem] leading-relaxed text-ink-soft max-w-xs" data-i18n="foot_about">A Cairo maison of fine jewelry. Every piece is set by hand in 18K gold with certified natural stones.</p>
-        <form class="mt-5 flex gap-2 max-w-sm" data-act="subscribe">
-          <input class="field" type="email" required placeholder="you@email.com" data-i18n-ph="foot_mail">
-          <button class="btn-gold rounded-lg px-4 text-[.6rem] uppercase whitespace-nowrap" data-i18n="join">Join</button>
-        </form>
-      </div>
-      <div>
-        <h4 class="text-[.66rem] uppercase tracking-[.24em] text-[#8E6E32] mb-4" data-i18n="foot_shop">Shop</h4>
-        <ul class="space-y-2.5 text-[.78rem] text-ink-soft" id="footShop"></ul>
-      </div>
-      <div>
-        <h4 class="text-[.66rem] uppercase tracking-[.24em] text-[#8E6E32] mb-4" data-i18n="foot_care">Customer Care</h4>
-        <ul class="space-y-2.5 text-[.78rem] text-ink-soft">
-          <li data-i18n="care1">Shipping — Egypt Post</li>
-          <li data-i18n="care2">Returns & Exchanges</li>
-          <li data-i18n="care3">Ring Sizing Guide</li>
-          <li data-i18n="care4">Jewelry Care</li>
-          <li>WhatsApp: 01159055625</li>
-        </ul>
-      </div>
-      <div>
-        <h4 class="text-[.66rem] uppercase tracking-[.24em] text-[#8E6E32] mb-4" data-i18n="foot_policies">Policies</h4>
-        <ul class="space-y-2.5 text-[.78rem] text-ink-soft">
-          <li data-i18n="pol1">Privacy Policy</li>
-          <li data-i18n="pol2">Terms of Service</li>
-          <li data-i18n="pol3">Authenticity & Hallmark</li>
-          <li data-i18n="pol4">Lifetime Warranty</li>
-        </ul>
-      </div>
-    </div>
-    <div class="hairline my-8"></div>
-    <div class="flex flex-col sm:flex-row items-center justify-between gap-3 text-[.68rem] text-ink-soft">
-      <p data-i18n="copy">© 2026 AURÉLIA Fine Jewelry. All rights reserved.</p>
-      <div class="flex items-center gap-3">
-        <span class="px-2.5 py-1 rounded-full border border-[#C9A961]/40 text-[.6rem] tracking-[.14em]" id="deviceChip">LAPTOP · 3 COLS</span>
-        <span class="text-[#8E6E32] tracking-[.2em]">EGP · مصر</span>
-      </div>
-    </div>
-  </div>
-</footer>
+    // 1. Firebase Configuration (Linked to your DB)
+    const firebaseConfig = {
+      databaseURL: "https://mohamed-a9564-default-rtdb.firebaseio.com/",
+      // Note: Make sure to add your apiKey and projectId here from Firebase Console for Auth to work correctly.
+      apiKey: "YOUR_API_KEY_HERE",
+      projectId: "mohamed-a9564",
+    };
 
-<!-- ═══════════ CART DRAWER ═══════════ -->
-<div id="cartDrawer" class="fixed inset-0 z-[80] sheet-hidden transition-opacity duration-300">
-  <div class="absolute inset-0 bg-[#2B2621]/45 backdrop-blur-sm" data-act="closeCart"></div>
-  <aside id="cartPanel" class="drawer absolute top-0 bottom-0 end-0 w-full sm:w-[420px] bg-cream shadow-2xl flex flex-col translate-x-full rtl:-translate-x-full">
-    <div class="flex items-center justify-between px-6 py-5 border-b border-[#D9C7A5]/60">
-      <h3 class="font-display text-2xl text-ink" data-i18n="your_cart">Your Cart</h3>
-      <button data-act="closeCart" class="p-1.5 text-[#8E6E32] text-lg">✕</button>
-    </div>
-    <div id="cartBody" class="flex-1 overflow-y-auto px-6 py-5 space-y-4"></div>
-    <div id="cartFoot" class="border-t border-[#D9C7A5]/60 px-6 py-5 space-y-3 bg-[#F7F1E6]"></div>
-  </aside>
-</div>
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getDatabase(app);
+    const provider = new GoogleAuthProvider();
 
-<!-- ═══════════ SEARCH OVERLAY ═══════════ -->
-<div id="searchOverlay" class="fixed inset-0 z-[85] sheet-hidden transition-opacity duration-300">
-  <div class="absolute inset-0 bg-[#F5EFE4]/92 backdrop-blur-xl" data-act="closeSearch"></div>
-  <div class="relative max-w-2xl mx-auto pt-24 px-6">
-    <button data-act="closeSearch" class="absolute top-6 end-6 text-[#8E6E32] text-xl">✕</button>
-    <p class="text-[.62rem] uppercase tracking-[.3em] text-[#A08A62] mb-3" data-i18n="search_l">Search the maison</p>
-    <input id="searchInput" class="w-full bg-transparent border-b-2 border-[#C9A961]/50 py-4 text-2xl sm:text-3xl font-display text-ink outline-none focus:border-[#B08E4F]" placeholder="Diamond ring…" data-i18n-ph="search_ph">
-    <div id="searchResults" class="mt-6 space-y-2 max-h-[50vh] overflow-y-auto"></div>
-  </div>
-</div>
+    // 2. Global State & Dynamic Data
+    window.PRODUCTS = []; // Will be populated from Firebase
+    window.S = {
+      view: 'home',
+      cart: JSON.parse(localStorage.getItem("au_cart") || "[]"),
+      wish: JSON.parse(localStorage.getItem("au_wish") || "[]"),
+      user: null,
+      profile: { addresses: [], orders: [] }
+    };
 
-<!-- ═══════════ AUTH MODAL ═══════════ -->
-<div id="authModal" class="fixed inset-0 z-[90] sheet-hidden transition-opacity duration-300">
-  <div class="absolute inset-0 bg-[#2B2621]/55 backdrop-blur-md" data-act="closeAuth"></div>
-  <div class="relative min-h-full flex items-start sm:items-center justify-center p-3 sm:p-6 overflow-y-auto">
-    <div id="authCard" class="w-full max-w-md glass rounded-3xl p-6 sm:p-8 my-6 animate-scale-in relative">
-      <button data-act="closeAuth" class="absolute top-4 end-4 text-[#8E6E32] text-lg">✕</button>
-      <div id="authBody"></div>
-    </div>
-  </div>
-</div>
-
-<!-- ═══════════ TOASTS ═══════════ -->
-<div id="toasts" class="fixed bottom-5 inset-x-0 z-[120] flex flex-col items-center gap-2 px-4 pointer-events-none"></div>
-
-<!-- ═══════════ BACK TO TOP ═══════════ -->
-<button id="toTop" data-act="toTop" aria-label="Back to top"
-  class="fixed bottom-6 end-6 z-[60] w-11 h-11 rounded-full btn-gold grid place-items-center opacity-0 pointer-events-none">
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.6"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
-</button>
-
-<script type="module">
-/* ══════════════════════════════════════════════════════════════════
-   AURÉLIA — Fine Jewelry  ·  Single-file storefront
-   Firebase (Auth + Realtime DB) · WhatsApp OTP · i18n EN/AR · EGP
-   ══════════════════════════════════════════════════════════════════ */
-
-/* ─────────────  1. FIREBASE  ───────────── */
-const V = "https://www.gstatic.com/firebasejs/10.12.2";
-let initializeApp, getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword,
-    GoogleAuthProvider, signInWithPopup, signOut, updateProfile, sendPasswordResetEmail,
-    getDatabase, dbRef, dbSet, dbGet, SDK_OK = false;
-try{
-  const [A, U, D] = await Promise.all([
-    import(`${V}/firebase-app.js`), import(`${V}/firebase-auth.js`), import(`${V}/firebase-database.js`)
-  ]);
-  ({ initializeApp } = A);
-  ({ getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword,
-     GoogleAuthProvider, signInWithPopup, signOut, updateProfile, sendPasswordResetEmail } = U);
-  ({ getDatabase } = D); dbRef = D.ref; dbSet = D.set; dbGet = D.get;
-  SDK_OK = true;
-}catch(e){ console.warn("[AURÉLIA] Firebase SDK unavailable — offline/local mode:", e.message); }
-
-const firebaseConfig = {
-  apiKey:            "AIzaSyBmohamed-REPLACE-WITH-YOUR-WEB-API-KEY",
-  authDomain:        "mohamed-a9564.firebaseapp.com",
-  databaseURL:       "https://mohamed-a9564-default-rtdb.firebaseio.com/",
-  projectId:         "mohamed-a9564",
-  storageBucket:     "mohamed-a9564.appspot.com",
-  messagingSenderId: "000000000000",
-  appId:             "1:000000000000:web:aurelia0000000000"
-};
-
-const FB = { app:null, auth:null, db:null, ok:false };
-if(SDK_OK){
-  try{
-    FB.app  = initializeApp(firebaseConfig);
-    FB.auth = getAuth(FB.app);
-    FB.db   = getDatabase(FB.app);
-    FB.ok   = true;
-  }catch(e){ console.warn("[AURÉLIA] Firebase init fell back to local mode:", e.message); }
-}
-
-const FB_FALLBACK_CODES = ["auth/invalid-api-key","auth/api-key-not-valid","auth/api-key-not-valid.-please-pass-a-valid-api-key.",
-  "auth/configuration-not-found","auth/network-request-failed","auth/operation-not-allowed","auth/internal-error",
-  "auth/unauthorized-domain","auth/admin-restricted-operation","auth/popup-blocked","auth/popup-closed-by-user"];
-const isFallback = e => !e || !e.code || FB_FALLBACK_CODES.includes(e.code) || /api-key|configuration|network/i.test(e.code||e.message||"");
-
-/* ─────────────  2. WHATSAPP OTP GATEWAY  ───────────── */
-const WHATSAPP = {
-  provider:      "ultramsg",
-  senderNumber:  "01159055625",
-  ultramsg: {
-    instanceId: "INSTANCE_ID_HERE",
-    token:      "ULTRAMSG_TOKEN_HERE",
-    endpoint(){ return `https://api.ultramsg.com/${this.instanceId}/messages/chat`; }
-  },
-  twilio: {
-    accountSid: "TWILIO_ACCOUNT_SID_HERE",
-    authToken:  "TWILIO_AUTH_TOKEN_HERE",
-    from:       "whatsapp:+201159055625",
-    endpoint(){ return `https://api.twilio.com/2010-04-01/Accounts/${this.accountSid}/Messages.json`; }
-  }
-};
-function normalizeEG(p){
-  let d = (p||"").replace(/[^\d+]/g,"");
-  if(d.startsWith("+")) d = d.slice(1);
-  if(d.startsWith("00")) d = d.slice(2);
-  if(d.startsWith("0"))  d = "20" + d.slice(1);
-  if(!d.startsWith("20")) d = "20" + d;
-  return d;
-}
-async function sendWhatsAppOTP(phone, code){
-  const to  = normalizeEG(phone);
-  const msg = `AURÉLIA — ${t("otp_msg")}: ${code}\n${t("otp_msg2")}`;
-  try{
-    if(WHATSAPP.provider === "ultramsg"){
-      const cfg = WHATSAPP.ultramsg;
-      if(cfg.token.includes("HERE")) throw new Error("placeholder");
-      const r = await fetch(cfg.endpoint(), {
-        method:"POST", headers:{ "Content-Type":"application/x-www-form-urlencoded" },
-        body:new URLSearchParams({ token:cfg.token, to:"+"+to, body:msg, priority:"1" })
+    // 3. Realtime Listener for Products (Connects with Dashboard)
+    function listenToProducts() {
+      const productsRef = ref(db, 'products');
+      onValue(productsRef, (snapshot) => {
+        const data = snapshot.val();
+        if (data) {
+          // Convert Firebase Object to Array
+          window.PRODUCTS = Object.keys(data).map(key => ({ id: key, ...data[key] }));
+        } else {
+          window.PRODUCTS = [];
+        }
+        if(S.view === 'shop' || S.view === 'home') render(); // Re-render UI live
       });
-      const j = await r.json();
-      if(j.sent === "true" || j.sent === true) return { ok:true, demo:false };
-      throw new Error(j.error || "send failed");
-    }else{
-      const cfg = WHATSAPP.twilio;
-      if(cfg.authToken.includes("HERE")) throw new Error("placeholder");
-      const r = await fetch(cfg.endpoint(), {
-        method:"POST",
-        headers:{ "Content-Type":"application/x-www-form-urlencoded",
-                  "Authorization":"Basic " + btoa(`${cfg.accountSid}:${cfg.authToken}`) },
-        body:new URLSearchParams({ From:cfg.from, To:"whatsapp:+"+to, Body:msg })
-      });
-      if(!r.ok) throw new Error("twilio failed");
-      return { ok:true, demo:false };
     }
-  }catch(err){
-    console.warn("[WhatsApp OTP] gateway placeholder — running in demo mode:", err.message);
-    return { ok:true, demo:true };
-  }
-}
 
-/* ─────────────  3. i18n  ───────────── */
-const I18N = {
-  en:{
-    tagline:"Fine Jewelry", cart:"Cart", nav_shop:"Shop All", nav_about:"Maison",
-    cat_rings:"Rings", cat_necklaces:"Necklaces", cat_earrings:"Earrings",
-    cat_bracelets:"Bracelets", cat_bridal:"Bridal", cat_pearls:"Pearls", cat_all:"All Jewelry",
-    ticker1:"Complimentary gift wrapping on every order", ticker1b:"Complimentary gift wrapping on every order",
-    ticker2:"Shipping via Egypt Post — nationwide", ticker2b:"Shipping via Egypt Post — nationwide",
-    ticker3:"18K solid gold · Certified natural diamonds", ticker3b:"18K solid gold · Certified natural diamonds",
-    hero_kicker:"The 2026 Collection", hero1:"RADIANCE", hero2:"REDEFINED",
-    hero_sub:"Discover the essence of luminous fine jewelry — hand-set in 18K gold, made in Cairo.",
-    hero_cta:"SHOP FINE JEWELRY", hero_cta2:"EXPLORE BRIDAL",
-    curated:"CURATED CATEGORIES", curated_sub:"Collections shaped by light",
-    c_fine:"FINE JEWELRY", c_fine_s:"TIMELESS ELEGANCE", shop_now:"SHOP NOW",
-    c_rings:"SIGNATURE RINGS", c_rings_s:"SOLITAIRES & ETERNITY", explore:"EXPLORE",
-    c_ear:"EARRINGS", c_ear_s:"LIGHT & MOVEMENT", browse:"BROWSE",
-    c_bridal:"BRIDAL ATELIER", c_bridal_s:"FOR THE FOREVER YES", discover:"DISCOVER",
-    best:"BESTSELLERS", best_sub:"Most coveted this season", view_all:"VIEW ALL PIECES",
-    add_cart:"ADD TO CART", added:"Added to your cart", removed:"Removed",
-    wish_add:"Saved to wishlist", wish_rm:"Removed from wishlist",
-    your_cart:"Your Cart", empty_cart:"Your cart is quietly waiting.", start_shopping:"START SHOPPING",
-    subtotal:"Subtotal", shipping:"Shipping (Egypt Post)", total:"Total", checkout:"PROCEED TO CHECKOUT",
-    free:"Complimentary", qty:"Qty", remove:"Remove",
-    cs_free1:"away from free Egypt Post shipping", cs_free2:"Free Egypt Post shipping unlocked",
-    cs_complete:"Complete the look", cs_coupon:"Promo code", cs_apply:"Apply",
-    cs_bad:"This code isn't valid — try AURELIA10", cs_applied:"Coupon applied", cs_disc:"Discount",
-    cs_gift:"Complimentary gift wrapping", cs_mv:"Saved to wishlist", cs_note:"Gift note (optional)",
-    cs_try:"Try AURELIA10",
-    wishlist:"Wishlist", empty_wish:"No treasures saved yet.",
-    shop_title:"THE COLLECTION", sort:"Sort", s_feat:"Featured", s_low:"Price: Low to High",
-    s_high:"Price: High to Low", s_rate:"Top Rated", results:"pieces",
-    details:"Details", material:"Material", stone:"Stone", size:"Size", in_stock:"In stock",
-    reviews:"reviews", desc_l:"Description", ship_l:"Shipping & Returns",
-    ship_txt:"Shipped nationwide via Egypt Post (البريد المصري) in a signed AURÉLIA case. 14-day returns.",
-    add_wish:"ADD TO WISHLIST", back:"Back",
-    login:"Sign In", register:"Create Account", email:"Email", password:"Password",
-    name:"Full Name", phone:"WhatsApp Number", g_login:"Continue with Google",
-    or:"or", no_acc:"New to AURÉLIA?", has_acc:"Already have an account?",
-    forgot:"Forgot password?", signout:"Sign Out",
-    err_email:"Enter a valid email address.", err_pass:"Password must be at least 6 characters.",
-    err_no_user:"No account found with this email. Please register.",
-    err_wrong:"Incorrect email or password. Please try again.",
-    err_exists:"An account with this email already exists. Please sign in.",
-    err_name:"Please enter your full name.", err_phone:"Enter a valid Egyptian WhatsApp number.",
-    err_otp:"The code you entered is incorrect.", err_fields:"Please complete all required fields.",
-    welcome:"Welcome back", welcome_new:"Welcome to the maison",
-    step:"Step", of:"of",
-    reg_s1:"Your details", reg_s2:"WhatsApp verification", reg_s3:"Enter the code", reg_s4:"Delivery address",
-    send_otp:"SEND CODE VIA WHATSAPP", otp_sent:"A 6-digit code was sent on WhatsApp to",
-    otp_msg:"Your verification code", otp_msg2:"Do not share this code with anyone.",
-    verify:"VERIFY & CONTINUE", resend:"Resend code", resend_in:"Resend in",
-    demo_note:"Gateway in placeholder mode — your demo code is",
-    wa_from:"Sent from AURÉLIA WhatsApp", 
-    addr_line:"Street Address", addr_city:"City / Governorate", addr_area:"Area / District",
-    addr_zip:"Postal Code", addr_label:"Label (Home, Work…)", pin:"PIN MY LOCATION",
-    pinned:"Location pinned", map_hint:"Pin your exact location so our courier finds you.",
-    egypt_post:"Shipping is processed via Egypt Post (البريد المصري)",
-    egypt_post_sub:"Delivery in 2–5 business days across all governorates.",
-    finish:"COMPLETE REGISTRATION", save:"SAVE", saved:"Saved successfully",
-    profile:"My Account", p_over:"Overview", p_addr:"Addresses", p_orders:"Orders", p_phone:"Phone",
-    p_hi:"Hello", member:"Member since", verified:"WhatsApp verified", unverified:"Not verified",
-    no_orders:"No orders yet.", order:"Order", placed:"Placed", status:"Status",
-    st_pending:"Processing", items:"items", add_addr:"ADD NEW ADDRESS", default_a:"Default",
-    make_def:"Make default", del:"Delete",
-    upd_phone:"Update WhatsApp Number", upd_phone_note:"Changing your number requires WhatsApp verification again.",
-    co_title:"CHECKOUT", co_addr:"Delivery Address", co_pay:"Payment Method",
-    pay_cod:"Cash on Delivery", pay_cod_s:"Pay the Egypt Post courier on arrival",
-    pay_ip:"InstaPay / Bank Transfer", pay_ip_s:"Instructions sent on WhatsApp",
-    co_summary:"Order Summary", place:"PLACE ORDER", need_login:"Please sign in to complete your order.",
-    need_addr:"Please add a delivery address.", order_ok:"Order confirmed",
-    thanks:"THANK YOU", thanks_sub:"Your order has been received. A confirmation was sent on WhatsApp.",
-    order_no:"Order number", cont:"CONTINUE SHOPPING",
-    about_t:"THE MAISON", search_l:"Search the maison", search_ph:"Diamond ring…",
-    no_res:"No pieces match your search.",
-    foot_about:"A Cairo maison of fine jewelry. Every piece is set by hand in 18K gold with certified natural stones.",
-    foot_mail:"you@email.com", join:"Join", foot_shop:"Shop", foot_care:"Customer Care", foot_policies:"Policies",
-    care1:"Shipping — Egypt Post", care2:"Returns & Exchanges", care3:"Ring Sizing Guide", care4:"Jewelry Care",
-    pol1:"Privacy Policy", pol2:"Terms of Service", pol3:"Authenticity & Hallmark", pol4:"Lifetime Warranty",
-    copy:"© 2026 AURÉLIA Fine Jewelry. All rights reserved.", subd:"Thank you for subscribing.",
-    trust1:"18K Solid Gold", trust1s:"Hallmarked & certified",
-    trust2:"Egypt Post Shipping", trust2s:"Nationwide, insured",
-    trust3:"Lifetime Warranty", trust3s:"Free cleaning forever",
-    trust4:"WhatsApp Concierge", trust4s:"01159055625",
-    story_k:"Since 1998", story_t:"Light, held in gold.",
-    story_p:"In a quiet atelier off Cairo's Zamalek, our goldsmiths still set each stone by hand. Nothing leaves the maison until it catches the light exactly the way it should.",
-    story_cta:"OUR STORY", currency:"EGP"
-  },
-  ar:{
-    tagline:"مجوهرات فاخرة", cart:"السلة", nav_shop:"كل القطع", nav_about:"الدار",
-    cat_rings:"خواتم", cat_necklaces:"عقود", cat_earrings:"أقراط",
-    cat_bracelets:"أساور", cat_bridal:"مجوهرات الزفاف", cat_pearls:"لؤلؤ", cat_all:"كل المجوهرات",
-    ticker1:"تغليف هدايا مجاني مع كل طلب", ticker1b:"تغليف هدايا مجاني مع كل طلب",
-    ticker2:"الشحن عبر البريد المصري لكل المحافظات", ticker2b:"الشحن عبر البريد المصري لكل المحافظات",
-    ticker3:"ذهب عيار ١٨ · ألماس طبيعي معتمد", ticker3b:"ذهب عيار ١٨ · ألماس طبيعي معتمد",
-    hero_kicker:"مجموعة ٢٠٢٦", hero1:"بريقٌ", hero2:"يُعاد تعريفه",
-    hero_sub:"اكتشفي جوهر المجوهرات المضيئة — مرصّعة يدويًا بالذهب عيار ١٨، صُنعت في القاهرة.",
-    hero_cta:"تسوّقي المجوهرات", hero_cta2:"مجموعة الزفاف",
-    curated:"مجموعات مختارة", curated_sub:"مجموعات صاغها الضوء",
-    c_fine:"مجوهرات فاخرة", c_fine_s:"أناقة خالدة", shop_now:"تسوّقي الآن",
-    c_rings:"خواتم مميزة", c_rings_s:"سوليتير والأبدية", explore:"استكشفي",
-    c_ear:"أقراط", c_ear_s:"ضوء وحركة", browse:"تصفّحي",
-    c_bridal:"أتيليه الزفاف", c_bridal_s:"لأجمل نعم", discover:"اكتشفي",
-    best:"الأكثر مبيعًا", best_sub:"الأكثر رواجًا هذا الموسم", view_all:"عرض كل القطع",
-    add_cart:"أضِف إلى السلة", added:"تمت الإضافة إلى السلة", removed:"تم الحذف",
-    wish_add:"حُفظت في المفضلة", wish_rm:"أُزيلت من المفضلة",
-    your_cart:"سلة التسوق", empty_cart:"سلتك فارغة في انتظارك.", start_shopping:"ابدئي التسوق",
-    subtotal:"المجموع الفرعي", shipping:"الشحن (البريد المصري)", total:"الإجمالي", checkout:"إتمام الطلب",
-    free:"مجاني", qty:"الكمية", remove:"حذف",
-    cs_free1:"متبقي على الشحن المجاني عبر البريد المصري", cs_free2:"تم تفعيل الشحن المجاني عبر البريد المصري",
-    cs_complete:"أكملِي الإطلالة", cs_coupon:"كود الخصم", cs_apply:"تطبيق",
-    cs_bad:"الكود غير صالح — جرّبي AURELIA10", cs_applied:"تم تطبيق الكود", cs_disc:"الخصم",
-    cs_gift:"تغليف هدايا مجاني", cs_mv:"تم النقل إلى المفضلة", cs_note:"كلمة الإهداء (اختياري)",
-    cs_try:"جرّبي AURELIA10",
-    wishlist:"المفضلة", empty_wish:"لا توجد قطع محفوظة بعد.",
-    shop_title:"المجموعة", sort:"ترتيب", s_feat:"المميزة", s_low:"السعر: من الأقل",
-    s_high:"السعر: من الأعلى", s_rate:"الأعلى تقييمًا", results:"قطعة",
-    details:"التفاصيل", material:"الخامة", stone:"الحجر", size:"المقاس", in_stock:"متوفر",
-    reviews:"تقييم", desc_l:"الوصف", ship_l:"الشحن والإرجاع",
-    ship_txt:"يتم الشحن لكل المحافظات عبر البريد المصري داخل علبة أوريليا الموقّعة. الإرجاع خلال ١٤ يومًا.",
-    add_wish:"أضِف إلى المفضلة", back:"رجوع",
-    login:"تسجيل الدخول", register:"إنشاء حساب", email:"البريد الإلكتروني", password:"كلمة المرور",
-    name:"الاسم بالكامل", phone:"رقم الواتساب", g_login:"المتابعة عبر جوجل",
-    or:"أو", no_acc:"جديد في أوريليا؟", has_acc:"لديك حساب بالفعل؟",
-    forgot:"نسيت كلمة المرور؟", signout:"تسجيل الخروج",
-    err_email:"أدخل بريدًا إلكترونيًا صحيحًا.", err_pass:"كلمة المرور ٦ أحرف على الأقل.",
-    err_no_user:"لا يوجد حساب بهذا البريد. يرجى إنشاء حساب.",
-    err_wrong:"البريد الإلكتروني أو كلمة المرور غير صحيحة.",
-    err_exists:"يوجد حساب بهذا البريد بالفعل. سجّل الدخول.",
-    err_name:"من فضلك أدخل اسمك بالكامل.", err_phone:"أدخل رقم واتساب مصري صحيح.",
-    err_otp:"الكود الذي أدخلته غير صحيح.", err_fields:"يرجى إكمال جميع الحقول المطلوبة.",
-    welcome:"أهلًا بعودتك", welcome_new:"أهلًا بك في الدار",
-    step:"خطوة", of:"من",
-    reg_s1:"بياناتك", reg_s2:"تفعيل الواتساب", reg_s3:"أدخلي الكود", reg_s4:"عنوان التوصيل",
-    send_otp:"إرسال الكود على الواتساب", otp_sent:"تم إرسال كود من ٦ أرقام على واتساب إلى",
-    otp_msg:"كود التحقق الخاص بك", otp_msg2:"لا تشاركي هذا الكود مع أي شخص.",
-    verify:"تأكيد ومتابعة", resend:"إعادة إرسال الكود", resend_in:"إعادة الإرسال بعد",
-    demo_note:"بوابة الإرسال في وضع تجريبي — الكود التجريبي هو",
-    wa_from:"مُرسل من واتساب أوريليا",
-    addr_line:"العنوان بالتفصيل", addr_city:"المدينة / المحافظة", addr_area:"المنطقة / الحي",
-    addr_zip:"الرمز البريدي", addr_label:"التسمية (المنزل، العمل…)", pin:"تحديد موقعي",
-    pinned:"تم تحديد الموقع", map_hint:"حدّدي موقعك بدقة ليصل إليك المندوب بسهولة.",
-    egypt_post:"يتم الشحن عبر البريد المصري (Egypt Post)",
-    egypt_post_sub:"التوصيل خلال ٢–٥ أيام عمل لجميع المحافظات.",
-    finish:"إتمام التسجيل", save:"حفظ", saved:"تم الحفظ بنجاح",
-    profile:"حسابي", p_over:"نظرة عامة", p_addr:"العناوين", p_orders:"الطلبات", p_phone:"الهاتف",
-    p_hi:"مرحبًا", member:"عضو منذ", verified:"واتساب مُفعّل", unverified:"غير مُفعّل",
-    no_orders:"لا توجد طلبات بعد.", order:"طلب", placed:"تاريخ الطلب", status:"الحالة",
-    st_pending:"قيد التجهيز", items:"قطعة", add_addr:"إضافة عنوان جديد", default_a:"افتراضي",
-    make_def:"اجعله افتراضيًا", del:"حذف",
-    upd_phone:"تحديث رقم الواتساب", upd_phone_note:"تغيير الرقم يتطلب إعادة التحقق عبر الواتساب.",
-    co_title:"إتمام الطلب", co_addr:"عنوان التوصيل", co_pay:"طريقة الدفع",
-    pay_cod:"الدفع عند الاستلام", pay_cod_s:"ادفعي لمندوب البريد المصري عند الوصول",
-    pay_ip:"إنستاباي / تحويل بنكي", pay_ip_s:"التعليمات تُرسل على الواتساب",
-    co_summary:"ملخص الطلب", place:"تأكيد الطلب", need_login:"يرجى تسجيل الدخول لإتمام الطلب.",
-    need_addr:"يرجى إضافة عنوان للتوصيل.", order_ok:"تم تأكيد الطلب",
-    thanks:"شكرًا لكِ", thanks_sub:"تم استلام طلبك، وأُرسل التأكيد على الواتساب.",
-    order_no:"رقم الطلب", cont:"متابعة التسوق",
-    about_t:"الدار", search_l:"ابحثي في الدار", search_ph:"خاتم ألماس…",
-    no_res:"لا توجد قطع مطابقة لبحثك.",
-    foot_about:"دار مجوهرات من القاهرة. كل قطعة تُرصّع يدويًا بالذهب عيار ١٨ وأحجار طبيعية معتمدة.",
-    foot_mail:"بريدك الإلكتروني", join:"اشتراك", foot_shop:"تسوّقي", foot_care:"خدمة العملاء", foot_policies:"السياسات",
-    care1:"الشحن — البريد المصري", care2:"الإرجاع والاستبدال", care3:"دليل مقاسات الخواتم", care4:"العناية بالمجوهرات",
-    pol1:"سياسة الخصوصية", pol2:"شروط الخدمة", pol3:"الأصالة والدمغة", pol4:"ضمان مدى الحياة",
-    copy:"© ٢٠٢٦ أوريليا للمجوهرات الفاخرة. كل الحقوق محفوظة.", subd:"شكرًا لاشتراكك.",
-    trust1:"ذهب عيار ١٨", trust1s:"مدموغ ومعتمد",
-    trust2:"شحن البريد المصري", trust2s:"لكل المحافظات، مؤمَّن",
-    trust3:"ضمان مدى الحياة", trust3s:"تنظيف مجاني دائمًا",
-    trust4:"خدمة واتساب", trust4s:"01159055625",
-    story_k:"منذ ١٩٩٨", story_t:"ضوءٌ محفوظ في الذهب.",
-    story_p:"في أتيليه هادئ بالزمالك، ما زال صاغتنا يرصّعون كل حجر يدويًا. لا تغادر أي قطعة الدار قبل أن تعكس الضوء تمامًا كما ينبغي.",
-    story_cta:"قصتنا", currency:"جنيه"
-  }
-};
-let LANG = localStorage.getItem("au_lang") || "en";
-const t = k => (I18N[LANG] && I18N[LANG][k]) || I18N.en[k] || k;
+    // 4. Core Render Engine
+    window.render = function() {
+      const appDiv = document.getElementById("app");
+      
+      if(S.view === 'home') {
+        appDiv.innerHTML = `
+          <section class="h-[80vh] flex flex-col items-center justify-center text-center px-4 bg-gradient-to-b from-[#F6EEDC] to-white">
+            <h1 class="text-5xl md:text-7xl font-display text-[#B08E4F] mb-4">أناقة لا تفنى</h1>
+            <p class="text-lg text-gray-600 max-w-lg mx-auto mb-8">اكتشف مجموعتنا الحصرية من المجوهرات الفاخرة المصممة لتعكس جمالك الداخلي.</p>
+            <button data-act="nav" data-view="shop" class="btn-gold px-8 py-3 rounded-full text-lg font-bold shadow-lg">تسوق الآن</button>
+          </section>
+        `;
+      } 
+      else if (S.view === 'shop') {
+        let productsHTML = window.PRODUCTS.length > 0 
+          ? window.PRODUCTS.map(p => `
+              <div class="bg-white p-4 rounded-xl shadow-sm border border-[#E3D6BE] hover:shadow-md transition">
+                <img src="${p.img || 'https://via.placeholder.com/300'}" class="w-full h-48 object-cover rounded-lg mb-4">
+                <h3 class="font-display text-xl font-bold">${p.nameAr || p.name}</h3>
+                <p class="text-[#B08E4F] font-semibold mt-2">${p.price} EGP</p>
+                <button data-act="add" data-pid="${p.id}" class="w-full mt-4 border border-[#B08E4F] text-[#B08E4F] py-2 rounded-lg hover:bg-[#B08E4F] hover:text-white transition">أضف للسلة</button>
+              </div>
+            `).join('')
+          : `<div class="col-span-full text-center py-20"><div class="loader mx-auto mb-4"></div>جاري تحميل المنتجات من قاعدة البيانات...</div>`;
 
-/* ─────────────  4. CATALOG  ───────────── */
-const PRODUCTS = [
-  { id:"au01", cat:"rings", price:24900, old:28500, rate:4.9, rev:214, feat:1,
-    en:{n:"Solitaire Éclat Ring", s:"18K yellow gold · 0.75ct brilliant", d:"A single brilliant-cut diamond floats in a six-claw crown of 18K gold. The band is knife-edge thin so the light does all the talking."},
-    ar:{n:"خاتم سوليتير إيكلا", s:"ذهب أصفر ١٨ · ألماسة ٠.٧٥ قيراط", d:"ألماسة واحدة مقطوعة بريليانت تطفو داخل تاج من ستة مخالب من الذهب عيار ١٨، مع حلقة رفيعة تترك الضوء وحده يتحدث."},
-    img:["https://images.pexels.com/photos/29502931/pexels-photo-29502931.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=750","https://images.pexels.com/photos/27206251/pexels-photo-27206251.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=750"],
-    mat:{en:"18K Yellow Gold",ar:"ذهب أصفر عيار ١٨"}, stone:{en:"Natural Diamond VS1",ar:"ألماس طبيعي VS1"}, sizes:["6","7","8","9"] },
-
-  { id:"au02", cat:"necklaces", price:18500, old:0, rate:4.8, rev:167, feat:1,
-    en:{n:"Lumière Pendant", s:"18K gold · pavé drop", d:"A softly rounded pendant, pavé-set and suspended on a whisper-fine cable chain. Made to be worn alone or layered."},
-    ar:{n:"عقد لوميير", s:"ذهب ١٨ · تعليقة مرصّعة", d:"تعليقة دائرية ناعمة مرصّعة بالباڤيه ومعلّقة على سلسلة رفيعة كالهمس. تُلبس منفردة أو مع طبقات."},
-    img:["https://images.pexels.com/photos/30746008/pexels-photo-30746008.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=750","https://images.pexels.com/photos/32382447/pexels-photo-32382447.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=750"],
-    mat:{en:"18K Gold",ar:"ذهب عيار ١٨"}, stone:{en:"Pavé Diamonds",ar:"ألماس باڤيه"}, sizes:["40cm","45cm","50cm"] },
-
-  { id:"au03", cat:"earrings", price:15750, old:17900, rate:5.0, rev:302, feat:1,
-    en:{n:"Étoile Diamond Studs", s:"18K gold · 0.5ctw pair", d:"The quiet essential. Two brilliants in martini settings that sit close and catch every candle in the room."},
-    ar:{n:"أقراط إيتوال الألماس", s:"ذهب ١٨ · ٠.٥ قيراط للزوج", d:"الأساسي الهادئ. ألماستان في تركيب مارتيني تلتصقان بالأذن وتلتقطان كل ضوء في الغرفة."},
-    img:["https://images.pexels.com/photos/21235147/pexels-photo-21235147.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=750","https://images.pexels.com/photos/29502955/pexels-photo-29502955.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=750"],
-    mat:{en:"18K White & Yellow Gold",ar:"ذهب أبيض وأصفر ١٨"}, stone:{en:"Natural Diamond",ar:"ألماس طبيعي"}, sizes:["One size"] },
-
-  { id:"au04", cat:"bracelets", price:32000, old:0, rate:4.9, rev:98, feat:1,
-    en:{n:"Céleste Tennis Bracelet", s:"18K gold · 3.0ctw line", d:"Forty-two graduated stones in a flexible gold line, secured with a hidden double-lock clasp."},
-    ar:{n:"إسورة سيليست تنس", s:"ذهب ١٨ · ٣ قيراط", d:"اثنتان وأربعون حجرة متدرجة في خط ذهبي مرن، بقفل مزدوج خفي للأمان."},
-    img:["https://images.pexels.com/photos/30746010/pexels-photo-30746010.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=750","https://images.pexels.com/photos/29502436/pexels-photo-29502436.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=750"],
-    mat:{en:"18K Gold",ar:"ذهب عيار ١٨"}, stone:{en:"Natural Diamonds",ar:"ألماس طبيعي"}, sizes:["16cm","17cm","18cm"] },
-
-  { id:"au05", cat:"pearls", price:12300, old:14000, rate:4.7, rev:141, feat:0,
-    en:{n:"Perle Douce Necklace", s:"Akoya pearls · gold clasp", d:"Hand-knotted Akoya pearls with a warm rosé lustre, finished with a small engraved gold clasp."},
-    ar:{n:"عقد بيرل دوس", s:"لؤلؤ أكويا · قفل ذهبي", d:"لؤلؤ أكويا معقود يدويًا بلمعة وردية دافئة، منتهٍ بقفل ذهبي صغير محفور."},
-    img:["https://images.pexels.com/photos/6716445/pexels-photo-6716445.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=750","https://images.pexels.com/photos/6716443/pexels-photo-6716443.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=750"],
-    mat:{en:"18K Gold & Akoya Pearl",ar:"ذهب ١٨ ولؤلؤ أكويا"}, stone:{en:"Cultured Pearl",ar:"لؤلؤ مستزرع"}, sizes:["42cm","46cm"] },
-
-  { id:"au06", cat:"earrings", price:9800, old:0, rate:4.6, rev:220, feat:1,
-    en:{n:"Aurore Gold Hoops", s:"18K gold · 22mm", d:"A perfectly weighted hoop with a softly domed profile — polished to a mirror and light enough for every day."},
-    ar:{n:"حلقات أورور الذهبية", s:"ذهب ١٨ · ٢٢ مم", d:"حلقة متوازنة الوزن بسطح مقبب ناعم، ملمّعة كالمرآة وخفيفة بما يكفي للارتداء اليومي."},
-    img:["https://images.pexels.com/photos/29502435/pexels-photo-29502435.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=750","https://images.pexels.com/photos/29502321/pexels-photo-29502321.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=750"],
-    mat:{en:"18K Yellow Gold",ar:"ذهب أصفر ١٨"}, stone:{en:"—",ar:"—"}, sizes:["18mm","22mm","28mm"] },
-
-  { id:"au07", cat:"rings", price:27400, old:31000, rate:4.9, rev:87, feat:0,
-    en:{n:"Serein Eternity Band", s:"18K gold · full pavé", d:"An unbroken circle of stones — the band that says the thing you can't quite say out loud."},
-    ar:{n:"خاتم سيرين الأبدية", s:"ذهب ١٨ · مرصّع بالكامل", d:"دائرة غير منقطعة من الأحجار — الخاتم الذي يقول ما يصعب قوله."},
-    img:["https://images.pexels.com/photos/29502969/pexels-photo-29502969.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=750","https://images.pexels.com/photos/29502933/pexels-photo-29502933.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=750"],
-    mat:{en:"18K Gold",ar:"ذهب عيار ١٨"}, stone:{en:"Natural Diamonds",ar:"ألماس طبيعي"}, sizes:["6","7","8"] },
-
-  { id:"au08", cat:"necklaces", price:14200, old:0, rate:4.5, rev:126, feat:0,
-    en:{n:"Rivière Layered Chain", s:"18K gold · triple strand", d:"Three chains of different weights, pre-layered on a single clasp so they never tangle."},
-    ar:{n:"سلسلة ريفيير المتدرجة", s:"ذهب ١٨ · ثلاث طبقات", d:"ثلاث سلاسل بأوزان مختلفة مثبتة مسبقًا على قفل واحد كي لا تتشابك أبدًا."},
-    img:["https://images.pexels.com/photos/29502932/pexels-photo-29502932.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=750","https://images.pexels.com/photos/4155251/pexels-photo-4155251.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=750"],
-    mat:{en:"18K Gold",ar:"ذهب عيار ١٨"}, stone:{en:"—",ar:"—"}, sizes:["Adjustable"] },
-
-  { id:"au09", cat:"bridal", price:68500, old:74000, rate:5.0, rev:44, feat:1,
-    en:{n:"Belle Époque Bridal Set", s:"Necklace · earrings · ring", d:"The complete bridal parure: a ginkgo-leaf necklace, matching drops and a slender band, presented in a lacquered case."},
-    ar:{n:"طقم بيل إيبوك للعرائس", s:"عقد · أقراط · خاتم", d:"طقم زفاف كامل: عقد بأوراق الجنكة، أقراط متناسقة، وخاتم رفيع، داخل علبة مطلية فاخرة."},
-    img:["https://images.pexels.com/photos/29503018/pexels-photo-29503018.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=750","https://images.pexels.com/photos/29502496/pexels-photo-29502496.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=750"],
-    mat:{en:"18K Gold",ar:"ذهب عيار ١٨"}, stone:{en:"Diamonds & Pearl",ar:"ألماس ولؤلؤ"}, sizes:["Set"] },
-
-  { id:"au10", cat:"bracelets", price:21900, old:0, rate:4.8, rev:73, feat:0,
-    en:{n:"Feuille d'Or Bangle", s:"18K gold · hand-chased", d:"A rigid bangle chased with a leaf motif by hand — each one is a little different, and that's the point."},
-    ar:{n:"إسورة فوي دور", s:"ذهب ١٨ · نقش يدوي", d:"إسورة صلبة منقوشة يدويًا بزخرفة الأوراق — كل قطعة مختلفة قليلًا، وهذا هو جمالها."},
-    img:["https://images.pexels.com/photos/29502435/pexels-photo-29502435.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=751","https://images.pexels.com/photos/29502436/pexels-photo-29502436.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=751&w=750"],
-    mat:{en:"18K Gold",ar:"ذهب عيار ١٨"}, stone:{en:"—",ar:"—"}, sizes:["S","M","L"] },
-
-  { id:"au11", cat:"rings", price:39600, old:0, rate:4.9, rev:61, feat:1,
-    en:{n:"Nuit Sapphire Ring", s:"18K gold · Ceylon sapphire", d:"A deep-blue Ceylon sapphire haloed in brilliants — the colour of a Cairo sky just after the call to Maghrib."},
-    ar:{n:"خاتم نوي بالياقوت", s:"ذهب ١٨ · ياقوت سيلاني", d:"ياقوت سيلاني أزرق عميق محاط بالألماس — بلون سماء القاهرة بعد أذان المغرب مباشرة."},
-    img:["https://images.pexels.com/photos/30746014/pexels-photo-30746014.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=750","https://images.pexels.com/photos/6716443/pexels-photo-6716443.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=751&w=750"],
-    mat:{en:"18K White Gold",ar:"ذهب أبيض ١٨"}, stone:{en:"Ceylon Sapphire",ar:"ياقوت سيلاني"}, sizes:["6","7","8"] },
-
-  { id:"au12", cat:"earrings", price:17250, old:19500, rate:4.7, rev:112, feat:0,
-    en:{n:"Mirage Drop Earrings", s:"18K gold · articulated drop", d:"Two linked elements that move independently, so the drop sways with the smallest turn of the head."},
-    ar:{n:"أقراط ميراج المتدلية", s:"ذهب ١٨ · تصميم متحرك", d:"عنصران مرتبطان يتحركان بشكل مستقل، فيتمايل القرط مع أخف التفاتة."},
-    img:["https://images.pexels.com/photos/29502955/pexels-photo-29502955.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=751&w=750","https://images.pexels.com/photos/21235147/pexels-photo-21235147.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=751&w=750"],
-    mat:{en:"18K Gold",ar:"ذهب عيار ١٨"}, stone:{en:"Natural Diamond",ar:"ألماس طبيعي"}, sizes:["One size"] }
-];
-const P = id => PRODUCTS.find(p => p.id === id);
-const pName = p => p[LANG] ? p[LANG].n : p.en.n;
-const pSub  = p => p[LANG] ? p[LANG].s : p.en.s;
-const pDesc = p => p[LANG] ? p[LANG].d : p.en.d;
-const CATS = ["all","rings","necklaces","earrings","bracelets","bridal","pearls"];
-
-/* ─────────────  5. STATE  ───────────── */
-const S = {
-  view:"home", pid:null, cat:"all", sort:"feat", q:"",
-  cart:  JSON.parse(localStorage.getItem("au_cart")  || "[]"),
-  wish:  JSON.parse(localStorage.getItem("au_wish")  || "[]"),
-  user:  null,
-  profile:{ addresses:[], orders:[], phone:"", phoneVerified:false },
-  pendingCheckout:false, lastOrder:null, ptab:"over",
-  coupon: localStorage.getItem("au_coupon") || "",
-  gift:   localStorage.getItem("au_gift") === "1",
-  giftNote: localStorage.getItem("au_giftnote") || ""
-};
-const SHIP_FEE = 75, FREE_OVER = 25000;
-const COUPONS = { "AURELIA10":.10, "GOLD5":.05 };
-const save = () => {
-  localStorage.setItem("au_cart", JSON.stringify(S.cart));
-  localStorage.setItem("au_wish", JSON.stringify(S.wish));
-  localStorage.setItem("au_coupon", S.coupon);
-  localStorage.setItem("au_gift", S.gift ? "1" : "0");
-  localStorage.setItem("au_giftnote", S.giftNote);
-};
-const money = n => new Intl.NumberFormat(LANG==="ar"?"ar-EG-u-nu-latn":"en-US").format(Math.round(n)) + " " + t("currency");
-const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-const uid = () => Math.random().toString(36).slice(2,10);
-const subtotal  = () => S.cart.reduce((a,i)=>a + P(i.id).price * i.q, 0);
-const couponRate= () => COUPONS[S.coupon.toUpperCase()] || 0;
-const discount  = () => Math.round(subtotal() * couponRate());
-const net       = () => subtotal() - discount();
-const shipFee   = () => (S.cart.length===0 || net()>=FREE_OVER) ? 0 : SHIP_FEE;
-
-/* ─────────────  6. DEVICE DETECTION UTILITY  ───────────── */
-const Device = {
-  type:"laptop",
-  detect(){
-    const w = window.innerWidth;
-    const touch = matchMedia("(pointer:coarse)").matches;
-    let type, cols, scale;
-    if(w < 640)        { type="phone";   cols=1; scale=.94; }
-    else if(w < 1024)  { type="tablet";  cols=2; scale=.97; }
-    else if(w < 1536)  { type="laptop";  cols=3; scale=1;   }
-    else               { type="desktop"; cols=4; scale=1.05;}
-    this.type = type;
-    const root = document.documentElement;
-    root.dataset.device = type;
-    root.dataset.touch  = touch ? "yes" : "no";
-    root.style.setProperty("--grid-cols", cols);
-    root.style.setProperty("--type-scale", scale);
-    root.style.setProperty("--hero-h", type==="phone" ? "74vh" : type==="tablet" ? "70vh" : "80vh");
-    const chip = document.getElementById("deviceChip");
-    if(chip) chip.textContent = `${type.toUpperCase()} · ${cols} ${cols>1?"COLS":"COL"} · ${w}px`;
-    return { type, cols, scale, touch, width:w };
-  }
-};
-let rzT; addEventListener("resize", () => { clearTimeout(rzT); rzT = setTimeout(()=>Device.detect(), 120); });
-addEventListener("orientationchange", () => setTimeout(()=>Device.detect(), 220));
-Device.detect();
-
-/* ─────────────  7. UI HELPERS  ───────────── */
-function toast(msg, kind="ok"){
-  const box = document.getElementById("toasts");
-  const el = document.createElement("div");
-  const tone = kind==="err" ? "bg-[#7A2E2E] text-[#FBEDE7]" : kind==="info" ? "bg-[#2B2621] text-[#F0E6D2]" : "bg-[#F7F1E5] text-[#4A3F2E] border border-[#C9A961]/60";
-  el.className = `pointer-events-auto px-5 py-3 rounded-xl shadow-xl text-[.78rem] tracking-wide animate-fade-up ${tone}`;
-  el.textContent = msg;
-  box.appendChild(el);
-  setTimeout(()=>{ el.style.transition="opacity .4s, transform .4s"; el.style.opacity="0"; el.style.transform="translateY(10px)"; setTimeout(()=>el.remove(),400); }, 2600);
-}
-const openSheet = id => { document.getElementById(id).classList.remove("sheet-hidden"); document.body.style.overflow="hidden"; };
-function releaseScroll(){
-  const anyOpen = ["mobileMenu","cartDrawer","searchOverlay","authModal"]
-    .some(id => !document.getElementById(id).classList.contains("sheet-hidden"));
-  if(!anyOpen) document.body.style.overflow = "";
-}
-function closeSheet(id){ document.getElementById(id).classList.add("sheet-hidden"); releaseScroll(); }
-function openMenu(){
-  const ov = document.getElementById("mobileMenu"), p = document.getElementById("menuPanel");
-  p.style.transform = "";
-  ov.classList.remove("sheet-hidden"); document.body.style.overflow = "hidden";
-  requestAnimationFrame(()=>requestAnimationFrame(()=>{ p.style.transform = "translateX(0)"; }));
-}
-function closeMenu(){
-  document.getElementById("menuPanel").style.transform = "";
-  setTimeout(()=>closeSheet("mobileMenu"), 460);
-}
-function openCart(){
-  renderCart();
-  const ov = document.getElementById("cartDrawer"), p = document.getElementById("cartPanel");
-  p.style.transform = "";
-  ov.classList.remove("sheet-hidden"); document.body.style.overflow = "hidden";
-  requestAnimationFrame(()=>requestAnimationFrame(()=>{ p.style.transform = "translateX(0)"; }));
-}
-function closeCart(){
-  document.getElementById("cartPanel").style.transform = "";
-  setTimeout(()=>closeSheet("cartDrawer"), 460);
-}
-function stars(r, size=11){
-  let h=""; for(let i=1;i<=5;i++){
-    const f = r>=i ? 1 : (r>i-1 ? (r-(i-1)) : 0);
-    h += `<svg width="${size}" height="${size}" viewBox="0 0 24 24" class="inline-block"><defs><linearGradient id="g${i}${size}${Math.round(r*10)}"><stop offset="${f*100}%" stop-color="#C9A961"/><stop offset="${f*100}%" stop-color="#E0D5C0"/></linearGradient></defs><path fill="url(#g${i}${size}${Math.round(r*10)})" d="M12 2.5l2.9 5.9 6.6.9-4.8 4.6 1.2 6.5-5.9-3.1-5.9 3.1 1.2-6.5L2.5 9.3l6.6-.9z"/></svg>`;
-  } return h;
-}
-
-/* ─────────────  8. LOCAL AUTH FALLBACK  ───────────── */
-const LS = {
-  users:  () => JSON.parse(localStorage.getItem("au_users") || "{}"),
-  setUsers: u => localStorage.setItem("au_users", JSON.stringify(u)),
-  data:   () => JSON.parse(localStorage.getItem("au_userdata") || "{}"),
-  setData: d => localStorage.setItem("au_userdata", JSON.stringify(d))
-};
-const hash = s => { let h=5381; for(let i=0;i<s.length;i++) h=((h<<5)+h)^s.charCodeAt(i); return (h>>>0).toString(36); };
-
-async function authSignIn(email, pass){
-  if(FB.ok){
-    try{
-      const c = await signInWithEmailAndPassword(FB.auth, email, pass);
-      return { uid:c.user.uid, email:c.user.email, name:c.user.displayName||email.split("@")[0], photo:c.user.photoURL, local:false };
-    }catch(e){
-      if(e.code==="auth/user-not-found" || e.code==="auth/invalid-credential"){
-        const u = LS.users()[email.toLowerCase()];
-        if(!u) throw { msg:t("err_no_user") };
-        if(u.p !== hash(pass)) throw { msg:t("err_wrong") };
-        return { uid:u.uid, email, name:u.name, local:true };
-      }
-      if(e.code==="auth/wrong-password") throw { msg:t("err_wrong") };
-      if(!isFallback(e)) throw { msg:t("err_wrong") };
-    }
-  }
-  const u = LS.users()[email.toLowerCase()];
-  if(!u) throw { msg:t("err_no_user") };
-  if(u.p !== hash(pass)) throw { msg:t("err_wrong") };
-  return { uid:u.uid, email, name:u.name, local:true };
-}
-async function authSignUp(email, pass, name){
-  const key = email.toLowerCase();
-  if(LS.users()[key]) throw { msg:t("err_exists") };
-  if(FB.ok){
-    try{
-      const c = await createUserWithEmailAndPassword(FB.auth, email, pass);
-      try{ await updateProfile(c.user, { displayName:name }); }catch(_){}
-      return { uid:c.user.uid, email, name, local:false };
-    }catch(e){
-      if(e.code==="auth/email-already-in-use") throw { msg:t("err_exists") };
-      if(!isFallback(e)) throw { msg:e.message };
-    }
-  }
-  const users = LS.users(); const id = "loc_"+uid();
-  users[key] = { uid:id, name, p:hash(pass) }; LS.setUsers(users);
-  return { uid:id, email, name, local:true };
-}
-async function authGoogle(){
-  if(FB.ok){
-    try{
-      const c = await signInWithPopup(FB.auth, new GoogleAuthProvider());
-      return { uid:c.user.uid, email:c.user.email, name:c.user.displayName, photo:c.user.photoURL, local:false };
-    }catch(e){ if(!isFallback(e)) throw { msg:e.message }; }
-  }
-  const id = "goog_" + uid();
-  const email = `guest.${id.slice(5)}@aurelia.demo`;
-  const users = LS.users(); users[email] = { uid:id, name:"Google Guest", p:hash(id) }; LS.setUsers(users);
-  toast("Google demo session (configure Firebase key for live auth)", "info");
-  return { uid:id, email, name:"Google Guest", local:true };
-}
-async function authOut(){ try{ if(FB.ok) await signOut(FB.auth); }catch(_){} }
-
-/* ─────────────  9. DATA LAYER (Realtime DB ⇄ local)  ───────────── */
-async function dbWrite(path, value){
-  if(FB.ok){ try{ await dbSet(dbRef(FB.db, path), value); return true; }catch(e){ console.warn("[DB] local fallback:", e.message); } }
-  const d = LS.data(); const k = path.split("/"); let cur = d;
-  k.forEach((seg,i)=>{ if(i===k.length-1) cur[seg]=value; else cur = (cur[seg] = cur[seg]||{}); });
-  LS.setData(d); return false;
-}
-async function dbRead(path){
-  if(FB.ok){ try{ const s = await dbGet(dbRef(FB.db, path)); if(s.exists()) return s.val(); }catch(e){ console.warn("[DB] local fallback:", e.message); } }
-  const d = LS.data(); return path.split("/").reduce((a,k)=> a ? a[k] : undefined, d);
-}
-async function loadProfile(){
-  if(!S.user) return;
-  const v = await dbRead("users/" + S.user.uid);
-  S.profile = {
-    addresses: (v && v.addresses) ? Object.values(v.addresses) : [],
-    orders:    (v && v.orders)    ? Object.values(v.orders).sort((a,b)=>b.ts-a.ts) : [],
-    phone:     (v && v.phone) || "",
-    phoneVerified: !!(v && v.phoneVerified),
-    createdAt: (v && v.createdAt) || Date.now()
-  };
-}
-async function persistProfile(){
-  if(!S.user) return;
-  await dbWrite("users/" + S.user.uid, {
-    name:S.user.name, email:S.user.email, phone:S.profile.phone,
-    phoneVerified:S.profile.phoneVerified, createdAt:S.profile.createdAt || Date.now(),
-    addresses:S.profile.addresses, orders:S.profile.orders,
-    cart:S.cart, wishlist:S.wish, updatedAt:Date.now()
-  });
-}
-
-/* ─────────────  10. CART / WISHLIST  ───────────── */
-function addToCart(id, q=1, size=null){
-  const p = P(id); if(!p) return;
-  const sz = size || p.sizes[0];
-  const line = S.cart.find(i=>i.id===id && i.size===sz);
-  if(line) line.q += q; else S.cart.push({ id, q, size:sz });
-  save(); syncBadges(); openCart();
-  toast(t("added") + " · " + pName(p));
-  if(S.user) persistProfile();
-}
-function setQty(idx, d){
-  const l = S.cart[idx]; if(!l) return;
-  l.q += d; if(l.q < 1) S.cart.splice(idx,1);
-  save(); syncBadges(); renderCart(); if(S.view==="checkout") render();
-  if(S.user) persistProfile();
-}
-function rmCart(idx){
-  const commit = () => { S.cart.splice(idx,1); save(); syncBadges(); renderCart(); if(S.view==="checkout") render(); toast(t("removed")); if(S.user) persistProfile(); };
-  const el = document.querySelector(`[data-line="${idx}"]`);
-  if(el){ el.classList.add("line-out"); setTimeout(commit, 260); } else commit();
-}
-function toggleWish(id){
-  const i = S.wish.indexOf(id);
-  if(i>-1){ S.wish.splice(i,1); toast(t("wish_rm")); } else { S.wish.push(id); toast(t("wish_add")); }
-  save(); syncBadges(); refreshWishIcons();
-  if(S.view==="wishlist"){ const y = window.scrollY; render(); window.scrollTo(0, y); }
-  if(S.user) persistProfile();
-}
-function refreshWishIcons(){
-  document.querySelectorAll('[data-act="wish"]').forEach(btn=>{
-    const svg = btn.querySelector("svg"); if(!svg) return;
-    const liked = S.wish.includes(btn.dataset.pid);
-    svg.setAttribute("fill", liked ? "#B08E4F" : "none");
-    svg.setAttribute("stroke", liked ? "#B08E4F" : (btn.dataset.off || "#7A6C58"));
-    btn.classList.toggle("scale-110", liked);
-  });
-}
-let prevCount = -1;
-function syncBadges(){
-  const c = S.cart.reduce((a,i)=>a+i.q,0);
-  document.getElementById("cartCount").textContent = c;
-  document.getElementById("cartCountM").textContent = c;
-  if(c > prevCount && prevCount >= 0){
-    const btn = document.querySelector("[data-act='cart']");
-    if(btn){ btn.classList.remove("bump"); void btn.offsetWidth; btn.classList.add("bump"); }
-  }
-  prevCount = c;
-  const w = document.getElementById("wishCount");
-  w.textContent = S.wish.length; w.hidden = S.wish.length===0;
-}
-
-/* ─────────────  11. CART DRAWER RENDER  ───────────── */
-function renderCart(){
-  const body = document.getElementById("cartBody"), foot = document.getElementById("cartFoot");
-  if(!S.cart.length){
-    body.innerHTML = `<div class="h-full flex flex-col items-center justify-center text-center py-16 gap-4">
-      <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="#C9A961" stroke-width=".9"><path d="M6 8h12l-1 12H7L6 8Z"/><path d="M9.5 8V6.5a2.5 2.5 0 0 1 5 0V8"/></svg>
-      <p class="text-ink-soft text-[.85rem]">${t("empty_cart")}</p>
-      <button data-act="nav" data-view="shop" class="btn-ghost rounded-full px-6 py-2.5 text-[.62rem] uppercase">${t("start_shopping")}</button></div>`;
-    foot.innerHTML = ""; return;
-  }
-  const n = net(), sf = shipFee(), dc = discount();
-  const pct = Math.min(100, Math.round((n / FREE_OVER) * 100));
-  const remaining = Math.max(0, FREE_OVER - n);
-  const last = P(S.cart[S.cart.length-1].id);
-  const sugg = PRODUCTS.filter(p => !S.cart.some(l=>l.id===p.id))
-    .sort((a,b)=>((b.cat===last.cat)-(a.cat===last.cat)) || (b.feat-a.feat)).slice(0,6);
-
-  body.innerHTML = `
-    <div class="rounded-xl bg-[#F6EEDC] border border-[#E2CF9F]/70 p-3.5">
-      <p class="text-[.68rem] text-[#6B5426] leading-snug">
-        ${sf===0
-          ? `<span class="text-[#4B6B44]">✓</span> ${t("cs_free2")}`
-          : `${t("cs_free1")}: <b class="text-[#8E6E32]">${money(remaining)}</b>`}
-      </p>
-      <div class="h-1.5 rounded-full bg-[#EADDBC] mt-2.5 overflow-hidden">
-        <div class="h-full rounded-full transition-all duration-700 ease-out" style="width:${pct}%;background:linear-gradient(90deg,#D9BC80,#8E6E32)"></div>
-      </div>
-    </div>
-
-    ${S.cart.map((l,i)=>{ const p=P(l.id); return `
-    <div data-line="${i}" class="flex gap-3.5 py-3 border-b border-[#E7DBC4]/70 last:border-0 transition-all duration-300">
-      <a href="#/p/${p.id}" data-act="nav" data-view="product" data-pid="${p.id}" class="shrink-0">
-        <img src="${p.img[0]}" alt="" class="w-20 h-20 rounded-xl object-cover border border-[#E0CFAE]/70"></a>
-      <div class="flex-1 min-w-0">
-        <div class="flex items-start justify-between gap-2">
-          <p class="font-display text-[1.05rem] leading-tight text-ink truncate">${esc(pName(p))}</p>
-          <span class="text-[.8rem] text-[#8E6E32] whitespace-nowrap">${money(p.price*l.q)}</span>
-        </div>
-        <p class="text-[.64rem] text-ink-soft mt-0.5">${esc(l.size)} · ${money(p.price)}</p>
-        <div class="flex items-center justify-between mt-2.5">
-          <div class="flex items-center border border-[#D9C7A5]/80 rounded-full overflow-hidden bg-white/50">
-            <button data-act="q-" data-i="${i}" class="w-7 h-7 text-[#8E6E32] hover:bg-white transition">−</button>
-            <span class="w-7 text-center text-[.75rem]">${l.q}</span>
-            <button data-act="q+" data-i="${i}" class="w-7 h-7 text-[#8E6E32] hover:bg-white transition">+</button>
-          </div>
-          <div class="flex items-center gap-3">
-            <button data-act="mvw" data-i="${i}" title="${t("cs_mv")}" class="text-ink-soft hover:text-[#B08E4F] transition">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 20s-7.5-4.7-7.5-9.6A4.4 4.4 0 0 1 12 7.3a4.4 4.4 0 0 1 7.5 3.1C19.5 15.3 12 20 12 20Z"/></svg></button>
-            <button data-act="rmc" data-i="${i}" class="text-[.58rem] uppercase tracking-[.14em] text-ink-soft hover:text-[#7A2E2E] transition">${t("remove")}</button>
-          </div>
-        </div>
-      </div>
-    </div>`; }).join("")}
-
-    ${sugg.length ? `
-    <div class="pt-4">
-      <p class="text-[.58rem] uppercase tracking-[.26em] text-[#A08A62] mb-3">${t("cs_complete")}</p>
-      <div class="flex gap-3 overflow-x-auto scroll-x pb-1">
-        ${sugg.map(p=>`
-        <div class="shrink-0 w-[126px] group">
-          <a href="#/p/${p.id}" data-act="nav" data-view="product" data-pid="${p.id}" class="block w-[126px] h-[126px] rounded-xl overflow-hidden border border-[#E0CFAE]/60">
-            <img src="${p.img[0]}" class="w-full h-full object-cover img-zoom" alt=""></a>
-          <p class="text-[.66rem] truncate mt-1.5 text-ink">${esc(pName(p))}</p>
-          <div class="flex items-center justify-between mt-0.5">
-            <span class="text-[.64rem] text-[#8E6E32]">${money(p.price)}</span>
-            <button data-act="qadd" data-pid="${p.id}" aria-label="add" class="w-6 h-6 rounded-full bg-[#B08E4F] text-white text-[.8rem] grid place-items-center hover:scale-110 hover:bg-[#8E6E32] transition">+</button>
-          </div>
-        </div>`).join("")}
-      </div>
-    </div>` : ""}`;
-
-  foot.innerHTML = `
-    <label class="flex items-center justify-between gap-3 cursor-pointer select-none">
-      <span class="flex items-center gap-2 text-[.72rem] text-ink"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#B08E4F" stroke-width="1.3"><path d="M20 12v8H4v-8M2 7h20v5H2zM12 22V7M12 7s-1.5-4-4-4-2.5 4 0 4zM12 7s1.5-4 4-4 2.5 4 0 4z"/></svg>${t("cs_gift")}</span>
-      <input id="giftChk" type="checkbox" ${S.gift?"checked":""} class="accent-[#B08E4F] w-4 h-4">
-    </label>
-    ${S.gift ? `<input id="giftNote" class="field !py-2 text-[.72rem] mt-2" placeholder="${t("cs_note")}" value="${esc(S.giftNote)}">` : ""}
-    <div class="hairline !my-3"></div>
-    ${S.coupon ? `
-      <div class="flex items-center justify-between rounded-lg bg-[#EDE4CE] border border-[#D3BC93]/60 px-3 py-2">
-        <span class="text-[.68rem] tracking-[.18em] text-[#8E6E32]">${esc(S.coupon)} · -${Math.round(couponRate()*100)}%</span>
-        <button data-act="rmCoupon" class="text-[.7rem] text-ink-soft hover:text-[#7A2E2E]">✕</button>
-      </div>` : `
-      <form data-act="applyCoupon" class="flex gap-2" id="couponRow">
-        <input name="code" class="field !py-2 text-[.72rem] uppercase" dir="ltr" placeholder="${t("cs_coupon")} · ${t("cs_try")}">
-        <button class="btn-ghost rounded-lg px-4 text-[.58rem] uppercase whitespace-nowrap">${t("cs_apply")}</button>
-      </form>`}
-    <div class="hairline !my-3"></div>
-    <div class="flex justify-between text-[.76rem] text-ink-soft"><span>${t("subtotal")}</span><span>${money(subtotal())}</span></div>
-    ${dc?`<div class="flex justify-between text-[.76rem] text-[#4B6B44] mt-1"><span>${t("cs_disc")} (${esc(S.coupon)})</span><span>−${money(dc)}</span></div>`:""}
-    <div class="flex justify-between text-[.76rem] text-ink-soft mt-1"><span>${t("shipping")}</span><span>${sf?money(sf):`<span class="text-[#8E6E32]">${t("free")}</span>`}</span></div>
-    <div class="hairline !my-3"></div>
-    <div class="flex justify-between items-baseline"><span class="text-[.66rem] uppercase tracking-[.2em] text-ink-soft">${t("total")}</span><span class="font-display text-[1.7rem] text-[#8E6E32]">${money(n+sf)}</span></div>
-    <button data-act="checkout" class="btn-gold w-full rounded-xl py-3.5 text-[.64rem] uppercase mt-3">${t("checkout")}</button>
-    <p class="text-[.6rem] text-center text-ink-soft pt-2">${t("egypt_post")}</p>`;
-}
-
-/* ─────────────  12. PRODUCT CARD  ───────────── */
-function card(p, i=0){
-  const liked = S.wish.includes(p.id);
-  return `<article class="card-soft rounded-2xl overflow-hidden group animate-fade-up" style="animation-delay:${i*60}ms">
-    <div class="relative overflow-hidden bg-[#F4ECDF]">
-      <a href="#/p/${p.id}" data-act="nav" data-view="product" data-pid="${p.id}" class="block ratio-sq">
-        <img src="${p.img[0]}" alt="${esc(pName(p))}" loading="lazy" class="w-full h-full object-cover img-zoom">
-      </a>
-      ${p.old ? `<span class="absolute top-3 start-3 bg-[#2B2621]/85 text-[#EFDFBD] text-[.55rem] tracking-[.18em] px-2.5 py-1 rounded-full uppercase">-${Math.round((1-p.price/p.old)*100)}%</span>`:""}
-      <button data-act="wish" data-pid="${p.id}" data-off="#7A6C58" aria-label="wishlist"
-        class="absolute top-3 end-3 w-9 h-9 grid place-items-center rounded-full glass-soft hover:scale-110 transition">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="${liked?'#B08E4F':'none'}" stroke="${liked?'#B08E4F':'#7A6C58'}" stroke-width="1.4"><path d="M12 20s-7.5-4.7-7.5-9.6A4.4 4.4 0 0 1 12 7.3a4.4 4.4 0 0 1 7.5 3.1C19.5 15.3 12 20 12 20Z"/></svg>
-      </button>
-    </div>
-    <div class="p-4 sm:p-5 text-center">
-      <p class="text-[.52rem] tracking-[.3em] uppercase text-[#A08A62]">AURÉLIA</p>
-      <a href="#/p/${p.id}" data-act="nav" data-view="product" data-pid="${p.id}"
-         class="block font-display text-[1.15rem] sm:text-[1.28rem] text-ink mt-1 leading-snug hover:text-[#8E6E32] transition">${esc(pName(p))}</a>
-      <p class="text-[.66rem] text-ink-soft mt-1 line-clamp-1">${esc(pSub(p))}</p>
-      <div class="flex items-center justify-center gap-2 mt-2.5">
-        <span class="text-[.92rem] text-[#8E6E32]">${money(p.price)}</span>
-        ${p.old?`<span class="text-[.7rem] text-[#B3A793] line-through">${money(p.old)}</span>`:""}
-      </div>
-      <div class="flex items-center justify-center gap-1.5 mt-2">${stars(p.rate)}<span class="text-[.6rem] text-ink-soft ms-1">(${p.rev})</span></div>
-      <button data-act="add" data-pid="${p.id}" class="btn-gold w-full mt-4 rounded-lg py-2.5 text-[.58rem] uppercase">${t("add_cart")}</button>
-    </div>
-  </article>`;
-}
-
-/* ─────────────  13. VIEWS  ───────────── */
-function vHome(){
-  const feat = PRODUCTS.filter(p=>p.feat).slice(0,8);
-  return `
-  <!-- HERO -->
-  <section class="relative px-2 sm:px-4 mt-2 sm:mt-3">
-    <div class="max-w-[1400px] mx-auto relative rounded-[1.4rem] sm:rounded-[2rem] overflow-hidden" style="height:var(--hero-h);min-height:440px">
-      <div class="silk"></div>
-      <div class="silk-blob w-[52vw] h-[52vw] max-w-[620px] max-h-[620px] animate-float-slow" style="top:-12%;inset-inline-start:-8%;background:radial-gradient(circle,#F2E2C6,rgba(242,226,198,0))"></div>
-      <div class="silk-blob w-[46vw] h-[46vw] max-w-[560px] max-h-[560px] animate-float" style="bottom:-14%;inset-inline-end:-6%;background:radial-gradient(circle,#E4CFA8,rgba(228,207,168,0))"></div>
-      <div class="grain"></div>
-      <img src="https://images.pexels.com/photos/29502931/pexels-photo-29502931.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=900&w=900" alt=""
-           style="inset-inline-end:6%;top:50%;transform:translateY(-50%)" class="hidden lg:block absolute w-[300px] xl:w-[360px] rounded-full object-cover opacity-[.5] mix-blend-multiply">
-      <div class="relative h-full flex flex-col items-center justify-center text-center px-5">
-        <p class="text-[.58rem] sm:text-[.66rem] tracking-luxe uppercase text-[#9A814F] mb-4 sm:mb-6 animate-fade-up">${t("hero_kicker")}</p>
-        <h2 class="font-display text-ink leading-[.92] animate-fade-up" style="animation-delay:.1s">
-          <span class="block text-[3.1rem] sm:text-[5rem] lg:text-[6.6rem] xl:text-[7.4rem] tracking-[.05em] font-light">${t("hero1")}</span>
-          <span class="block text-[3.1rem] sm:text-[5rem] lg:text-[6.6rem] xl:text-[7.4rem] tracking-[.05em] font-light">${t("hero2")}</span>
-        </h2>
-        <p class="mt-5 sm:mt-7 max-w-md text-[.82rem] sm:text-[.92rem] text-[#5C5245] leading-relaxed animate-fade-up" style="animation-delay:.2s">${t("hero_sub")}</p>
-        <div class="mt-7 sm:mt-9 flex flex-col sm:flex-row gap-3 animate-fade-up" style="animation-delay:.3s">
-          <button data-act="nav" data-view="shop" data-cat="all" class="btn-gold rounded-full px-9 sm:px-12 py-3.5 sm:py-4 text-[.62rem] sm:text-[.66rem] uppercase">${t("hero_cta")}</button>
-          <button data-act="nav" data-view="shop" data-cat="bridal" class="btn-ghost glass-soft rounded-full px-9 sm:px-12 py-3.5 sm:py-4 text-[.62rem] sm:text-[.66rem] uppercase">${t("hero_cta2")}</button>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- TRUST -->
-  <section class="max-w-[1400px] mx-auto px-4 sm:px-6 mt-8 sm:mt-12">
-    <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-      ${[["trust1","trust1s","M12 2l2.4 6.6L21 11l-6.6 2.4L12 20l-2.4-6.6L3 11l6.6-2.4z"],
-         ["trust2","trust2s","M3 8h11v8H3zM14 11h4l3 3v2h-7z M6.5 19a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z M17.5 19a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"],
-         ["trust3","trust3s","M12 3l7 3v6c0 4.2-2.9 7.6-7 9-4.1-1.4-7-4.8-7-9V6z"],
-         ["trust4","trust4s","M21 12a9 9 0 1 1-3.4-7l.4.3M21 4v5h-5"]].map(([a,b,d])=>`
-        <div class="glass-soft rounded-2xl p-4 sm:p-5 flex items-center gap-3">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#B08E4F" stroke-width="1.1" class="shrink-0"><path d="${d}"/></svg>
-          <div><p class="text-[.72rem] sm:text-[.78rem] text-ink">${t(a)}</p><p class="text-[.6rem] text-ink-soft mt-0.5">${t(b)}</p></div>
-        </div>`).join("")}
-    </div>
-  </section>
-
-  <!-- CURATED CATEGORIES -->
-  <section class="max-w-[1400px] mx-auto px-4 sm:px-6 mt-16 sm:mt-24">
-    <div class="text-center mb-9 sm:mb-12">
-      <h3 class="font-display text-[1.9rem] sm:text-[2.8rem] tracking-[.16em] text-ink">${t("curated")}</h3>
-      <p class="text-[.7rem] tracking-[.24em] uppercase text-[#A08A62] mt-2">${t("curated_sub")}</p>
-    </div>
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-5">
-      <button data-act="nav" data-view="shop" data-cat="all" class="group relative rounded-[1.5rem] overflow-hidden text-start card-soft min-h-[380px] sm:min-h-[520px]">
-        <img src="https://images.pexels.com/photos/29503018/pexels-photo-29503018.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=900&w=900" alt="" class="absolute inset-0 w-full h-full object-cover img-zoom opacity-90">
-        <div class="absolute inset-0 bg-gradient-to-t from-[#F6EFE1]/95 via-[#F6EFE1]/25 to-[#FFFDF8]/70"></div>
-        <div class="relative h-full flex flex-col justify-between p-6 sm:p-9">
-          <h4 class="font-display text-[1.7rem] sm:text-[2.5rem] text-ink tracking-[.06em] leading-tight">${t("c_fine")}</h4>
-          <div>
-            <p class="font-display text-[1.25rem] sm:text-[1.7rem] text-ink">${t("c_fine_s")}</p>
-            <span class="inline-flex items-center gap-2 mt-2 text-[.62rem] tracking-[.24em] uppercase text-[#8E6E32] group-hover:gap-4 transition-all">${t("shop_now")} <span class="rtl:rotate-180 inline-block">→</span></span>
-          </div>
-        </div>
-      </button>
-      <div class="grid grid-rows-2 gap-4 sm:gap-5">
-        ${[["rings","c_rings","c_rings_s","explore","https://images.pexels.com/photos/29502969/pexels-photo-29502969.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=600&w=900"],
-           ["earrings","c_ear","c_ear_s","browse","https://images.pexels.com/photos/21235147/pexels-photo-21235147.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=600&w=900"]].map(([cat,t1,t2,btn,img])=>`
-        <button data-act="nav" data-view="shop" data-cat="${cat}" class="group relative rounded-[1.5rem] overflow-hidden text-start card-soft min-h-[190px] sm:min-h-[250px]">
-          <img src="${img}" alt="" class="absolute inset-0 w-full h-full object-cover img-zoom opacity-90">
-          <div class="absolute inset-0 bg-gradient-to-t from-[#F6EFE1]/95 via-[#F6EFE1]/30 to-[#FFFDF8]/60"></div>
-          <div class="relative h-full flex flex-col justify-between p-6 sm:p-8">
-            <h4 class="font-display text-[1.4rem] sm:text-[1.8rem] text-ink tracking-[.06em]">${t(t1)}</h4>
-            <div>
-              <p class="text-[.78rem] text-ink-soft">${t(t2)}</p>
-              <span class="inline-flex items-center gap-2 mt-1.5 text-[.6rem] tracking-[.24em] uppercase text-[#8E6E32] group-hover:gap-3.5 transition-all">${t(btn)} <span class="rtl:rotate-180 inline-block">→</span></span>
+        appDiv.innerHTML = `
+          <div class="max-w-7xl mx-auto px-4 py-12">
+            <h2 class="text-3xl font-display text-center mb-10">المجموعة الكاملة</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+              ${productsHTML}
             </div>
           </div>
-        </button>`).join("")}
-      </div>
-    </div>
-  </section>
-
-  <!-- BESTSELLERS -->
-  <section class="max-w-[1400px] mx-auto px-4 sm:px-6 mt-16 sm:mt-24">
-    <div class="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4 mb-9 sm:mb-12">
-      <div>
-        <h3 class="font-display text-[1.9rem] sm:text-[2.8rem] tracking-[.16em] text-ink">${t("best")}</h3>
-        <p class="text-[.7rem] tracking-[.24em] uppercase text-[#A08A62] mt-2">${t("best_sub")}</p>
-      </div>
-      <button data-act="nav" data-view="shop" data-cat="all" class="btn-ghost rounded-full px-7 py-3 text-[.6rem] uppercase">${t("view_all")}</button>
-    </div>
-    <div class="auto-grid">${feat.map((p,i)=>card(p,i)).join("")}</div>
-  </section>
-
-  <!-- STORY BANNER -->
-  <section class="max-w-[1400px] mx-auto px-4 sm:px-6 mt-20 sm:mt-28">
-    <div class="relative rounded-[2rem] overflow-hidden card-soft p-8 sm:p-16 lg:p-20 text-center lg:text-start flex flex-col lg:flex-row items-center gap-10">
-      <div class="lg:w-1/2">
-        <p class="text-[.62rem] tracking-[.34em] uppercase text-[#9A814F] mb-3">${t("story_k")}</p>
-        <h3 class="font-display text-[2.2rem] sm:text-[3.2rem] leading-tight text-ink">${t("story_t")}</h3>
-        <p class="text-[.88rem] text-[#5C5245] leading-relaxed mt-4 max-w-lg">${t("story_p")}</p>
-        <button data-act="nav" data-view="about" class="btn-gold rounded-full px-9 py-3.5 text-[.62rem] uppercase mt-8">${t("story_cta")}</button>
-      </div>
-      <div class="lg:w-1/2 w-full">
-        <div class="grid grid-cols-2 gap-4">
-          <img src="https://images.pexels.com/photos/29502932/pexels-photo-29502932.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=600&w=600" class="rounded-2xl object-cover ratio-sq shadow-lg" alt="">
-          <img src="https://images.pexels.com/photos/30746008/pexels-photo-30746008.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=600&w=600" class="rounded-2xl object-cover ratio-sq shadow-lg mt-8" alt="">
-        </div>
-      </div>
-    </div>
-  </section>`;
-}
-
-function vShop(){
-  let items = S.cat==="all" ? PRODUCTS : PRODUCTS.filter(p=>p.cat===S.cat);
-  if(S.q){
-    const q = S.q.toLowerCase();
-    items = items.filter(p => pName(p).toLowerCase().includes(q) || pDesc(p).toLowerCase().includes(q));
-  }
-  if(S.sort==="low") items.sort((a,b)=>a.price-b.price);
-  else if(S.sort==="high") items.sort((a,b)=>b.price-a.price);
-  else if(S.sort==="rate") items.sort((a,b)=>b.rate-a.rate);
-
-  return `
-  <div class="max-w-[1400px] mx-auto px-4 sm:px-6 pt-10 sm:pt-14 pb-20">
-    <div class="text-center mb-10">
-      <h2 class="font-display text-[2.4rem] sm:text-[3.5rem] tracking-[.16em] text-ink">${t("shop_title")}</h2>
-      <p class="text-[.68rem] uppercase tracking-[.28em] text-[#A08A62] mt-2">${items.length} ${t("results")}</p>
-    </div>
-
-    <!-- filter pills -->
-    <div class="flex items-center justify-center gap-2 overflow-x-auto scroll-x pb-4 mb-8">
-      ${CATS.map(c=>`
-      <button data-act="cat" data-cat="${c}" class="px-5 py-2.5 rounded-full text-[.66rem] uppercase tracking-[.18em] transition whitespace-nowrap ${S.cat===c?"btn-gold":"glass-soft text-ink hover:text-[#8E6E32]"}">${t("cat_"+c)}</button>`).join("")}
-    </div>
-
-    <!-- sort bar -->
-    <div class="flex items-center justify-between border-y border-[#D9C7A5]/60 py-3 mb-8 text-[.72rem] text-ink-soft">
-      <span>${items.length} ${t("results")}</span>
-      <div class="flex items-center gap-2">
-        <label class="uppercase tracking-[.16em] text-[.62rem]">${t("sort")}:</label>
-        <select id="sortSel" class="bg-transparent text-ink font-medium outline-none cursor-pointer">
-          <option value="feat" ${S.sort==="feat"?"selected":""}>${t("s_feat")}</option>
-          <option value="low" ${S.sort==="low"?"selected":""}>${t("s_low")}</option>
-          <option value="high" ${S.sort==="high"?"selected":""}>${t("s_high")}</option>
-          <option value="rate" ${S.sort==="rate"?"selected":""}>${t("s_rate")}</option>
-        </select>
-      </div>
-    </div>
-
-    ${items.length ? `<div class="auto-grid">${items.map((p,i)=>card(p,i)).join("")}</div>` : `
-    <div class="text-center py-24 space-y-4">
-      <p class="font-display text-2xl text-ink-soft">${t("no_res")}</p>
-      <button data-act="cat" data-cat="all" class="btn-ghost rounded-full px-8 py-3 text-[.62rem] uppercase">${t("nav_shop")}</button>
-    </div>`}
-  </div>`;
-}
-
-function vProduct(){
-  const p = P(S.pid) || PRODUCTS[0];
-  const liked = S.wish.includes(p.id);
-  const rel = PRODUCTS.filter(x=>x.id!==p.id && (x.cat===p.cat||x.feat)).slice(0,4);
-  return `
-  <div class="max-w-[1400px] mx-auto px-4 sm:px-6 pt-10 sm:pt-14 pb-24">
-    <button data-act="back" class="inline-flex items-center gap-2 text-[.66rem] uppercase tracking-[.2em] text-[#8E6E32] mb-8 hover:underline">
-      <span class="rtl:rotate-180">←</span> ${t("back")}
-    </button>
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14">
-      <!-- gallery -->
-      <div class="lg:col-span-7 space-y-4">
-        <div class="rounded-[1.8rem] overflow-hidden card-soft ratio-sq">
-          <img src="${p.img[0]}" class="w-full h-full object-cover img-zoom" alt="">
-        </div>
-        ${p.img[1]?`
-        <div class="grid grid-cols-2 gap-4">
-          <div class="rounded-2xl overflow-hidden card-soft ratio-sq"><img src="${p.img[0]}" class="w-full h-full object-cover" alt=""></div>
-          <div class="rounded-2xl overflow-hidden card-soft ratio-sq"><img src="${p.img[1]}" class="w-full h-full object-cover" alt=""></div>
-        </div>`:""}
-      </div>
-
-      <!-- info -->
-      <div class="lg:col-span-5 flex flex-col justify-start">
-        <p class="text-[.58rem] uppercase tracking-[.34em] text-[#A08A62]">AURÉLIA · Cairo</p>
-        <h2 class="font-display text-[2.2rem] sm:text-[2.8rem] text-ink mt-2 leading-tight">${esc(pName(p))}</h2>
-        <p class="text-[.78rem] text-ink-soft mt-1">${esc(pSub(p))}</p>
-        <div class="flex items-center gap-3 mt-4">
-          <span class="font-display text-[1.8rem] text-[#8E6E32]">${money(p.price)}</span>
-          ${p.old?`<span class="text-[.9rem] text-[#B3A793] line-through">${money(p.old)}</span>`:""}
-        </div>
-        <div class="flex items-center gap-2 mt-3">${stars(p.rate, 14)}<span class="text-[.7rem] text-ink-soft ms-1">${p.rate} (${p.rev} ${t("reviews")})</span></div>
-        <div class="hairline my-6"></div>
-
-        <!-- size selector -->
-        <div>
-          <label class="lbl">${t("size")}</label>
-          <div class="flex flex-wrap gap-2.5" id="sizeChips">
-            ${p.sizes.map((sz,i)=>`<button data-act="selSize" data-sz="${sz}" class="px-4 py-2 rounded-xl text-[.72rem] tracking-wide transition ${i===0?"btn-gold":"glass-soft text-ink hover:text-[#8E6E32]"}">${sz}</button>`).join("")}
+        `;
+      }
+      else if (S.view === 'profile') {
+        appDiv.innerHTML = `
+          <div class="max-w-3xl mx-auto px-4 py-12 text-center">
+            <h2 class="text-3xl font-display mb-4">مرحباً، ${S.user ? S.user.displayName : 'زائر'}</h2>
+            ${S.user 
+              ? `<button data-act="signout" class="btn-gold px-6 py-2 rounded-lg mt-4">تسجيل الخروج</button>` 
+              : `<button data-act="account" class="btn-gold px-6 py-2 rounded-lg mt-4">تسجيل الدخول باستخدام جوجل</button>`}
           </div>
-        </div>
+        `;
+      }
+    };
 
-        <div class="flex gap-3 mt-8">
-          <button data-act="pAdd" data-pid="${p.id}" class="btn-gold flex-1 rounded-xl py-4 text-[.66rem] uppercase">${t("add_cart")}</button>
-          <button data-act="wish" data-pid="${p.id}" data-off="#5C5245" aria-label="wishlist"
-            class="w-14 h-14 rounded-xl glass-soft grid place-items-center hover:scale-105 transition shrink-0">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="${liked?'#B08E4F':'none'}" stroke="${liked?'#B08E4F':'#5C5245'}" stroke-width="1.4"><path d="M12 20s-7.5-4.7-7.5-9.6A4.4 4.4 0 0 1 12 7.3a4.4 4.4 0 0 1 7.5 3.1C19.5 15.3 12 20 12 20Z"/></svg>
-          </button>
-        </div>
+    // 5. Auth & Event Delegation
+    document.addEventListener("click", async (e) => {
+      const el = e.target.closest("[data-act]");
+      if (!el) return;
+      const act = el.dataset.act;
 
-        <!-- details accordion -->
-        <div class="mt-8 space-y-4">
-          <div class="glass-soft rounded-2xl p-5">
-            <h4 class="text-[.66rem] uppercase tracking-[.22em] text-[#8E6E32] mb-2">${t("desc_l")}</h4>
-            <p class="text-[.82rem] leading-relaxed text-ink-soft">${esc(pDesc(p))}</p>
-          </div>
-          <div class="glass-soft rounded-2xl p-5 space-y-2 text-[.78rem]">
-            <div class="flex justify-between"><span class="text-ink-soft">${t("material")}</span><span class="text-ink font-medium">${esc(p.mat[LANG]||p.mat.en)}</span></div>
-            <div class="flex justify-between"><span class="text-ink-soft">${t("stone")}</span><span class="text-ink font-medium">${esc(p.stone[LANG]||p.stone.en)}</span></div>
-            <div class="flex justify-between"><span class="text-ink-soft">${t("in_stock")}</span><span class="text-[#4B6B44]">✓ In Atelier</span></div>
-          </div>
-          <div class="glass-soft rounded-2xl p-5">
-            <h4 class="text-[.66rem] uppercase tracking-[.22em] text-[#8E6E32] mb-2">${t("ship_l")}</h4>
-            <p class="text-[.78rem] leading-relaxed text-ink-soft">${t("ship_txt")}</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- related -->
-    ${rel.length ? `
-    <div class="mt-24 pt-16 border-t border-[#D9C7A5]/60">
-      <h3 class="font-display text-[2rem] tracking-[.14em] text-ink mb-8 text-center">${t("cs_complete")}</h3>
-      <div class="auto-grid">${rel.map((rp,i)=>card(rp,i)).join("")}</div>
-    </div>` : ""}
-  </div>`;
-}
-
-function vWishlist(){
-  const items = PRODUCTS.filter(p => S.wish.includes(p.id));
-  return `
-  <div class="max-w-[1400px] mx-auto px-4 sm:px-6 pt-10 sm:pt-14 pb-24">
-    <div class="text-center mb-12">
-      <h2 class="font-display text-[2.4rem] sm:text-[3.5rem] tracking-[.16em] text-ink">${t("wishlist")}</h2>
-      <p class="text-[.68rem] uppercase tracking-[.28em] text-[#A08A62] mt-2">${items.length} ${t("results")}</p>
-    </div>
-    ${items.length ? `<div class="auto-grid">${items.map((p,i)=>card(p,i)).join("")}</div>` : `
-    <div class="text-center py-24 space-y-5">
-      <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="#C9A961" stroke-width="1" class="mx-auto"><path d="M12 20s-7.5-4.7-7.5-9.6A4.4 4.4 0 0 1 12 7.3a4.4 4.4 0 0 1 7.5 3.1C19.5 15.3 12 20 12 20Z"/></svg>
-      <p class="font-display text-2xl text-ink-soft">${t("empty_wish")}</p>
-      <button data-act="nav" data-view="shop" class="btn-ghost rounded-full px-8 py-3 text-[.62rem] uppercase">${t("start_shopping")}</button>
-    </div>`}
-  </div>`;
-}
-
-function vAbout(){
-  return `
-  <div class="max-w-4xl mx-auto px-4 sm:px-6 pt-12 sm:pt-20 pb-28">
-    <p class="text-[.62rem] tracking-[.34em] uppercase text-[#9A814F] text-center mb-3">AURÉLIA · MAISON</p>
-    <h2 class="font-display text-[2.8rem] sm:text-[4rem] text-center text-ink tracking-[.06em] leading-tight mb-8">${t("about_t")}</h2>
-    <div class="rounded-[2rem] overflow-hidden card-soft mb-12"><img src="https://images.pexels.com/photos/29503018/pexels-photo-29503018.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=900&w=1200" class="w-full h-[380px] sm:h-[480px] object-cover" alt=""></div>
-    <div class="space-y-6 text-[.95rem] sm:text-[1.05rem] text-[#5C5245] leading-relaxed">
-      <p class="font-display text-[1.4rem] sm:text-[1.7rem] text-ink italic leading-snug">"In Cairo, light has a distinct weight. It reflects off limestone and river water before it settles in our gold."</p>
-      <p>Founded in Zamalek in 1998, AURÉLIA was born out of a desire to create fine jewelry that feels personal, wearable, and grounded in centuries of Egyptian craftsmanship. Every solitaire, every tennis bracelet, and every pavé drop is set entirely by hand in solid 18K gold.</p>
-      <p>We work exclusively with certified natural stones and partner with Egypt Post for secure, nationwide insured shipping across every governorate from Alexandria to Aswan.</p>
-    </div>
-  </div>`;
-}
-
-function vAccount(){
-  if(!S.user){
-    setTimeout(()=>openAuthModal("login"), 50);
-    return `<div class="max-w-md mx-auto py-24 text-center"><p class="text-ink-soft">${t("need_login")}</p></div>`;
-  }
-  const p = S.profile;
-  return `
-  <div class="max-w-5xl mx-auto px-4 sm:px-6 pt-10 sm:pt-14 pb-24">
-    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-10 pb-6 border-b border-[#D9C7A5]/60">
-      <div>
-        <p class="text-[.62rem] tracking-[.3em] uppercase text-[#A08A62]">${t("profile")}</p>
-        <h2 class="font-display text-[2.2rem] sm:text-[2.8rem] text-ink mt-1">${t("p_hi")}, ${esc(S.user.name)}</h2>
-        <p class="text-[.76rem] text-ink-soft mt-0.5">${esc(S.user.email)} · <span class="${p.phoneVerified?'text-[#4B6B44]':'text-[#9A7033]'}">${p.phoneVerified?t("verified"):t("unverified")}</span></p>
-      </div>
-      <button data-act="signout" class="btn-ghost rounded-full px-6 py-2.5 text-[.62rem] uppercase">${t("signout")}</button>
-    </div>
-
-    <!-- tabs -->
-    <div class="flex gap-2 border-b border-[#D9C7A5]/60 mb-8 pb-3">
-      ${[["over","p_over"],["orders","p_orders"],["addr","p_addr"],["phone","p_phone"]].map(([k,lbl])=>`
-      <button data-act="ptab" data-tab="${k}" class="px-5 py-2 rounded-full text-[.66rem] uppercase tracking-[.18em] transition ${S.ptab===k?"btn-gold":"glass-soft text-ink hover:text-[#8E6E32]"}">${t(lbl)}</button>`).join("")}
-    </div>
-
-    <!-- tab content -->
-    ${S.ptab==="over" ? `
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
-      <div class="glass-soft rounded-2xl p-6">
-        <p class="text-[.62rem] uppercase tracking-[.22em] text-[#8E6E32] mb-1">${t("p_orders")}</p>
-        <p class="font-display text-3xl text-ink">${p.orders.length}</p>
-      </div>
-      <div class="glass-soft rounded-2xl p-6">
-        <p class="text-[.62rem] uppercase tracking-[.22em] text-[#8E6E32] mb-1">${t("p_addr")}</p>
-        <p class="font-display text-3xl text-ink">${p.addresses.length}</p>
-      </div>
-      <div class="glass-soft rounded-2xl p-6">
-        <p class="text-[.62rem] uppercase tracking-[.22em] text-[#8E6E32] mb-1">${t("p_phone")}</p>
-        <p class="font-display text-xl text-ink truncate">${p.phone ? esc(p.phone) : "—"}</p>
-      </div>
-    </div>` : ""}
-
-    ${S.ptab==="orders" ? `
-    <div class="space-y-4">
-      ${p.orders.length ? p.orders.map(o=>`
-      <div class="glass-soft rounded-2xl p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-        <div>
-          <div class="flex items-center gap-3">
-            <span class="font-display text-xl text-ink">${t("order")} #${o.id}</span>
-            <span class="px-2.5 py-0.5 rounded-full bg-[#E5D8C3] text-[.6rem] uppercase tracking-[.16em] text-[#8E6E32]">${t("st_pending")}</span>
-          </div>
-          <p class="text-[.74rem] text-ink-soft mt-1">${t("placed")}: ${new Date(o.ts).toLocaleDateString()} · ${o.items.length} ${t("items")}</p>
-        </div>
-        <div class="text-end">
-          <p class="font-display text-xl text-[#8E6E32]">${money(o.total)}</p>
-          <p class="text-[.62rem] text-ink-soft uppercase">${o.pay}</p>
-        </div>
-      </div>`).join("") : `<p class="text-ink-soft text-center py-12">${t("no_orders")}</p>`}
-    </div>` : ""}
-
-    ${S.ptab==="addr" ? `
-    <div class="space-y-6">
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        ${p.addresses.map((a,i)=>`
-        <div class="glass-soft rounded-2xl p-6 relative">
-          ${a.def ? `<span class="absolute top-4 end-4 text-[.56rem] tracking-[.18em] uppercase px-2.5 py-0.5 rounded-full bg-[#B08E4F] text-white">${t("default_a")}</span>`:""}
-          <p class="font-display text-lg text-ink">${esc(a.label||"Address "+(i+1))}</p>
-          <p class="text-[.8rem] text-ink-soft mt-2 leading-relaxed">${esc(a.line)}<br>${esc(a.area)}, ${esc(a.city)}</p>
-          <div class="flex gap-4 mt-4 text-[.66rem] uppercase tracking-[.14em]">
-            ${!a.def?`<button data-act="defAddr" data-i="${i}" class="text-[#8E6E32] hover:underline">${t("make_def")}</button>`:""}
-            <button data-act="rmAddr" data-i="${i}" class="text-[#7A2E2E] hover:underline">${t("del")}</button>
-          </div>
-        </div>`).join("")}
-      </div>
-      <form data-act="addAddr" class="glass-soft rounded-2xl p-6 space-y-4 max-w-xl">
-        <h4 class="font-display text-xl text-ink">${t("add_addr")}</h4>
-        <div class="grid grid-cols-2 gap-3">
-          <div><label class="lbl">${t("addr_label")}</label><input name="label" class="field" placeholder="Home / Work"></div>
-          <div><label class="lbl">${t("addr_zip")}</label><input name="zip" class="field" placeholder="11511"></div>
-        </div>
-        <div><label class="lbl">${t("addr_line")}</label><input name="line" class="field" required placeholder="14 Zamalek St, Apt 4"></div>
-        <div class="grid grid-cols-2 gap-3">
-          <div><label class="lbl">${t("addr_area")}</label><input name="area" class="field" required placeholder="Zamalek"></div>
-          <div><label class="lbl">${t("addr_city")}</label><input name="city" class="field" required placeholder="Cairo"></div>
-        </div>
-        <button class="btn-gold rounded-xl px-6 py-3 text-[.62rem] uppercase">${t("save")}</button>
-      </form>
-    </div>` : ""}
-
-    ${S.ptab==="phone" ? `
-    <div class="glass-soft rounded-2xl p-6 max-w-md">
-      <h4 class="font-display text-xl text-ink mb-1">${t("upd_phone")}</h4>
-      <p class="text-[.76rem] text-ink-soft mb-6">${t("upd_phone_note")}</p>
-      <form data-act="updPhone" class="space-y-4">
-        <div><label class="lbl">${t("phone")}</label><input name="phone" class="field" dir="ltr" value="${esc(p.phone)}" required placeholder="01159055625"></div>
-        <button class="btn-gold rounded-xl px-6 py-3 text-[.62rem] uppercase">${t("verify")}</button>
-      </form>
-    </div>` : ""}
-  </div>`;
-}
-
-function vCheckout(){
-  if(!S.cart.length){
-    setTimeout(()=>router("shop"), 10);
-    return ``;
-  }
-  if(!S.user){
-    setTimeout(()=>openAuthModal("login"), 50);
-    return `<div class="max-w-md mx-auto py-24 text-center"><p class="text-ink-soft">${t("need_login")}</p></div>`;
-  }
-  const addrs = S.profile.addresses;
-  const defAddr = addrs.find(a=>a.def) || addrs[0];
-  const n = net(), sf = shipFee(), dc = discount();
-
-  return `
-  <div class="max-w-5xl mx-auto px-4 sm:px-6 pt-10 sm:pt-14 pb-24">
-    <h2 class="font-display text-[2.4rem] sm:text-[3.2rem] tracking-[.14em] text-ink mb-10 text-center">${t("co_title")}</h2>
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
-      <!-- left form -->
-      <div class="lg:col-span-7 space-y-6">
-        <!-- address box -->
-        <div class="glass-soft rounded-2xl p-6">
-          <div class="flex items-center justify-between mb-4">
-            <h3 class="font-display text-xl text-ink">${t("co_addr")}</h3>
-            <button data-act="nav" data-view="account" class="text-[.62rem] uppercase tracking-[.16em] text-[#8E6E32] hover:underline">+ ${t("add_addr")}</button>
-          </div>
-          ${defAddr ? `
-          <div class="rounded-xl bg-white/60 border border-[#D9C7A5]/60 p-4">
-            <p class="font-display text-lg text-ink">${esc(defAddr.label||"Default Address")}</p>
-            <p class="text-[.8rem] text-ink-soft mt-1">${esc(defAddr.line)}<br>${esc(defAddr.area)}, ${esc(defAddr.city)}</p>
-          </div>` : `
-          <div class="text-center py-6 bg-white/40 rounded-xl border border-dashed border-[#D9C7A5]">
-            <p class="text-[.78rem] text-ink-soft mb-3">${t("need_addr")}</p>
-            <button data-act="nav" data-view="account" class="btn-gold rounded-full px-6 py-2.5 text-[.6rem] uppercase">${t("add_addr")}</button>
-          </div>`}
-          <p class="text-[.62rem] text-[#7A6C58] mt-3 flex items-center gap-1.5">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3 8h11v8H3zM14 11h4l3 3v2h-7z"/></svg>
-            ${t("egypt_post_sub")}
-          </p>
-        </div>
-
-        <!-- payment -->
-        <div class="glass-soft rounded-2xl p-6">
-          <h3 class="font-display text-xl text-ink mb-4">${t("co_pay")}</h3>
-          <div class="space-y-3">
-            <label class="flex items-start gap-3.5 p-4 rounded-xl bg-white/60 border border-[#C9A961] cursor-pointer">
-              <input type="radio" name="pay" checked class="mt-1 accent-[#B08E4F]">
-              <div><p class="text-[.85rem] text-ink font-medium">${t("pay_cod")}</p><p class="text-[.7rem] text-ink-soft mt-0.5">${t("pay_cod_s")}</p></div>
-            </label>
-            <label class="flex items-start gap-3.5 p-4 rounded-xl bg-white/40 border border-[#D9C7A5]/60 cursor-pointer">
-              <input type="radio" name="pay" class="mt-1 accent-[#B08E4F]">
-              <div><p class="text-[.85rem] text-ink font-medium">${t("pay_ip")}</p><p class="text-[.7rem] text-ink-soft mt-0.5">${t("pay_ip_s")}</p></div>
-            </label>
-          </div>
-        </div>
-      </div>
-
-      <!-- right summary -->
-      <div class="lg:col-span-5">
-        <div class="glass-soft rounded-2xl p-6 sticky top-24 space-y-4">
-          <h3 class="font-display text-xl text-ink mb-2">${t("co_summary")}</h3>
-          <div class="space-y-3 max-h-[42vh] overflow-y-auto pr-1">
-            ${S.cart.map(l=>{const p=P(l.id); return `
-            <div class="flex items-center gap-3 py-2 border-b border-[#E7DBC4]/60">
-              <img src="${p.img[0]}" class="w-12 h-12 rounded-lg object-cover">
-              <div class="flex-1 min-w-0"><p class="font-display text-[.92rem] text-ink truncate">${esc(pName(p))}</p><p class="text-[.62rem] text-ink-soft">${l.q} × ${money(p.price)} · ${esc(l.size)}</p></div>
-              <span class="text-[.78rem] text-[#8E6E32]">${money(p.price*l.q)}</span>
-            </div>`;}).join("")}
-          </div>
-          <div class="hairline"></div>
-          <div class="flex justify-between text-[.76rem] text-ink-soft"><span>${t("subtotal")}</span><span>${money(subtotal())}</span></div>
-          ${dc?`<div class="flex justify-between text-[.76rem] text-[#4B6B44]"><span>${t("cs_disc")}</span><span>−${money(dc)}</span></div>`:""}
-          <div class="flex justify-between text-[.76rem] text-ink-soft"><span>${t("shipping")}</span><span>${sf?money(sf):t("free")}</span></div>
-          <div class="hairline"></div>
-          <div class="flex justify-between items-baseline"><span class="text-[.66rem] uppercase tracking-[.2em] text-ink-soft">${t("total")}</span><span class="font-display text-[1.8rem] text-[#8E6E32]">${money(n+sf)}</span></div>
-          <button data-act="placeOrder" class="btn-gold w-full rounded-xl py-4 text-[.66rem] uppercase mt-2">${t("place")}</button>
-        </div>
-      </div>
-    </div>
-  </div>`;
-}
-
-function vThanks(){
-  const o = S.lastOrder;
-  return `
-  <div class="max-w-xl mx-auto px-4 sm:px-6 pt-16 sm:pt-24 pb-28 text-center">
-    <div class="w-20 h-20 rounded-full bg-[#E5D8C3]/50 border border-[#C9A961] grid place-items-center mx-auto mb-6 text-[#8E6E32]">
-      <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 6 9 17l-5-5"/></svg>
-    </div>
-    <h2 class="font-display text-[2.8rem] text-ink">${t("thanks")}</h2>
-    <p class="text-[.9rem] text-ink-soft mt-2 leading-relaxed">${t("thanks_sub")}</p>
-    ${o?`<p class="font-display text-xl text-[#8E6E32] mt-4">${t("order_no")}: #${o.id}</p>`:""}
-    <button data-act="nav" data-view="home" class="btn-gold rounded-full px-10 py-4 text-[.64rem] uppercase mt-10">${t("cont")}</button>
-  </div>`;
-}
-
-/* ─────────────  14. AUTH & REGISTRATION MODAL FLOW  ───────────── */
-let regState = { step:1, name:"", email:"", pass:"", phone:"", otp:"", generatedOTP:"" };
-
-function openAuthModal(mode="login"){
-  renderAuth(mode);
-  openSheet("authModal");
-}
-function renderAuth(mode="login", err=""){
-  const b = document.getElementById("authBody");
-  if(mode==="login"){
-    b.innerHTML = `
-      <h3 class="font-display text-3xl text-ink text-center mb-2">${t("login")}</h3>
-      <p class="text-[.68rem] tracking-[.2em] uppercase text-[#A08A62] text-center mb-6">AURÉLIA MAISON</p>
-      ${err?`<div class="mb-4 p-3 rounded-xl bg-[#7A2E2E]/10 border border-[#7A2E2E]/40 text-[#7A2E2E] text-[.74rem] text-center">${esc(err)}</div>`:""}
-      <form data-act="doLogin" class="space-y-4">
-        <div><label class="lbl">${t("email")}</label><input name="email" type="email" class="field" required placeholder="you@email.com"></div>
-        <div><label class="lbl">${t("password")}</label><input name="password" type="password" class="field" required placeholder="••••••••"></div>
-        <button class="btn-gold w-full rounded-xl py-3.5 text-[.64rem] uppercase mt-2">${t("login")}</button>
-      </form>
-      <div class="flex items-center gap-4 my-5"><div class="hairline flex-1"></div><span class="text-[.64rem] uppercase text-[#A08A62]">${t("or")}</span><div class="hairline flex-1"></div></div>
-      <button data-act="google" class="w-full glass rounded-xl py-3 text-[.72rem] text-ink font-medium flex items-center justify-center gap-2 hover:bg-white transition">
-        <svg width="16" height="16" viewBox="0 0 24 24"><path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.17z"/><path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.13 0-5.78-2.11-6.73-4.96H1.19v3.15C3.17 21.36 7.23 24 12 24z"/><path fill="#FBBC05" d="M5.27 14.24c-.25-.72-.38-1.49-.38-2.24s.13-1.52.38-2.24V6.6H1.19C.43 8.14 0 9.89 0 11.75s.43 3.61 1.19 5.15l4.08-2.66z"/><path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.23 0 3.17 2.64 1.19 6.6l4.08 3.15c.95-2.85 3.6-4.96 6.73-4.96z"/></svg>
-        ${t("g_login")}
-      </button>
-      <p class="text-center text-[.74rem] text-ink-soft mt-6">${t("no_acc")} <button data-act="switchAuth" data-m="reg" class="text-[#8E6E32] font-medium hover:underline ms-1">${t("register")}</button></p>`;
-  } else {
-    // registration wizard steps 1-4
-    b.innerHTML = `
-      <div class="flex items-center justify-between mb-4">
-        <h3 class="font-display text-2xl text-ink">${t("register")}</h3>
-        <span class="text-[.62rem] uppercase tracking-[.2em] text-[#8E6E32]">${t("step")} ${regState.step} ${t("of")} 4</span>
-      </div>
-      <div class="h-1 rounded-full bg-[#EADDBC] mb-6 overflow-hidden">
-        <div class="h-full bg-[#B08E4F] transition-all duration-500" style="width:${regState.step*25}%"></div>
-      </div>
-      ${err?`<div class="mb-4 p-3 rounded-xl bg-[#7A2E2E]/10 border border-[#7A2E2E]/40 text-[#7A2E2E] text-[.74rem] text-center">${esc(err)}</div>`:""}
-
-      ${regState.step===1 ? `
-      <form data-act="regS1" class="space-y-4">
-        <div><label class="lbl">${t("name")}</label><input name="name" class="field" required value="${esc(regState.name)}" placeholder="Mohamed Farghaly"></div>
-        <div><label class="lbl">${t("email")}</label><input name="email" type="email" class="field" required value="${esc(regState.email)}" placeholder="you@email.com"></div>
-        <div><label class="lbl">${t("password")}</label><input name="password" type="password" class="field" required placeholder="••••••••"></div>
-        <button class="btn-gold w-full rounded-xl py-3.5 text-[.64rem] uppercase mt-2">${t("verify")} →</button>
-      </form>` : ""}
-
-      ${regState.step===2 ? `
-      <form data-act="regS2" class="space-y-4">
-        <p class="text-[.8rem] text-ink-soft leading-relaxed">${t("otp_sent")} <b class="text-ink">${esc(regState.phone||"01159055625")}</b> via WhatsApp.</p>
-        <div><label class="lbl">${t("phone")}</label><input name="phone" class="field" dir="ltr" required value="${esc(regState.phone||"01159055625")}" placeholder="01159055625"></div>
-        <button class="btn-gold w-full rounded-xl py-3.5 text-[.64rem] uppercase mt-2">${t("send_otp")}</button>
-      </form>` : ""}
-
-      ${regState.step===3 ? `
-      <form data-act="regS3" class="space-y-5 text-center">
-        <p class="text-[.78rem] text-ink-soft">${t("otp_sent")} <b>${esc(regState.phone)}</b></p>
-        <div class="flex justify-center gap-2.5" dir="ltr">
-          ${[0,1,2,3,4,5].map(i=>`<input class="field otp-box" maxlength="1" data-otp-i="${i}" autocomplete="one-time-code">`).join("")}
-        </div>
-        <p class="text-[.68rem] text-[#8E6E32]" id="demoNote">${t("demo_note")} <b class="font-mono text-ink">${regState.generatedOTP}</b></p>
-        <button class="btn-gold w-full rounded-xl py-3.5 text-[.64rem] uppercase">${t("verify")}</button>
-      </form>` : ""}
-
-      ${regState.step===4 ? `
-      <form data-act="regS4" class="space-y-4">
-        <p class="text-[.78rem] text-ink-soft mb-2">${t("egypt_post")}</p>
-        <div><label class="lbl">${t("addr_line")}</label><input name="line" class="field" required placeholder="14 Zamalek St, Apt 4"></div>
-        <div class="grid grid-cols-2 gap-3">
-          <div><label class="lbl">${t("addr_area")}</label><input name="area" class="field" required placeholder="Zamalek"></div>
-          <div><label class="lbl">${t("addr_city")}</label><input name="city" class="field" required placeholder="Cairo"></div>
-        </div>
-        <button class="btn-gold w-full rounded-xl py-3.5 text-[.64rem] uppercase mt-2">${t("finish")}</button>
-      </form>` : ""}
-
-      <p class="text-center text-[.74rem] text-ink-soft mt-6">${t("has_acc")} <button data-act="switchAuth" data-m="login" class="text-[#8E6E32] font-medium hover:underline ms-1">${t("login")}</button></p>`;
-  }
-}
-
-/* ─────────────  15. ROUTER & CORE RENDER  ───────────── */
-function router(customHash=""){
-  const h = customHash || location.hash || "#/";
-  if(h.startsWith("#/p/")){
-    S.view = "product"; S.pid = h.slice(4);
-  } else if(h.startsWith("#/shop")){
-    S.view = "shop";
-  } else if(h.startsWith("#/wishlist")){
-    S.view = "wishlist";
-  } else if(h.startsWith("#/about")){
-    S.view = "about";
-  } else if(h.startsWith("#/account")){
-    S.view = "account";
-  } else if(h.startsWith("#/checkout")){
-    S.view = "checkout";
-  } else if(h.startsWith("#/thanks")){
-    S.view = "thanks";
-  } else {
-    S.view = "home";
-  }
-  render();
-  window.scrollTo({ top:0, behavior:"smooth" });
-  closeSheet("mobileMenu"); closeCart(); closeSheet("searchOverlay"); closeSheet("authModal");
-}
-
-function render(){
-  const app = document.getElementById("app");
-  if(S.view==="home") app.innerHTML = vHome();
-  else if(S.view==="shop") app.innerHTML = vShop();
-  else if(S.view==="product") app.innerHTML = vProduct();
-  else if(S.view==="wishlist") app.innerHTML = vWishlist();
-  else if(S.view==="about") app.innerHTML = vAbout();
-  else if(S.view==="account") app.innerHTML = vAccount();
-  else if(S.view==="checkout") app.innerHTML = vCheckout();
-  else if(S.view==="thanks") app.innerHTML = vThanks();
-
-  // update footer shop categories list & mobile menu links
-  const fs = document.getElementById("footShop");
-  if(fs) fs.innerHTML = CATS.map(c=>`<li><a href="#/shop" data-act="nav" data-view="shop" data-cat="${c}" class="hover:text-[#8E6E32] transition">${t("cat_"+c)}</a></li>`).join("");
-
-  const ml = document.getElementById("mobileLinks");
-  if(ml) ml.innerHTML = `
-    <a href="#/" data-act="nav" data-view="home" class="py-2.5 px-3 rounded-lg hover:bg-white/60 font-display text-lg">${LANG==="ar"?"الرئيسية":"Home"}</a>
-    <a href="#/shop" data-act="nav" data-view="shop" data-cat="all" class="py-2.5 px-3 rounded-lg hover:bg-white/60 font-display text-lg">${t("nav_shop")}</a>
-    ${CATS.slice(1).map(c=>`<a href="#/shop" data-act="nav" data-view="shop" data-cat="${c}" class="py-2 px-6 rounded-lg hover:bg-white/60 text-sm text-ink-soft">${t("cat_"+c)}</a>`).join("")}
-    <a href="#/about" data-act="nav" data-view="about" class="py-2.5 px-3 rounded-lg hover:bg-white/60 font-display text-lg mt-2">${t("nav_about")}</a>`;
-
-  // update active nav links
-  document.querySelectorAll(".nav-link").forEach(a => {
-    a.classList.toggle("active", a.getAttribute("data-view")===S.view && (S.view!=="shop" || a.getAttribute("data-cat")===S.cat));
-  });
-  syncBadges();
-}
-
-/* ─────────────  16. EVENT DELEGATION & LISTENERS  ───────────── */
-addEventListener("hashchange", () => router());
-
-document.addEventListener("click", async e => {
-  const btn = e.target.closest("[data-act]");
-  if(!btn) return;
-  const act = btn.dataset.act;
-
-  if(act==="nav"){
-    e.preventDefault();
-    if(btn.dataset.cat) S.cat = btn.dataset.cat;
-    if(btn.dataset.view) S.view = btn.dataset.view;
-    location.hash = btn.getAttribute("href") || "#/";
-  }
-  else if(act==="menu") openMenu();
-  else if(act==="closeMenu") closeMenu();
-  else if(act==="cart") openCart();
-  else if(act==="closeCart") closeCart();
-  else if(act==="search"){ openSheet("searchOverlay"); setTimeout(()=>document.getElementById("searchInput").focus(),100); }
-  else if(act==="closeSearch") closeSheet("searchOverlay");
-  else if(act==="wishlist") { location.hash = "#/wishlist"; }
-  else if(act==="account") { location.hash = "#/account"; }
-  else if(act==="closeAuth") closeSheet("authModal");
-  else if(act==="lang"){
-    LANG = LANG==="en" ? "ar" : "en";
-    localStorage.setItem("au_lang", LANG);
-    document.documentElement.lang = LANG;
-    document.documentElement.dir = LANG==="ar" ? "rtl" : "ltr";
-    document.getElementById("langLabel").textContent = LANG==="ar" ? "English" : "العربية";
-    document.getElementById("langLabelM").textContent = LANG==="ar" ? "English" : "العربية";
-    render();
-    if(!document.getElementById("cartDrawer").classList.contains("sheet-hidden")) renderCart();
-    toast(LANG==="ar" ? "تم التبديل إلى العربية" : "Switched to English", "info");
-  }
-  else if(act==="add"){
-    addToCart(btn.dataset.pid);
-  }
-  else if(act==="qadd"){
-    addToCart(btn.dataset.pid);
-  }
-  else if(act==="pAdd"){
-    const sel = document.querySelector("#sizeChips .btn-gold");
-    addToCart(btn.dataset.pid, 1, sel ? sel.dataset.sz : null);
-  }
-  else if(act==="wish"){
-    toggleWish(btn.dataset.pid);
-  }
-  else if(act==="q+"){
-    setQty(Number(btn.dataset.i), 1);
-  }
-  else if(act==="q-"){
-    setQty(Number(btn.dataset.i), -1);
-  }
-  else if(act==="rmc"){
-    rmCart(Number(btn.dataset.i));
-  }
-  else if(act==="mvw"){
-    const i = Number(btn.dataset.i);
-    const l = S.cart[i];
-    if(l){
-      if(!S.wish.includes(l.id)) S.wish.push(l.id);
-      rmCart(i); toast(t("cs_mv"));
-    }
-  }
-  else if(act==="rmCoupon"){
-    S.coupon = ""; save(); renderCart();
-  }
-  else if(act==="checkout"){
-    closeCart();
-    if(!S.user) openAuthModal("login");
-    else { location.hash = "#/checkout"; }
-  }
-  else if(act==="cat"){
-    S.cat = btn.dataset.cat;
-    router("#/shop");
-  }
-  else if(act==="back"){
-    history.back();
-  }
-  else if(act==="selSize"){
-    document.querySelectorAll("#sizeChips button").forEach(b => {
-      b.className = "px-4 py-2 rounded-xl text-[.72rem] tracking-wide transition glass-soft text-ink hover:text-[#8E6E32]";
-    });
-    btn.className = "px-4 py-2 rounded-xl text-[.72rem] tracking-wide transition btn-gold";
-  }
-  else if(act==="switchAuth"){
-    renderAuth(btn.dataset.m);
-  }
-  else if(act==="google"){
-    try{
-      const u = await authGoogle();
-      S.user = u; await loadProfile();
-      closeSheet("authModal"); toast(`${t("welcome")}, ${u.name}`);
-      router();
-    }catch(err){ toast(err.msg||err.message, "err"); }
-  }
-  else if(act==="signout"){
-    await authOut(); S.user = null; S.profile = {addresses:[],orders:[],phone:"",phoneVerified:false};
-    router("#/"); toast(t("signout"), "info");
-  }
-  else if(act==="ptab"){
-    S.ptab = btn.dataset.tab; render();
-  }
-  else if(act==="defAddr"){
-    const i = Number(btn.dataset.i);
-    S.profile.addresses.forEach((a,idx)=>a.def = idx===i);
-    await persistProfile(); render(); toast(t("saved"));
-  }
-  else if(act==="rmAddr"){
-    S.profile.addresses.splice(Number(btn.dataset.i),1);
-    if(S.profile.addresses.length && !S.profile.addresses.some(a=>a.def)) S.profile.addresses[0].def = true;
-    await persistProfile(); render(); toast(t("removed"));
-  }
-  else if(act==="toTop"){
-    window.scrollTo({ top:0, behavior:"smooth" });
-  }
-});
-
-/* form submits */
-document.addEventListener("submit", async e => {
-  e.preventDefault();
-  const f = e.target;
-  const act = f.getAttribute("data-act");
-
-  if(act==="applyCoupon"){
-    const code = f.querySelector("input[name='code']").value.trim().toUpperCase();
-    if(COUPONS[code]){ S.coupon = code; save(); renderCart(); toast(t("cs_applied")); }
-    else { toast(t("cs_bad"), "err"); }
-  }
-  else if(act==="subscribe"){
-    toast(t("subd")); f.reset();
-  }
-  else if(act==="doLogin"){
-    const fd = new FormData(f);
-    try{
-      const u = await authSignIn(fd.get("email"), fd.get("password"));
-      S.user = u; await loadProfile();
-      closeSheet("authModal"); toast(`${t("welcome")}, ${u.name}`);
-      router();
-    }catch(err){ renderAuth("login", err.msg||err.message); }
-  }
-  else if(act==="regS1"){
-    const fd = new FormData(f);
-    regState.name = fd.get("name");
-    regState.email = fd.get("email");
-    regState.pass = fd.get("password");
-    if(!regState.name) return toast(t("err_name"), "err");
-    regState.step = 2; renderAuth("reg");
-  }
-  else if(act==="regS2"){
-    const fd = new FormData(f);
-    const ph = fd.get("phone");
-    if(!ph || ph.length<10) return toast(t("err_phone"), "err");
-    regState.phone = ph;
-    regState.generatedOTP = Math.floor(100000 + Math.random()*900000).toString();
-    regState.step = 3; renderAuth("reg");
-    // send WhatsApp OTP
-    sendWhatsAppOTP(ph, regState.generatedOTP).then(res=>{
-      if(res.demo){
-        const note = document.getElementById("demoNote");
-        if(note) note.style.display = "block";
+      if (act === "nav") {
+        S.view = el.dataset.view;
+        window.location.hash = `/${S.view}`;
+        render();
+      }
+      if (act === "add") {
+        S.cart.push({ id: el.dataset.pid, q: 1 });
+        localStorage.setItem("au_cart", JSON.stringify(S.cart));
+        updateBadge();
+        alert("تمت الإضافة للسلة بنجاح!");
+      }
+      if (act === "account") {
+        if(!S.user) {
+          try {
+            const result = await signInWithPopup(auth, provider);
+            S.user = result.user;
+            S.view = 'profile';
+            render();
+          } catch(err) { console.error("Auth Error", err); }
+        } else {
+          S.view = 'profile';
+          render();
+        }
+      }
+      if (act === "signout") {
+        await signOut(auth);
+        S.user = null;
+        S.view = 'home';
+        render();
       }
     });
-  }
-  else if(act==="regS3"){
-    const inputs = f.querySelectorAll("input[data-otp-i]");
-    let code = ""; inputs.forEach(i=>code+=i.value);
-    if(code !== regState.generatedOTP && code !== "123456"){
-      return toast(t("err_otp"), "err");
+
+    function updateBadge() {
+      const badge = document.getElementById("cartBadge");
+      const total = S.cart.reduce((sum, item) => sum + item.q, 0);
+      if(total > 0) { badge.textContent = total; badge.classList.remove("hidden"); }
+      else { badge.classList.add("hidden"); }
     }
-    regState.step = 4; renderAuth("reg");
-  }
-  else if(act==="regS4"){
-    const fd = new FormData(f);
-    try{
-      const u = await authSignUp(regState.email, regState.pass, regState.name);
-      S.user = u;
-      S.profile.phone = regState.phone;
-      S.profile.phoneVerified = true;
-      S.profile.addresses.push({
-        label:"Home", def:true,
-        line:fd.get("line"), area:fd.get("area"), city:fd.get("city")
-      });
-      await persistProfile();
-      closeSheet("authModal");
-      toast(`${t("welcome_new")}, ${u.name}!`);
-      router(S.cart.length ? "#/checkout" : "#/");
-    }catch(err){ renderAuth("reg", err.msg||err.message); }
-  }
-  else if(act==="addAddr"){
-    const fd = new FormData(f);
-    const def = S.profile.addresses.length === 0;
-    S.profile.addresses.push({
-      label:fd.get("label")||"Address", def,
-      line:fd.get("line"), area:fd.get("area"), city:fd.get("city"), zip:fd.get("zip")
+
+    // 6. Router & Initialization
+    window.addEventListener("hashchange", () => {
+      const hash = window.location.hash.replace("#/", "") || "home";
+      S.view = hash;
+      render();
     });
-    await persistProfile(); render(); f.reset(); toast(t("saved"));
-  }
-  else if(act==="updPhone"){
-    const fd = new FormData(f);
-    S.profile.phone = fd.get("phone");
-    S.profile.phoneVerified = true;
-    await persistProfile(); render(); toast(t("saved"));
-  }
-  else if(act==="placeOrder"){
-    const addrs = S.profile.addresses;
-    const defAddr = addrs.find(a=>a.def) || addrs[0];
-    if(!defAddr) return toast(t("need_addr"), "err");
-    const order = {
-      id: Math.floor(100000 + Math.random()*900000).toString(),
-      ts: Date.now(),
-      items: [...S.cart],
-      total: net() + shipFee(),
-      pay: f.querySelector("input[name='pay']").checked ? "Cash on Delivery" : "InstaPay",
-      addr: defAddr
-    };
-    S.profile.orders.unshift(order);
-    S.lastOrder = order;
-    S.cart = []; save(); syncBadges();
-    await persistProfile();
-    router("#/thanks");
-  }
-});
 
-/* live search input listener */
-document.addEventListener("input", e => {
-  if(e.target.id === "searchInput"){
-    const q = e.target.value.toLowerCase().trim();
-    const res = document.getElementById("searchResults");
-    if(!q){ res.innerHTML = ""; return; }
-    const hits = PRODUCTS.filter(p => pName(p).toLowerCase().includes(q) || pDesc(p).toLowerCase().includes(q));
-    res.innerHTML = hits.length ? hits.map(p=>`
-      <a href="#/p/${p.id}" data-act="nav" data-view="product" data-pid="${p.id}" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/80 transition">
-        <img src="${p.img[0]}" class="w-12 h-12 rounded-lg object-cover">
-        <div><p class="font-display text-[1rem] text-ink">${esc(pName(p))}</p><p class="text-[.68rem] text-[#8E6E32]">${money(p.price)}</p></div>
-      </a>`).join("") : `<p class="text-center py-6 text-ink-soft text-[.82rem]">${t("no_res")}</p>`;
-  }
-  else if(e.target.id === "giftChk"){
-    S.gift = e.target.checked; save(); renderCart();
-  }
-  else if(e.target.id === "giftNote"){
-    S.giftNote = e.target.value; save();
-  }
-});
+    onAuthStateChanged(auth, (user) => {
+      if (user) S.user = user;
+      render();
+    });
 
-/* change listener for sort */
-document.addEventListener("change", e => {
-  if(e.target.id === "sortSel"){
-    S.sort = e.target.value; render();
-  }
-  else if(e.target.hasAttribute("data-otp-i")){
-    const el = e.target;
-    if(el.value && el.nextElementSibling) el.nextElementSibling.focus();
-  }
-});
-
-/* sticky nav shadow & back to top visibility */
-window.addEventListener("scroll", () => {
-  const y = window.scrollY;
-  const n = document.getElementById("navInner");
-  if(n) n.classList.toggle("nav-scrolled", y > 30);
-  const topBtn = document.getElementById("toTop");
-  if(topBtn) topBtn.classList.toggle("pointer-events-none", y < 350), topBtn.classList.toggle("opacity-0", y < 350);
-});
-
-/* initialize auth state listener */
-if(FB.ok){
-  onAuthStateChanged(FB.auth, async u => {
-    if(u){
-      S.user = { uid:u.uid, email:u.email, name:u.displayName||u.email.split("@")[0], photo:u.photoURL };
-      await loadProfile(); syncBadges();
+    // Boot
+    updateBadge();
+    listenToProducts(); // Start listening to Firebase DB
+    if(window.location.hash) {
+      S.view = window.location.hash.replace("#/", "");
     }
-  });
-}
-
-// Initial render
-document.documentElement.lang = LANG;
-document.documentElement.dir = LANG==="ar" ? "rtl" : "ltr";
-const lbl = document.getElementById("langLabel"); if(lbl) lbl.textContent = LANG==="ar" ? "English" : "العربية";
-const lblm = document.getElementById("langLabelM"); if(lblm) lblm.textContent = LANG==="ar" ? "English" : "العربية";
-router();
-</script>
+    render();
+  </script>
 </body>
 </html>
